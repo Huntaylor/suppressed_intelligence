@@ -1,0 +1,53 @@
+build: dart run build_runner build --delete-conflicting-outputs
+watch: dart run build_runner watch --delete-conflicting-outputs
+
+clean: flutter clean && flutter pub get
+
+doc: flutter doctor -v
+
+full clean: flutter clean && flutter pub get && cd ios && pod deintegrate && pod install && cd ../
+
+init: flutterfire configure
+
+pod clean: cd ios; pod deintegrate; rm -rf Podfile.lock; cd ..; flutter pub get; cd ios; pod install --repo-update
+
+fpg: flutter pub get
+
+spider: cd scripts; dart run _scripts:clean_assets
+
+webbuild: flutter build web --release --wasm
+
+winrun: flutter run -d windows
+
+setup-mason:
+  - |
+    cd mason/mason_templates
+    dart run brick_oven cook all --output ../dart_bricks --sync
+  - |
+    cd mason/dart_bricks
+    rm -rf .mason
+
+    dart run mason_cli:mason get
+    dart run mason_cli:mason list
+
+setup-hooks: dart run hooksman
+
+barrel:
+  - |
+    # check if barreler exe can be executed
+    if command -v barreler >/dev/null 2>&1; then
+      echo "Barreler found"
+      exit 0
+    fi
+
+    dart pub global activate barreler
+  - barreler build --config barreler.yaml
+
+create-bloc:
+  - |
+    BLOCS=packages/application/lib/src/blocs
+    ABSOLUTE="$(realpath "$BLOCS")"
+    echo "Generating Bloc in $BLOCS"
+    cd mason/dart_bricks
+    dart run mason_cli:mason make bloc -o "$ABSOLUTE"
+  - $barrel
