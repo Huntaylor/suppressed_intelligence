@@ -6,13 +6,13 @@ import 'package:application/setup.dart';
 import 'package:application/src/og.dart';
 import 'package:data/data.dart';
 import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 import 'package:scoped_deps/scoped_deps.dart';
 
 part 'news_headline_event.dart';
 part 'news_headline_og.g.dart';
 part 'news_headline_state.dart';
 
-// ignore: unnecessary_late
 NewsHeadlineOg get newsHeadlineOg => read(NewsHeadlineOg.provider);
 
 class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
@@ -24,6 +24,7 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
   }
 
   static ScopedRef<NewsHeadlineOg>? _provider;
+  @internal
   static ScopedRef<NewsHeadlineOg> get provider =>
       _provider ??= create<NewsHeadlineOg>((getIt.call));
 
