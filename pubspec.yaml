@@ -9,13 +9,16 @@ environment:
   sdk: ^3.11.1
 
 workspace:
-  - packages/ui
+  # ignore: path_does_not_exist
+  - packages/*
 
 dependencies:
   flutter:
     sdk: flutter
   ui:
     path: packages/ui
+  application:
+    path: packages/application
 
   cupertino_icons: ^1.0.8
   flame: ^1.35.1
