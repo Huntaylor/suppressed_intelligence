@@ -18,7 +18,7 @@ abstract class Og<Event, State> {
   final Map<Type, EventHandler<Event, State>> _eventHandlers = {};
 
   void on<T extends Event>(EventHandler<T, State> handler) {
-    _eventHandlers[T] = handler as EventHandler<Event, State>;
+    _eventHandlers[T] = (event, emit) => handler(event as T, emit);
   }
 
   @mustCallSuper

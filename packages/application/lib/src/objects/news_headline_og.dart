@@ -22,10 +22,12 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
     on<_Init>(_init);
     on<_CheckForUpdates>(_checkForUpdates);
   }
+
   late final events = _Events(this);
 
   final NewsHeadlineRepo _repo;
   Timer? _timer;
+  Duration _interval = const Duration(minutes: 1);
 
   @override
   void dispose() {
@@ -33,21 +35,28 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
     super.dispose();
   }
 
-  FutureOr<void> _init(
-    NewsHeadlineEvent event,
-    Emitter<NewsHeadlineState> emit,
-  ) {
-    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
-      add(_CheckForUpdates());
-    });
+  FutureOr<void> _init(_Init event, Emitter<NewsHeadlineState> emit) {
+    _interval = event.interval;
+    _startTimer();
   }
 
   FutureOr<void> _checkForUpdates(
-    NewsHeadlineEvent event,
+    _CheckForUpdates event,
     Emitter<NewsHeadlineState> emit,
   ) async {
-    final headline = await _repo.getHeadline();
+    _timer?.cancel();
 
+    final headline = await _repo.getHeadline();
     emit(_Ready(headline: headline));
+
+    _startTimer();
+  }
+
+  void _startTimer() {
+    if (_timer?.isActive case true) return;
+
+    _timer = Timer.periodic(_interval, (timer) {
+      add(_CheckForUpdates());
+    });
   }
 }

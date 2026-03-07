@@ -5,7 +5,9 @@ sealed class NewsHeadlineEvent {
 }
 
 class _Init extends NewsHeadlineEvent {
-  const _Init();
+  const _Init({this.interval = const Duration(minutes: 1)});
+
+  final Duration interval;
 }
 
 class _CheckForUpdates extends NewsHeadlineEvent {
@@ -17,8 +19,8 @@ class _Events {
 
   final NewsHeadlineOg _object;
 
-  void init() {
-    _object.add(_Init());
+  void init({Duration interval = const Duration(minutes: 1)}) {
+    _object.add(_Init(interval: interval));
   }
 
   void checkForUpdates() {
