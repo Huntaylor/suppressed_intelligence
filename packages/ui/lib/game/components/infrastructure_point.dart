@@ -1,7 +1,7 @@
 import 'package:flame/components.dart';
 
 enum InfrastructureLocation {
-  alaskaA(vectorLocation: (69.0, 204.0)),
+  alaskaA(vectorLocation: (71.0, 204.0)),
   alaskaB(vectorLocation: (122.0, 208.0)),
   oregan(vectorLocation: (141.0, 259.0)),
   newYork(vectorLocation: (250.0, 260.0)),
