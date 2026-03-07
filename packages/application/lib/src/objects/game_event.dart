@@ -1,4 +1,4 @@
-part of game_object;
+part of game_og;
 
 sealed class GameEvent {
   const GameEvent();
@@ -11,9 +11,9 @@ class _Load extends GameEvent {
 class _Events {
   _Events(this._object);
 
-  final GameObject _object;
+  final GameOg _object;
 
   void load() {
-    _object._load(_Load(), _object._emitter);
+    _object.add(_Load());
   }
 }

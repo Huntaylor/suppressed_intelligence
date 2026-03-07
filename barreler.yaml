@@ -1,8 +1,8 @@
 exclude:
   - "**.g.dart"
   - "**/gen.dart"
+  - "**/*.gen.dart"
   - "**/__*.dart"
-  - "**/parts/**.dart"
 
 defaults:
   comments: |
@@ -14,41 +14,10 @@ dirs:
   # -- application --
   - path: packages/application/lib
     name: application
-    include:
-      - "**_bloc.dart"
-      - export: src/setup.dart
-        show: setup
-      - export: src/utils/app_bloc_observer.dart
-
-  # -- domain --
-  - path: packages/domain/lib
-    name: domain
-    include:
-      - src/enums/**.dart
-      - src/models/**.dart
-      - src/repos/**.dart
-      - src/types/**.dart
-
-  # -- ui --
-  - path: packages/ui/lib
-    name: ui
-    include:
-      - "**/*.dart"
-      - export: src/setup.dart
-        show: setup
     exclude:
-      - "**/*_route.dart"
-
-  # -- data --
-  - path: packages/data/lib
-    name: data
+      - "**/*.g.dart"
+      - "**/*_event.dart"
+      - "**/*_state.dart"
     include:
-      - src/repos/**.dart
-      - export: src/setup.dart
-        show: setup
-
-  # -- assets --
-  - path: packages/assets/lib
-    name: assets
-    include:
-      - assets/resources.dart
+      - "src/*.dart"
+      - "src/**/*.dart"

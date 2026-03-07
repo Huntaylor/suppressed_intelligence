@@ -1,0 +1,26 @@
+targets:
+    $default:
+        builders:
+            source_gen|combining_builder:
+                generate_for:
+                    exclude:
+                        - '**/test/**'
+            get_it_injector_gen:
+                enabled: true
+                options:
+                    register:
+                        - 'Og$'
+                    ignore_for_file:
+                        - cs_forbidden_imports
+                        - directives_ordering
+                        - unnecessary_lambdas
+                        - prefer_const_constructors
+                        - require_trailing_commas
+                        - implementation_imports
+                        - lines_longer_than_80_chars
+                        - duplicate_ignore
+
+            equatable_gen:
+                enabled: true
+                options:
+                    auto_include: true

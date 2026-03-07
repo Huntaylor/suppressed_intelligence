@@ -1,0 +1,8 @@
+build_runner:
+  (aliases): [br]
+  build:
+    (aliases): [b]
+    (command): dart run build_runner build --force-aot
+    application: |
+      cd packages/application
+      ${{ build_runner.build }}
