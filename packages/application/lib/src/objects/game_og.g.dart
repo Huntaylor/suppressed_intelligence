@@ -9,7 +9,3 @@ part of 'game_og.dart';
 extension _$GameStateEquatableAnnotations on GameState {
   List<Object?> get _$props => [];
 }
-
-extension _$ReadyEquatableAnnotations on _Ready {
-  List<Object?> get _$props => [score];
-}
