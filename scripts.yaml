@@ -6,3 +6,8 @@ build_runner:
     application: |
       cd packages/application
       ${{ build_runner.build }}
+    data: |
+      cd packages/data
+      ${{ build_runner.build }}
+
+barrel: barreler build

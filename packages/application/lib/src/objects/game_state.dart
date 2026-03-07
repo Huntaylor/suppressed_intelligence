@@ -11,9 +11,15 @@ sealed class GameState extends Equatable {
     _ => null,
   };
 
-  bool get isReady => this is _Ready;
-  _Ready? get asIfReady => switch (this) {
-    final _Ready state => state,
+  bool get isPaused => this is _Paused;
+  _Paused? get asIfPaused => switch (this) {
+    final _Paused state => state,
+    _ => null,
+  };
+
+  bool get isPlaying => this is _Playing;
+  _Playing? get asIfPlaying => switch (this) {
+    final _Playing state => state,
     _ => null,
   };
 
@@ -25,11 +31,10 @@ class _Loading extends GameState {
   const _Loading();
 }
 
-class _Ready extends GameState {
-  const _Ready({required this.score});
+class _Paused extends GameState {
+  const _Paused();
+}
 
-  final int score;
-
-  @override
-  List<Object?> get props => _$props;
+class _Playing extends GameState {
+  const _Playing();
 }

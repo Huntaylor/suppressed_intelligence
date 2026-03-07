@@ -4,8 +4,12 @@ sealed class GameEvent {
   const GameEvent();
 }
 
-class _Load extends GameEvent {
-  const _Load();
+class _Pause extends GameEvent {
+  const _Pause();
+}
+
+class _Resume extends GameEvent {
+  const _Resume();
 }
 
 class _Events {
@@ -13,7 +17,11 @@ class _Events {
 
   final GameOg _object;
 
-  void load() {
-    _object.add(_Load());
+  void pause() {
+    _object.add(_Pause());
+  }
+
+  void resume() {
+    _object.add(_Resume());
   }
 }

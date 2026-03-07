@@ -21,3 +21,12 @@ dirs:
     include:
       - "src/*.dart"
       - "src/**/*.dart"
+
+  # -- data --
+  - path: packages/data/lib
+    name: data
+    exclude:
+      - "**/*.g.dart"
+    include:
+      - "src/*.dart"
+      - "src/**/*.dart"

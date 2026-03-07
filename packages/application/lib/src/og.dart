@@ -21,6 +21,9 @@ abstract class Og<Event, State> {
     _eventHandlers[T] = handler as EventHandler<Event, State>;
   }
 
+  @mustCallSuper
+  void dispose() {}
+
   @internal
   void add(Event event) {
     if (_eventHandlers[event.runtimeType] case final handler?) {
