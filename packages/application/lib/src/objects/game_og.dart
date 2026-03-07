@@ -2,8 +2,8 @@ library game_og;
 
 import 'dart:async' show FutureOr;
 
-import 'package:application/setup.dart';
 import 'package:application/src/og.dart';
+import 'package:application/src/setup/setup.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:scoped_deps/scoped_deps.dart';

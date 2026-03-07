@@ -6,3 +6,5 @@ export 'src/objects/game_og.dart';
 export 'src/objects/news_headline_og.dart';
 export 'src/objects/sector_stats_og.dart';
 export 'src/og.dart';
+export 'src/setup/setup.config.dart';
+export 'src/setup/setup.dart';

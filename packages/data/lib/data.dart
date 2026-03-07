@@ -4,3 +4,5 @@
 
 export 'src/repos/news_headline_repo.dart';
 export 'src/repos/sector_stats_repo.dart';
+export 'src/setup/setup.config.dart';
+export 'src/setup/setup.dart';

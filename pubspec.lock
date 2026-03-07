@@ -601,7 +601,7 @@ packages:
     source: hosted
     version: "1.5.0"
   scoped_deps:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: scoped_deps
       sha256: bc54cece4fed785157dc53b7554d31107f574897f4b2d1196db905a38c084e31

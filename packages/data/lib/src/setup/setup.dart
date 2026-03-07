@@ -4,6 +4,6 @@ import 'package:get_it_injector/get_it_injector.dart' as dep_inj;
 import 'setup.config.dart';
 
 @dep_inj.setup
-void setupData(GetIt i) {
+void setup(GetIt i) {
   i.init();
 }

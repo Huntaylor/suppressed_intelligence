@@ -19,6 +19,8 @@ dependencies:
     path: packages/ui
   application:
     path: packages/application
+  data:
+    path: packages/data
 
   cupertino_icons: ^1.0.8
   flame: ^1.35.1
@@ -34,6 +36,7 @@ dependencies:
   go_router_paths: ^0.2.2
   logging: ^1.3.0
   get_it: ^9.2.1
+  scoped_deps: ^0.1.0+2
 
 dev_dependencies:
   flutter_test:

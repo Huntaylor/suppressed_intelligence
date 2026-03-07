@@ -4,22 +4,19 @@ import 'package:application/src/objects/sector_stats_og.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_it_injector/get_it_injector.dart' as dep_inj;
 import 'package:meta/meta.dart';
-import 'package:scoped_deps/scoped_deps.dart';
 
 import 'setup.config.dart';
 
 @internal
 late final GetIt getIt;
 
+final providers = {
+  GameOg.provider,
+  NewsHeadlineOg.provider,
+  SectorStatsOg.provider,
+};
+
 @dep_inj.setup
-void setupDeps(GetIt i, void Function() runner) {
+void setup(GetIt i) {
   getIt = i..init();
-  runScoped(
-      runner,
-      values: {
-        GameOg.provider,
-        NewsHeadlineOg.provider,
-        SectorStatsOg.provider,
-      },
-    );
 }

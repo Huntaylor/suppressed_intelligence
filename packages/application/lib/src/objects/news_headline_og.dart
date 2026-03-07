@@ -2,8 +2,8 @@ library news_headline_og;
 
 import 'dart:async';
 
-import 'package:application/setup.dart';
 import 'package:application/src/og.dart';
+import 'package:application/src/setup/setup.dart';
 import 'package:data/data.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
