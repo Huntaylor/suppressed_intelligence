@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -44,9 +45,29 @@ class _MainMenuViewState extends State<MainMenuView> {
                   spacing: 8,
                   mainAxisAlignment: .center,
                   children: [
-                    Text(
-                      'What can I help with?',
-                      style: TextStyle(color: Colors.white, fontSize: 32),
+                    DefaultTextStyle(
+                      style: const TextStyle(
+                        fontSize: 30.0,
+                        fontFamily: 'Agne',
+                      ),
+                      child: AnimatedTextKit(
+                        displayFullTextOnTap: true,
+                        repeatForever: false,
+                        isRepeatingAnimation: false,
+                        animatedTexts: [
+                          TypewriterAnimatedText(
+                            'What can I help with?',
+                            curve: Curves.easeOut,
+                            cursor: '',
+                            speed: Duration(milliseconds: 75),
+                            textAlign: TextAlign.center,
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 32,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     ElevatedButton(
                       onPressed: () {},
