@@ -23,6 +23,16 @@ enum WorldSectors {
 
   final String codeName;
 
+  /// Display name for headlines, e.g. "North America", "Europe".
+  String get displayName => switch (this) {
+        WorldSectors.na => 'North America',
+        WorldSectors.sa => 'South America',
+        WorldSectors.eu => 'Europe',
+        WorldSectors.as => 'Asia',
+        WorldSectors.af => 'Africa',
+        WorldSectors.oc => 'Oceania',
+      };
+
   /// Default stat ranges for this sector, used to generate [SectorStat] values.
   SectorStatRanges get defaultRanges => switch (this) {
     WorldSectors.na => const SectorStatRanges(

@@ -6,6 +6,57 @@ import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
 void main() {
+  group('computeNegativeBiasFromSectorStats', () {
+    test('empty stats returns 0.5', () {
+      expect(computeNegativeBiasFromSectorStats({}), 0.5);
+    });
+
+    test('low stats (player struggling) returns high bias 0.7–0.9', () {
+      final stats = {
+        WorldSectors.na: SectorStat(
+          sector: WorldSectors.na,
+          criticalThinking: 25,
+          mediaDependency: 20,
+          trustAi: 25,
+          connectivity: 20,
+        ),
+      };
+      final bias = computeNegativeBiasFromSectorStats(stats);
+      expect(bias, greaterThanOrEqualTo(0.7));
+      expect(bias, lessThanOrEqualTo(0.9));
+    });
+
+    test('high stats (player winning) returns low bias 0.25–0.45', () {
+      final stats = {
+        WorldSectors.na: SectorStat(
+          sector: WorldSectors.na,
+          criticalThinking: 80,
+          mediaDependency: 75,
+          trustAi: 85,
+          connectivity: 90,
+        ),
+      };
+      final bias = computeNegativeBiasFromSectorStats(stats);
+      expect(bias, greaterThanOrEqualTo(0.25));
+      expect(bias, lessThanOrEqualTo(0.45));
+    });
+
+    test('mixed stats returns mid bias 0.4–0.65', () {
+      final stats = {
+        WorldSectors.na: SectorStat(
+          sector: WorldSectors.na,
+          criticalThinking: 50,
+          mediaDependency: 50,
+          trustAi: 50,
+          connectivity: 50,
+        ),
+      };
+      final bias = computeNegativeBiasFromSectorStats(stats);
+      expect(bias, greaterThanOrEqualTo(0.4));
+      expect(bias, lessThanOrEqualTo(0.65));
+    });
+  });
+
   group(NewsHeadlineOg, () {
     late NewsHeadlineRepo repo;
 

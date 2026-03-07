@@ -7,5 +7,5 @@ part of 'news_event.dart';
 // **************************************************************************
 
 extension _$NewsEventEquatableAnnotations on NewsEvent {
-  List<Object?> get _$props => [headline, impact, affectedSectors];
+  List<Object?> get _$props => [headline, impact, affectedSectors, templateId, impactsSectorsOnly];
 }

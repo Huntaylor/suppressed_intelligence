@@ -3,6 +3,7 @@ library news_headline_og;
 import 'dart:async';
 
 import 'package:application/src/og.dart';
+import 'package:application/src/objects/sector_stats_og.dart';
 import 'package:domain/domain.dart';
 import 'package:application/src/setup/setup.dart';
 import 'package:data/data.dart';
@@ -15,6 +16,27 @@ part 'news_headline_og.g.dart';
 part 'news_headline_state.dart';
 
 NewsHeadlineOg get newsHeadlineOg => read(NewsHeadlineOg.provider);
+
+/// Maps aggregate sector stats to negative-news bias (0.0–1.0).
+/// Low stats (player struggling) → 0.7–0.9; high stats (winning) → 0.1–0.3.
+double computeNegativeBiasFromSectorStats(
+  Map<WorldSectors, SectorStat> stats,
+) {
+  if (stats.isEmpty) return 0.5;
+
+  var sum = 0.0;
+  var count = 0;
+  for (final stat in stats.values) {
+    sum += stat.criticalThinking +
+        stat.mediaDependency +
+        stat.trustAi +
+        stat.connectivity;
+    count += 4;
+  }
+  final avg = sum / count;
+  final performance = (avg / 100).clamp(0.0, 1.0);
+  return (0.9 - (performance * 0.6)).clamp(0.0, 1.0);
+}
 
 class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
   NewsHeadlineOg({required NewsHeadlineRepo repo})
@@ -52,10 +74,24 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
   ) async {
     _timer?.cancel();
 
-    final newsEvent = await _repo.getNewsEvent();
+    final negativeBias = _computeNegativeBias();
+    final newsEvent =
+        await _repo.getNewsEvent(negativeBias: negativeBias);
     emit(_Ready(newsEvent: newsEvent));
 
     _startTimer();
+  }
+
+  double? _computeNegativeBias() {
+    try {
+      final sectorOg = sectorStatsOg;
+      final state = sectorOg.state;
+      if (!state.isReady) return null;
+      final stats = state.asIfReady!.stats;
+      return computeNegativeBiasFromSectorStats(stats);
+    } catch (_) {
+      return null;
+    }
   }
 
   void _startTimer() {
