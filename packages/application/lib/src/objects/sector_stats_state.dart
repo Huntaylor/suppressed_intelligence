@@ -7,15 +7,15 @@ sealed class SectorStatsState extends Equatable {
 
   bool get isLoading => this is _Loading;
   _Loading? get asIfLoading => switch (this) {
-        final _Loading state => state,
-        _ => null,
-      };
+    final _Loading state => state,
+    _ => null,
+  };
 
   bool get isReady => this is _Ready;
   _Ready? get asIfReady => switch (this) {
-        final _Ready state => state,
-        _ => null,
-      };
+    final _Ready state => state,
+    _ => null,
+  };
 
   @override
   List<Object?> get props => [];
@@ -28,7 +28,7 @@ class _Loading extends SectorStatsState {
 class _Ready extends SectorStatsState {
   const _Ready({required this.stats});
 
-  final Map<String, num> stats;
+  final Map<WorldSectors, SectorStat> stats;
 
   @override
   List<Object?> get props => _$props;

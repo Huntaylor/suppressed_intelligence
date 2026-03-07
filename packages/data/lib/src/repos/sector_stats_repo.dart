@@ -1,7 +1,12 @@
+import 'package:domain/domain.dart';
+
 class SectorStatsRepo {
   const SectorStatsRepo();
 
-  Future<Map<String, num>> getStats() async {
-    return {};
+  Map<WorldSectors, SectorStat> getStats() {
+    return {
+      for (final sector in WorldSectors.values)
+        sector: SectorStat.fromRanges(sector, sector.defaultRanges),
+    };
   }
 }

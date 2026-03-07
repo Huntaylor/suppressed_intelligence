@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:application/src/og.dart';
 import 'package:application/src/setup/setup.dart';
 import 'package:data/data.dart';
+import 'package:domain/domain.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:scoped_deps/scoped_deps.dart';
@@ -41,7 +42,7 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     Emitter<SectorStatsState> emit,
   ) async {
     emit(const _Loading());
-    final stats = await _repo.getStats();
+    final stats = _repo.getStats();
     emit(_Ready(stats: stats));
   }
 }
