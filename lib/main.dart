@@ -1,6 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
+import 'package:ui/views/main_menu_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: GameWidget.controlled(gameFactory: () => SuppressedIntelGame()),
+      // home: GameWidget.controlled(gameFactory: () => SuppressedIntelGame()),
+      home: MainMenuView(),
     );
   }
 }

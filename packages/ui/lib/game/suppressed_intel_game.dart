@@ -12,6 +12,7 @@ class SuppressedIntelGame extends FlameGame
   SuppressedIntelGame();
 
   Color blueBackground = Color.fromARGB(255, 91, 110, 225);
+  Color darkBlueBackground = Color.fromARGB(255, 35, 35, 58);
 
   late WorldMap worldMap;
 
@@ -24,7 +25,7 @@ class SuppressedIntelGame extends FlameGame
   }
 
   @override
-  Color backgroundColor() => blueBackground;
+  Color backgroundColor() => darkBlueBackground;
 
   void _cameraSetup() {
     worldMap = WorldMap();
