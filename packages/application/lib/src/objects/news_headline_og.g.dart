@@ -11,5 +11,5 @@ extension _$NewsHeadlineStateEquatableAnnotations on NewsHeadlineState {
 }
 
 extension _$ReadyEquatableAnnotations on _Ready {
-  List<Object?> get _$props => [headline];
+  List<Object?> get _$props => [newsEvent];
 }

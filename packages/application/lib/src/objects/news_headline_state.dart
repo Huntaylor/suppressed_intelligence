@@ -26,9 +26,9 @@ class _Loading extends NewsHeadlineState {
 }
 
 class _Ready extends NewsHeadlineState {
-  const _Ready({required this.headline});
+  const _Ready({required this.newsEvent});
 
-  final String headline;
+  final NewsEvent newsEvent;
 
   @override
   List<Object?> get props => _$props;

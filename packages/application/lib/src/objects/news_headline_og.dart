@@ -3,6 +3,7 @@ library news_headline_og;
 import 'dart:async';
 
 import 'package:application/src/og.dart';
+import 'package:domain/domain.dart';
 import 'package:application/src/setup/setup.dart';
 import 'package:data/data.dart';
 import 'package:equatable/equatable.dart';
@@ -51,8 +52,8 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
   ) async {
     _timer?.cancel();
 
-    final headline = await _repo.getHeadline();
-    emit(_Ready(headline: headline));
+    final newsEvent = await _repo.getNewsEvent();
+    emit(_Ready(newsEvent: newsEvent));
 
     _startTimer();
   }
