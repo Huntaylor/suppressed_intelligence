@@ -8,6 +8,8 @@ environment:
 resolution: workspace
 
 dependencies:
+  domain:
+    path: ../domain
   get_it: ^9.2.1
   get_it_injector: ^0.6.1
 

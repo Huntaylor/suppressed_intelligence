@@ -9,5 +9,8 @@ build_runner:
     data: |
       cd packages/data
       ${{ build_runner.build }}
+    domain: |
+      cd packages/domain
+      ${{ build_runner.build }}
 
 barrel: barreler build

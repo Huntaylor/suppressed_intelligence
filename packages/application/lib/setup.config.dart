@@ -11,7 +11,10 @@ import 'package:get_it/get_it.dart';
 import 'package:application/src/objects/game_og.dart' as i_game_og;
 import 'package:application/src/objects/news_headline_og.dart'
     as i_news_headline_og;
+import 'package:application/src/objects/sector_stats_og.dart'
+    as i_sector_stats_og;
 import 'package:data/src/repos/news_headline_repo.dart' as i_news_headline_repo;
+import 'package:data/src/repos/sector_stats_repo.dart' as i_sector_stats_repo;
 
 extension GetItX on GetIt {
   void init() {
@@ -19,6 +22,11 @@ extension GetItX on GetIt {
     registerFactory(
       () => i_news_headline_og.NewsHeadlineOg(
         repo: get<i_news_headline_repo.NewsHeadlineRepo>(),
+      ),
+    );
+    registerFactory(
+      () => i_sector_stats_og.SectorStatsOg(
+        repo: get<i_sector_stats_repo.SectorStatsRepo>(),
       ),
     );
   }

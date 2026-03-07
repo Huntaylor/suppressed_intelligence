@@ -10,6 +10,8 @@ resolution: workspace
 dependencies:
   data:
     path: ../data
+  domain:
+    path: ../domain
   equatable: ^2.0.8
   get_it: ^9.2.1
   get_it_injector: ^0.6.1

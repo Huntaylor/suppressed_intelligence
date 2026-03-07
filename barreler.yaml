@@ -11,6 +11,15 @@ defaults:
     GENERATED CODE - DO NOT MODIFY BY HAND
 
 dirs:
+  # -- domain --
+  - path: packages/domain/lib
+    name: domain
+    exclude:
+      - "**/*.g.dart"
+    include:
+      - "src/*.dart"
+      - "src/**/*.dart"
+
   # -- application --
   - path: packages/application/lib
     name: application
