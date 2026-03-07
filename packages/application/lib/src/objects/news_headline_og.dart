@@ -12,8 +12,8 @@ part 'news_headline_event.dart';
 part 'news_headline_og.g.dart';
 part 'news_headline_state.dart';
 
-final newsHeadlineOgProvider = create<NewsHeadlineOg>((getIt.call()));
-NewsHeadlineOg get newsHeadlineOg => read(newsHeadlineOgProvider);
+// ignore: unnecessary_late
+NewsHeadlineOg get newsHeadlineOg => read(NewsHeadlineOg.provider);
 
 class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
   NewsHeadlineOg({required NewsHeadlineRepo repo})
@@ -22,6 +22,10 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
     on<_Init>(_init);
     on<_CheckForUpdates>(_checkForUpdates);
   }
+
+  static ScopedRef<NewsHeadlineOg>? _provider;
+  static ScopedRef<NewsHeadlineOg> get provider =>
+      _provider ??= create<NewsHeadlineOg>((getIt.call));
 
   late final events = _Events(this);
 

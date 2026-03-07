@@ -11,14 +11,18 @@ part 'game_event.dart';
 part 'game_og.g.dart';
 part 'game_state.dart';
 
-final gameOgProvider = create<GameOg>((getIt.call()));
-GameOg get gameOg => read(gameOgProvider);
+// ignore: unnecessary_late
+GameOg get gameOg => read(GameOg.provider);
 
 class GameOg extends Og<GameEvent, GameState> {
   GameOg() : super(const _Playing()) {
     on<_Pause>(_pause);
     on<_Resume>(_resume);
   }
+
+  static ScopedRef<GameOg>? _provider;
+  static ScopedRef<GameOg> get provider =>
+      _provider ??= create<GameOg>((getIt.call));
 
   late final events = _Events(this);
 

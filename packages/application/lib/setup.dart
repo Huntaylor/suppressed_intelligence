@@ -13,5 +13,5 @@ late final GetIt getIt;
 @dep_inj.setup
 void setupDeps(GetIt i, void Function() runner) {
   getIt = i..init();
-  runScoped(runner, values: {gameOgProvider, newsHeadlineOgProvider});
+  runScoped(runner, values: {GameOg.provider, NewsHeadlineOg.provider});
 }
