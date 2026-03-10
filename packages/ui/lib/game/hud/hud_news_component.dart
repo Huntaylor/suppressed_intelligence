@@ -11,9 +11,11 @@ class HudNewsComponent extends NineTileBoxComponent
   HudNewsComponent({super.position, super.size})
     : super(anchor: Anchor.topCenter);
 
+  late TextComponent aiName;
+
   @override
   FutureOr<void> onLoad() async {
-    final aiName = TextComponent(
+    aiName = TextComponent(
       position: Vector2(2, -.5),
       text: gameConfigOg.state.name,
       textRenderer: TextPaint(
@@ -39,5 +41,12 @@ class HudNewsComponent extends NineTileBoxComponent
     );
     addAll([newsText, aiName]);
     return super.onLoad();
+  }
+
+  @override
+  void update(double dt) {
+    if (aiName.text != gameConfigOg.state.name) {
+      aiName.text = gameConfigOg.state.name;
+    }
   }
 }
