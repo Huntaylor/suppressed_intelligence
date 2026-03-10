@@ -51,3 +51,7 @@ create-bloc:
     cd mason/dart_bricks
     dart run mason_cli:mason make bloc -o "$ABSOLUTE"
   - $barrel
+
+assets:
+  - dart pub global activate flutter_gen
+  - fluttergen

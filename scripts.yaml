@@ -14,3 +14,9 @@ build_runner:
       ${{ build_runner.build }}
 
 barrel: barreler build
+
+generate:
+  (aliases): [gen]
+  assets:
+    - dart pub global activate flutter_gen
+    - fluttergen
