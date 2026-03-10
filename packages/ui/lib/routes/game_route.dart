@@ -1,9 +1,7 @@
 part of 'route.dart';
 
 class GameRoute extends Route {
-  GameRoute({this.aiName});
-
-  final String? aiName;
+  GameRoute();
 
   @override
   Widget build(GameCoordinator coordinator, BuildContext context) {
@@ -12,7 +10,7 @@ class GameRoute extends Route {
         overlayBuilderMap: {
           'PauseOverlay': (context, game) => PauseOverlay(game: game),
         },
-        gameFactory: () => SuppressedIntelGame(aiName: aiName ?? 'ChatGibitty'),
+        gameFactory: () => SuppressedIntelGame(),
       ),
     );
   }

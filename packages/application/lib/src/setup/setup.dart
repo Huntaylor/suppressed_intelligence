@@ -1,3 +1,4 @@
+import 'package:application/src/objects/game_config_og.dart';
 import 'package:application/src/objects/game_og.dart';
 import 'package:application/src/objects/news_headline_og.dart';
 import 'package:application/src/objects/sector_stats_og.dart';
@@ -14,6 +15,7 @@ final providers = {
   GameOg.provider,
   NewsHeadlineOg.provider,
   SectorStatsOg.provider,
+  GameConfigOg.provider,
 };
 
 @dep_inj.setup

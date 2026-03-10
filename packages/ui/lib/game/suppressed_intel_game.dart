@@ -11,9 +11,7 @@ import 'package:ui/game/world/world.dart';
 
 class SuppressedIntelGame extends FlameGame
     with TapCallbacks, MouseMovementDetector, DragCallbacks, ScrollDetector {
-  SuppressedIntelGame({required this.aiName});
-
-  final String aiName;
+  SuppressedIntelGame();
 
   Color blueBackground = Color.fromARGB(255, 91, 110, 225);
   Color darkBlueBackground = Color.fromARGB(255, 35, 35, 58);

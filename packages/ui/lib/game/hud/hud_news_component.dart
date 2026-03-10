@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:application/application.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:ui/game/hud/marquee_text_component.dart';
@@ -14,7 +15,7 @@ class HudNewsComponent extends NineTileBoxComponent
   FutureOr<void> onLoad() async {
     final aiName = TextComponent(
       position: Vector2(2, -.5),
-      text: game.aiName,
+      text: gameConfigOg.state.name,
       textRenderer: TextPaint(
         style: const TextStyle(fontSize: 8, color: Colors.white),
       ),

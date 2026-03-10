@@ -9,6 +9,8 @@ resolution: workspace
 
 dependencies:
   animated_text_kit: ^4.3.0
+  application:
+    path: ../application
   domain:
     path: ../domain
   flame: ^1.34.0

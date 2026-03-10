@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:application/application.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -123,11 +124,14 @@ class _MainMenuViewState extends State<MainMenuView> {
 
                     GestureDetector(
                       onTap: () {
-                        if (_formKey.currentState!.validate()) {
-                          GameCoordinator.instance.navigate(
-                            GameRoute(aiName: _controller.text),
-                          );
-                        }
+                        final isValid =
+                            _formKey.currentState?.validate() ?? false;
+
+                        if (!isValid) return;
+
+                        gameConfigOg.events.addName(_controller.text);
+
+                        GameCoordinator.instance.navigate(GameRoute());
                       },
                       child: MouseRegion(
                         cursor: SystemMouseCursors.click,
