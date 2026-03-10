@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:ui/game/components/bubble_icon.dart';
 import 'package:ui/game/components/data_bubble.dart';
 import 'package:ui/game/components/infrastructure_lines.dart';
 import 'package:ui/game/components/infrastructure_point.dart';
+import 'package:ui/game/components/sector_component.dart';
+import 'package:ui/game/components/sector_placement_component.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
 class WorldMap extends World with HasGameReference<SuppressedIntelGame> {
@@ -26,6 +29,12 @@ class WorldMap extends World with HasGameReference<SuppressedIntelGame> {
     await initializeInfrastructure();
 
     add(InfrastructureLines());
+
+    await addSectors();
+
+    if (game.debugVector) {
+      await addDragSector();
+    }
 
     return super.onLoad();
   }
@@ -53,6 +62,7 @@ class WorldMap extends World with HasGameReference<SuppressedIntelGame> {
     for (var location in InfrastructureLocation.values) {
       add(
         CircleComponent(
+          priority: 2,
           anchor: Anchor.center,
           position: location.vector2,
           radius: 2,
@@ -83,6 +93,24 @@ class WorldMap extends World with HasGameReference<SuppressedIntelGame> {
     }
 
     return paths;
+  }
+
+  // Used to debug the sector positions
+  Future<void> addDragSector() async {
+    final image = await game.images.load('sector_sprites/sector_6.png');
+    final sector = SectorPlacementComponent(
+      position: Vector2(705.5, 219.0),
+      size: Vector2(401.0, 304.0),
+      sprite: Sprite(image),
+    );
+
+    add(sector);
+  }
+
+  Future<void> addSectors() async {
+    for (var sector in WorldSectors.values) {
+      add(SectorComponent(sector: sector));
+    }
   }
 }
 

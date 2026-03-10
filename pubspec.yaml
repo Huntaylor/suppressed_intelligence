@@ -42,5 +42,6 @@ flutter:
   assets:
     - assets/images/
     - assets/images/icons/
+    - assets/images/sector_sprites/
 
 scripts: derry.yaml

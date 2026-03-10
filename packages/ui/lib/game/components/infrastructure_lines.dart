@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:ui/game/components/infrastructure_point.dart';
 
 class InfrastructureLines extends PositionComponent with Snapshot {
-  InfrastructureLines();
+  InfrastructureLines() : super(priority: 2);
 
   final Paint paint = Paint()
     ..color = Colors.white

@@ -10,7 +10,7 @@ import 'package:ui/game/hud/hud_pause_button.dart';
 import 'package:ui/game/world/world.dart';
 
 class SuppressedIntelGame extends FlameGame
-    with TapCallbacks, MouseMovementDetector {
+    with TapCallbacks, MouseMovementDetector, DragCallbacks, ScrollDetector {
   SuppressedIntelGame({required this.aiName});
 
   final String aiName;
@@ -32,6 +32,41 @@ class SuppressedIntelGame extends FlameGame
   final double gameWidth = 1024;
   final double gameHeight = 515;
 
+  ///--------
+  static const double _minZoom = 0.5;
+  static const double _maxZoom = 5.0;
+  static const double _zoomSensitivity = 0.001;
+
+  @override
+  void onScroll(PointerScrollInfo info) {
+    final scrollDelta = info.scrollDelta.global.y;
+    final zoomDelta = -scrollDelta * _zoomSensitivity;
+
+    _zoomAtPoint(zoomDelta: zoomDelta, screenPoint: info.eventPosition.global);
+  }
+
+  void _zoomAtPoint({required double zoomDelta, required Vector2 screenPoint}) {
+    final currentZoom = camera.viewfinder.zoom;
+    final newZoom = (currentZoom + zoomDelta * currentZoom).clamp(
+      _minZoom,
+      _maxZoom,
+    );
+
+    // Convert screen point to world position BEFORE zoom change
+    final worldPoint = camera.globalToLocal(screenPoint);
+
+    // Apply new zoom
+    camera.viewfinder.zoom = newZoom;
+
+    // Recalculate where that world point now appears on screen
+    // and shift camera so it stays under the mouse
+    final newScreenPoint = camera.localToGlobal(worldPoint);
+    final offset = (screenPoint - newScreenPoint);
+
+    camera.viewfinder.position -= offset / newZoom;
+  }
+
+  ///-------
   @override
   FutureOr<void> onLoad() async {
     // aiName = 'ChatGibitty';

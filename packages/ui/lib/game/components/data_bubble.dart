@@ -10,7 +10,7 @@ class DataBubble extends CircleComponent {
     super.anchor,
     super.radius,
     required this.dataPaths,
-  }) : super(paint: Paint()..color = Colors.white);
+  }) : super(paint: Paint()..color = Colors.white, priority: 3);
 
   List<Path> dataPaths;
 

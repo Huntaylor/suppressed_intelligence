@@ -3,21 +3,33 @@ import 'package:domain/src/models/sector_stat_ranges.dart';
 enum WorldSectors {
   /// North America
   na('53-4E41'),
+  //Size [338.0,344.0]
+  //Position [216.0,177.0]
 
   /// South America
   sa('53-5341'),
+  //Size [102.0,172.0]
+  //Position [283.0, 423.0]
 
   /// Europe
   eu('53-4555'),
+  //Size [215.0, 133.0]
+  //Position [507.5, 182.5]
 
   /// Asia
   as('53-4153'),
+  //Size [401.0, 304.0]
+  //Position [705.5, 219.0]
 
   /// Africa
   af('53-4146'),
+  //Size [160.0,172.0]
+  //Position [497.0, 327.0]
 
   /// Oceania
   oc('53-4F43');
+  //Size [196.0, 157.0]
+  //Position [847.0, 420.5]
 
   const WorldSectors(this.codeName);
 
@@ -25,13 +37,13 @@ enum WorldSectors {
 
   /// Display name for headlines, e.g. "North America", "Europe".
   String get displayName => switch (this) {
-        WorldSectors.na => 'North America',
-        WorldSectors.sa => 'South America',
-        WorldSectors.eu => 'Europe',
-        WorldSectors.as => 'Asia',
-        WorldSectors.af => 'Africa',
-        WorldSectors.oc => 'Oceania',
-      };
+    WorldSectors.na => 'North America',
+    WorldSectors.sa => 'South America',
+    WorldSectors.eu => 'Europe',
+    WorldSectors.as => 'Asia',
+    WorldSectors.af => 'Africa',
+    WorldSectors.oc => 'Oceania',
+  };
 
   /// Default stat ranges for this sector, used to generate [SectorStat] values.
   SectorStatRanges get defaultRanges => switch (this) {
