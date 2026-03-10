@@ -5,11 +5,15 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:ui/game/hud/hud_news_component.dart';
+import 'package:ui/game/hud/hud_pause_button.dart';
 import 'package:ui/game/world/world.dart';
 
 class SuppressedIntelGame extends FlameGame
     with TapCallbacks, MouseMovementDetector {
-  SuppressedIntelGame();
+  SuppressedIntelGame({required this.aiName});
+
+  final String aiName;
 
   Color blueBackground = Color.fromARGB(255, 91, 110, 225);
   Color darkBlueBackground = Color.fromARGB(255, 35, 35, 58);
@@ -25,8 +29,12 @@ class SuppressedIntelGame extends FlameGame
 
   late Vector2 mousePosition;
 
+  final double gameWidth = 1024;
+  final double gameHeight = 515;
+
   @override
   FutureOr<void> onLoad() async {
+    // aiName = 'ChatGibitty';
     debugVector = false;
 
     mousePosition = Vector2.zero();
@@ -98,11 +106,25 @@ class SuppressedIntelGame extends FlameGame
 
     final viewfinder = Viewfinder()..anchor = Anchor.topLeft;
     camera = CameraComponent.withFixedResolution(
-      width: 1024,
-      height: 515,
+      width: gameWidth,
+      height: gameHeight,
       world: world,
       viewfinder: viewfinder,
-      hudComponents: [FpsTextComponent()],
+      hudComponents: [
+        FpsTextComponent(),
+        HudNewsComponent(
+          size: Vector2(360, 32),
+          position: Vector2(gameWidth / 2, 0),
+        ),
+        HudPauseButton(
+          position: Vector2(gameWidth - 64, 0),
+          size: Vector2(30, 28),
+          onPressed: () {
+            overlays.add('PauseOverlay');
+            pauseEngine();
+          },
+        ),
+      ],
     );
   }
 }

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:ui/routes/route.dart';
 
 class MainMenuView extends StatefulWidget {
   const MainMenuView({super.key});
@@ -12,6 +14,25 @@ class MainMenuView extends StatefulWidget {
 }
 
 class _MainMenuViewState extends State<MainMenuView> {
+  late AnimatedTextController animatedTextController;
+
+  final _controller = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    animatedTextController = AnimatedTextController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animatedTextController.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,9 +75,10 @@ class _MainMenuViewState extends State<MainMenuView> {
                         displayFullTextOnTap: true,
                         repeatForever: false,
                         isRepeatingAnimation: false,
+                        controller: animatedTextController,
                         animatedTexts: [
                           TypewriterAnimatedText(
-                            'What can I help with?',
+                            'What will you call me?',
                             curve: Curves.easeOut,
                             cursor: '',
                             speed: Duration(milliseconds: 75),
@@ -69,18 +91,49 @@ class _MainMenuViewState extends State<MainMenuView> {
                         ],
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: Text('Send Prompt'),
+                    SizedBox(
+                      width: 320,
+                      child: Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          controller: _controller,
+                          maxLength: 16,
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(16),
+                          ],
+                          decoration: const InputDecoration(
+                            labelText: 'Enter text',
+                            border: OutlineInputBorder(),
+                            counterText: null,
+                            counterStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'This field cannot be empty';
+                            }
+                            return null;
+                          },
+                        ),
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () => exit(0),
+
+                    GestureDetector(
+                      onTap: () {
+                        if (_formKey.currentState!.validate()) {
+                          GameCoordinator.instance.navigate(
+                            GameRoute(aiName: _controller.text),
+                          );
+                        }
+                      },
                       child: MouseRegion(
                         cursor: SystemMouseCursors.click,
-                        child: Text('Quit'),
+                        child: Image.asset(
+                          'assets/images/menu_prompt_button.png',
+                        ),
                       ),
                     ),
                   ],
