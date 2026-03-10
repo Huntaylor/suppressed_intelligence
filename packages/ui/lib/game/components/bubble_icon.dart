@@ -22,7 +22,6 @@ class BubbleIcon extends SpriteComponent
     effectController = EffectController(duration: .001, reverseDuration: .09);
 
     final effect = SizeEffect.by(Vector2(0, -64), effectController);
-
     add(effect);
     return super.onLoad();
   }

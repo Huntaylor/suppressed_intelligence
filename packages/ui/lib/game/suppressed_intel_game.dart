@@ -102,6 +102,7 @@ class SuppressedIntelGame extends FlameGame
       height: 515,
       world: world,
       viewfinder: viewfinder,
+      hudComponents: [FpsTextComponent()],
     );
   }
 }
