@@ -2,9 +2,11 @@ library news_headline_og;
 
 import 'dart:async';
 
+import 'package:application/src/objects/game_og.dart';
 import 'package:application/src/objects/sector_stats_og.dart';
 import 'package:application/src/og.dart';
 import 'package:application/src/setup/setup.dart';
+import 'package:application/src/utils/pausible_timer.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:equatable/equatable.dart';
@@ -43,6 +45,8 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
       super(const _Loading()) {
     on<_Init>(_init);
     on<_CheckForUpdates>(_checkForUpdates);
+    on<_Pause>(_pause);
+    on<_Resume>(_resume);
   }
 
   static ScopedRef<NewsHeadlineOg>? _provider;
@@ -50,12 +54,20 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
   static ScopedRef<NewsHeadlineOg> get provider =>
       _provider ??= create<NewsHeadlineOg>((getIt.call));
 
+  static void gameStateListener(GameState state) {
+    if (state.isPaused case true) {
+      newsHeadlineOg.add(_Pause());
+    } else {
+      newsHeadlineOg.add(_Resume());
+    }
+  }
+
   late final events = _Events(this);
 
   final NewsHeadlineRepo _repo;
-  Timer? _timer;
+  PausableTimer? _timer;
   Duration _interval = _defaultInterval;
-  static const _defaultInterval = Duration(seconds: 15);
+  static const _defaultInterval = Duration(seconds: 3);
 
   @override
   void dispose() {
@@ -94,10 +106,18 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
   }
 
   void _startTimer() {
-    if (_timer?.isActive case true) return;
+    if (_timer?.isRunning case true) return;
 
-    _timer = Timer.periodic(_interval, (timer) {
+    _timer = PausableTimer(_interval, () {
       add(_CheckForUpdates());
     });
+  }
+
+  void _pause(_Pause event, Emitter<NewsHeadlineState> emit) {
+    _timer?.pause();
+  }
+
+  void _resume(_Resume event, Emitter<NewsHeadlineState> emit) {
+    _timer?.resume();
   }
 }

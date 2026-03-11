@@ -14,6 +14,14 @@ class _CheckForUpdates extends NewsHeadlineEvent {
   const _CheckForUpdates();
 }
 
+class _Pause extends NewsHeadlineEvent {
+  const _Pause();
+}
+
+class _Resume extends NewsHeadlineEvent {
+  const _Resume();
+}
+
 class _Events {
   _Events(this._object);
 

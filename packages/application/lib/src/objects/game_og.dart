@@ -2,6 +2,7 @@ library game_og;
 
 import 'dart:async' show FutureOr;
 
+import 'package:application/src/objects/news_headline_og.dart';
 import 'package:application/src/og.dart';
 import 'package:application/src/setup/setup.dart';
 import 'package:equatable/equatable.dart';
@@ -18,6 +19,8 @@ class GameOg extends Og<GameEvent, GameState> {
   GameOg() : super(const _Playing()) {
     on<_Pause>(_pause);
     on<_Resume>(_resume);
+
+    addListener(NewsHeadlineOg.gameStateListener);
   }
 
   static ScopedRef<GameOg>? _provider;
