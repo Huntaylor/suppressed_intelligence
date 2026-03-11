@@ -23,12 +23,13 @@ class SectorBubblesComponent extends Component
 
     for (final id in _renderedIds.toList()) {
       if (!currentIds.contains(id)) {
-        final child = children
-            .query<BubbleIcon>()
-            .where((c) => c.bubble.id == id)
-            .firstOrNull;
-        child?.removeFromParent();
-        _renderedIds.remove(id);
+        for (final child in children.query<BubbleIcon>()) {
+          if (child.bubble.id == id) {
+            child.removeFromParent();
+            _renderedIds.remove(id);
+            break;
+          }
+        }
       }
     }
 

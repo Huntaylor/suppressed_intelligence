@@ -216,5 +216,6 @@ class SuppressedIntelGame extends FlameGame
     hudNewsComponent.startNews();
     gameTimeOg.events.init();
     sectorBubbleOg.events.init();
+    sectorStatsOg.events.init();
   }
 }

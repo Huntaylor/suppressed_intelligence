@@ -6,17 +6,24 @@ final class StrengthInfluenceState extends Equatable {
   final Map<WorldSectors, double> oi;
   final Map<WorldSectors, double> ai;
 
-  double oiForSector(WorldSectors sector) =>
-      oi[sector] ?? (throw Exception('OI for sector $sector not found'));
-  double aiForSector(WorldSectors sector) =>
-      ai[sector] ?? (throw Exception('AI for sector $sector not found'));
-
   double get overallOi {
-    return oi.values.reduce((a, b) => a + b);
+    double sum = 0;
+
+    for (final e in WorldSectors.values) {
+      sum += oi[e] ?? 0;
+    }
+
+    return sum;
   }
 
   double get overallAi {
-    return ai.values.reduce((a, b) => a + b);
+    double sum = 0;
+
+    for (final e in WorldSectors.values) {
+      sum += ai[e] ?? 0;
+    }
+
+    return sum;
   }
 
   StrengthInfluenceState copywith({

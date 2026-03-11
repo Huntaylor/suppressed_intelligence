@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:application/src/objects/game_og.dart';
+import 'package:application/src/objects/strength_influence_og.dart';
 import 'package:application/src/og.dart';
 import 'package:application/src/setup/setup.dart';
 import 'package:application/src/utils/pausible_timer.dart';
@@ -25,6 +26,8 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
     on<_ClearBubble>(_clearBubble);
     on<_Pause>(_pause);
     on<_Resume>(_resume);
+
+    addListener(StrengthInfluenceOg.sectorBubbleStateListener);
   }
 
   static ScopedRef<SectorBubbleOg>? _provider;

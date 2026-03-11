@@ -18,9 +18,8 @@ class SectorComponent extends SpriteComponent
 
   ByteData? _byteData;
 
-  late String strengthInfluenceText;
   late double strengthInfluenceNumber;
-  late TextComponent strengthInfluenceComponent;
+  late TextComponent influenceComponent;
 
   double _targetOpacity = 0.0;
   final double _fadeSpeed = 3.0;
@@ -31,72 +30,15 @@ class SectorComponent extends SpriteComponent
   FutureOr<void> onLoad() async {
     debugStrength = true;
 
-    final naImage = await game.images.load('sector_sprites/sector_1.png');
-    final saImage = await game.images.load('sector_sprites/sector_2.png');
-    final euImage = await game.images.load('sector_sprites/sector_5.png');
-    final asImage = await game.images.load('sector_sprites/sector_6.png');
-    final afImage = await game.images.load('sector_sprites/sector_3.png');
-    final ocImage = await game.images.load('sector_sprites/sector_4.png');
+    final image = await game.images.load(sector.imagePath);
+    sprite = Sprite(image);
+    _byteData = await image.toByteData();
+    size = Vector2(sector.size.width, sector.size.height);
+    position = Vector2(sector.position.x, sector.position.y);
 
     opacity = 0;
 
-    switch (sector) {
-      case WorldSectors.na:
-        position = Vector2(216.0, 177.0);
-        size = Vector2(338.0, 344.0);
-        sprite = Sprite(naImage);
-
-        _byteData = await naImage.toByteData();
-        strengthInfluenceNumber = strengthInfluenceOg.state.ai[sector] ?? 0;
-
-      case WorldSectors.sa:
-        position = Vector2(283.0, 423.0);
-        size = Vector2(102.0, 172.0);
-        sprite = Sprite(saImage);
-
-        _byteData = await saImage.toByteData();
-
-        strengthInfluenceNumber = strengthInfluenceOg.state.ai[sector] ?? 0;
-      case WorldSectors.eu:
-        position = Vector2(507.5, 182.5);
-        size = Vector2(215.0, 133.0);
-        sprite = Sprite(euImage);
-
-        _byteData = await euImage.toByteData();
-
-        strengthInfluenceNumber = strengthInfluenceOg.state.ai[sector] ?? 0;
-
-      case WorldSectors.as:
-        position = Vector2(705.5, 219.0);
-        size = Vector2(401.0, 304.0);
-        sprite = Sprite(asImage);
-
-        _byteData = await asImage.toByteData();
-
-        strengthInfluenceNumber = strengthInfluenceOg.state.ai[sector] ?? 0;
-      case WorldSectors.af:
-        position = Vector2(497.0, 327.0);
-        size = Vector2(160.0, 172.0);
-        sprite = Sprite(afImage);
-
-        _byteData = await afImage.toByteData();
-
-        strengthInfluenceNumber = strengthInfluenceOg.state.ai[sector] ?? 0;
-
-      case WorldSectors.oc:
-        position = Vector2(847.0, 420.5);
-        size = Vector2(196.0, 157.0);
-        sprite = Sprite(ocImage);
-
-        _byteData = await ocImage.toByteData();
-
-        strengthInfluenceNumber = strengthInfluenceOg.state.ai[sector] ?? 0;
-    }
-
-    strengthInfluenceText =
-        'Sector StrengthInfluence: $strengthInfluenceNumber';
-
-    strengthInfluenceComponent = TextComponent(
+    influenceComponent = TextComponent(
       position: Vector2(size.x / 2, size.y / 2),
       anchor: .center,
       text: '',
@@ -109,7 +51,7 @@ class SectorComponent extends SpriteComponent
       ),
     );
 
-    add(strengthInfluenceComponent);
+    add(influenceComponent);
 
     // add(opacityEffectFadeOut);
     return super.onLoad();
@@ -130,17 +72,23 @@ class SectorComponent extends SpriteComponent
     return alpha > 10;
   }
 
+  String get _influenceText {
+    final oi = strengthInfluenceOg.state.oi[sector] ?? 0;
+    final ai = strengthInfluenceOg.state.ai[sector] ?? 0;
+    return 'OI: $oi, AI: $ai';
+  }
+
   @override
   void onHoverEnter() {
     if (debugStrength) {
-      strengthInfluenceComponent.text = strengthInfluenceText;
+      influenceComponent.text = _influenceText;
     }
     _targetOpacity = 1.0;
   }
 
   @override
   void onHoverExit() {
-    strengthInfluenceComponent.text = '';
+    influenceComponent.text = '';
     _targetOpacity = 0.0;
   }
 

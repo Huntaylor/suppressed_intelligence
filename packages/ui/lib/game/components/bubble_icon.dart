@@ -38,7 +38,6 @@ class BubbleIcon extends SpriteComponent
   @override
   void onTapDown(TapDownEvent event) {
     sectorBubbleOg.events.clearBubble(bubble.id);
-    parent?.remove(this);
     super.onTapDown(event);
   }
 }

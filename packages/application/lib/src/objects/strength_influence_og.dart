@@ -17,13 +17,7 @@ StrengthInfluenceOg get strengthInfluenceOg =>
 
 class StrengthInfluenceOg
     extends Og<StrengthInfluenceEvent, StrengthInfluenceState> {
-  StrengthInfluenceOg()
-    : super(
-        StrengthInfluenceState(
-          oi: {for (final sector in WorldSectors.values) sector: 0.0},
-          ai: {for (final sector in WorldSectors.values) sector: 0.0},
-        ),
-      ) {
+  StrengthInfluenceOg() : super(StrengthInfluenceState(oi: {}, ai: {})) {
     on<_UpdateOi>(_updateOi);
     on<_UpdateAi>(_updateAi);
   }
@@ -83,7 +77,7 @@ class StrengthInfluenceOg
       state.copywith(
         oi: {
           ...state.oi,
-          event.sector: state.oiForSector(event.sector) + event.delta,
+          event.sector: (state.oi[event.sector] ?? 0) + event.delta,
         },
       ),
     );
@@ -97,7 +91,7 @@ class StrengthInfluenceOg
       state.copywith(
         ai: {
           ...state.ai,
-          event.sector: state.aiForSector(event.sector) + event.delta,
+          event.sector: (state.ai[event.sector] ?? 0) + event.delta,
         },
       ),
     );
