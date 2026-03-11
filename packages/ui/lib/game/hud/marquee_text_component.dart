@@ -13,6 +13,7 @@ class MarqueeTextComponent extends PositionComponent
     _textWidth = _measureTextWidth(value);
     _textComponent.text = value;
     _textComponent.position.x = 0 + 50;
+    _textComponent.position.y = size.y;
   }
 
   final double speed;
@@ -59,7 +60,11 @@ class MarqueeTextComponent extends PositionComponent
   void update(double dt) {
     super.update(dt);
 
-    _textComponent.position.x -= speed * dt;
+    if (_textComponent.position.y != 0) {
+      _textComponent.position.y -= speed * dt;
+    } else {
+      _textComponent.position.x -= speed * dt;
+    }
 
     if (_textComponent.position.x < -_textWidth) {
       _textComponent.position.x = size.x;
