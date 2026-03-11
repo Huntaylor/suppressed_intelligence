@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
-import 'package:ui/game/components/bubble_icon.dart';
 import 'package:ui/game/components/data_bubble.dart';
+import 'package:ui/game/components/sector_bubbles_component.dart';
 import 'package:ui/game/components/infrastructure_lines.dart';
 import 'package:ui/game/components/infrastructure_point.dart';
 import 'package:ui/game/components/sector_component.dart';
@@ -24,7 +24,7 @@ class WorldMap extends World with HasGameReference<SuppressedIntelGame> {
     final darkWorldSprite = await game.images.load('world_map_dark.png');
     // final darkWorldSprite = await game.images.load('world_map_dark_infra.png');
     add(SpriteComponent.fromImage(darkWorldSprite));
-    addBubble();
+    add(SectorBubblesComponent());
 
     await initializeInfrastructure();
 
@@ -52,10 +52,6 @@ class WorldMap extends World with HasGameReference<SuppressedIntelGame> {
       anchor: Anchor.center,
     );
     add(dataBubble);
-  }
-
-  void addBubble() {
-    add(BubbleIcon(position: Vector2(100, 100)));
   }
 
   Future<void> initializeInfrastructure() async {

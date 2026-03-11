@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:application/application.dart';
+import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
@@ -7,17 +9,24 @@ import 'package:ui/game/suppressed_intel_game.dart';
 
 class BubbleIcon extends SpriteComponent
     with HasGameReference<SuppressedIntelGame>, TapCallbacks {
-  BubbleIcon({super.position, super.size})
-    : super(anchor: Anchor.bottomCenter, priority: 4);
+  BubbleIcon({
+    required this.bubble,
+    required super.position,
+    super.size,
+  }) : super(anchor: Anchor.bottomCenter, priority: 4);
+
+  final SectorBubble bubble;
 
   late EffectController effectController;
 
   @override
   FutureOr<void> onLoad() async {
-    final oiIcon = await game.images.load('icons/oi_bubble_icon.png');
-    final aiIcon = await game.images.load('icons/ai_bubble_icon.png');
-    final aiBigIcon = await game.images.load('icons/ai_bubble_icon_32x48.png');
-    sprite = Sprite(aiBigIcon);
+    final iconPath = switch (bubble.type) {
+      SectorBubbleType.oi => 'icons/oi_bubble_icon_32x48.png',
+      SectorBubbleType.ai => 'icons/ai_bubble_icon_32x48.png',
+    };
+    final image = await game.images.load(iconPath);
+    sprite = Sprite(image);
 
     effectController = EffectController(duration: .001, reverseDuration: .09);
 
@@ -28,7 +37,8 @@ class BubbleIcon extends SpriteComponent
 
   @override
   void onTapDown(TapDownEvent event) {
-    parent!.remove(this);
+    sectorBubbleOg.events.clearBubble(bubble.id);
+    parent?.remove(this);
     super.onTapDown(event);
   }
 }
