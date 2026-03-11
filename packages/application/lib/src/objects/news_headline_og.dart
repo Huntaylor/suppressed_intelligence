@@ -99,10 +99,8 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
 
   double? _computeNegativeBias() {
     try {
-      final sectorOg = sectorStatsOg;
-      final state = sectorOg.state;
-      if (!state.isReady) return null;
-      final stats = state.asIfReady!.stats;
+      final stats = sectorStatsOg.state.asIfReady?.stats;
+      if (stats == null) return null;
       return computeNegativeBiasFromSectorStats(stats);
     } catch (_) {
       return null;
