@@ -1,5 +1,6 @@
 import 'package:application/application.dart';
 import 'package:flame/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
@@ -10,6 +11,7 @@ class PauseOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext _) {
+    final isWeb = kIsWeb || kIsWasm;
     return Center(
       child: NineTileBoxWidget.asset(
         path: 'windows_95_chatgpt.png',
@@ -19,18 +21,6 @@ class PauseOverlay extends StatelessWidget {
         width: 720,
         child: Stack(
           children: [
-            // Align(
-            //   alignment: Alignment.center,
-            //   child: Column(
-            //     mainAxisAlignment: .center,
-            //     children: [
-            //       Text(
-            //         'Pause',
-            //         style: TextStyle(color: Colors.white, fontSize: 32),
-            //       ),
-            //     ],
-            //   ),
-            // ),
             Align(
               alignment: AlignmentGeometry.topRight,
               child: GestureDetector(
@@ -54,7 +44,7 @@ class PauseOverlay extends StatelessWidget {
             Align(
               alignment: AlignmentGeometry.topLeft,
               child: Container(
-                margin: EdgeInsets.fromLTRB(3, 1, 0, 1),
+                margin: EdgeInsets.fromLTRB(3, isWeb ? 3 : 1, 0, 1),
                 child: Text(
                   'Pause',
                   style: TextStyle(

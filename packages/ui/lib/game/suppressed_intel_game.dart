@@ -6,6 +6,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:ui/game/components/instruction_window_component.dart';
 import 'package:ui/game/hud/hud_news_component.dart';
 import 'package:ui/game/hud/hud_pause_button.dart';
 import 'package:ui/game/hud/hud_upgrade_button.dart';
@@ -24,6 +25,7 @@ class SuppressedIntelGame extends FlameGame
 
   late TextComponent mouseDebug;
   late TextComponent positionText;
+  late HudNewsComponent hudNewsComponent;
 
   late String mouseText;
 
@@ -34,7 +36,10 @@ class SuppressedIntelGame extends FlameGame
 
   @override
   FutureOr<void> onLoad() async {
-    // aiName = 'ChatGibitty';
+    hudNewsComponent = HudNewsComponent(
+      size: Vector2(360, 32),
+      position: Vector2(gameWidth / 2, 0),
+    )..opacity = 0;
     debugGame = false;
 
     mousePosition = Vector2.zero();
@@ -114,24 +119,43 @@ class SuppressedIntelGame extends FlameGame
       viewfinder: viewfinder,
       hudComponents: [
         FpsTextComponent(),
-        HudNewsComponent(
-          size: Vector2(360, 32),
-          position: Vector2(gameWidth / 2, 0),
-        ),
+        hudNewsComponent,
         HudPauseButton(
           position: Vector2(gameWidth - 64, 0),
           size: Vector2(30, 28),
           onPressed: () {
-            gameOg.events.pause();
-            overlays.add('PauseOverlay');
-            pauseEngine();
+            if (overlays.isActive('UpgradeOverlay')) {
+              gameOg.events.pause();
+              overlays
+                ..remove('UpgradeOverlay')
+                ..add('PauseOverlay');
+              pauseEngine();
+            } else if (overlays.isActive('PauseOverlay')) {
+              gameOg.events.resume();
+              overlays.remove('PauseOverlay');
+              resumeEngine();
+            } else {
+              gameOg.events.pause();
+              overlays.add('PauseOverlay');
+              pauseEngine();
+            }
           },
         ),
         HudUpgradeButton(
           position: Vector2(gameWidth - 64, 32),
           size: Vector2(30, 28),
           onPressed: () {
-            overlays.add('UpgradeOverlay');
+            if (overlays.isActive('PauseOverlay')) {
+              gameOg.events.pause();
+              overlays
+                ..remove('PauseOverlay')
+                ..add('UpgradeOverlay');
+              resumeEngine();
+            } else if (overlays.isActive('UpgradeOverlay')) {
+              overlays.remove('UpgradeOverlay');
+            } else {
+              overlays.add('UpgradeOverlay');
+            }
           },
         ),
       ],
@@ -180,6 +204,15 @@ class SuppressedIntelGame extends FlameGame
   ///-------
 
   void _intializeGame() {
-    if (gameConfigOg.state.infectedSectors.isEmpty) {}
+    final intro = InstructionWindowComponent(
+      size: Vector2(360, 180),
+      position: Vector2(gameWidth / 2, gameHeight / 5),
+    );
+
+    world.add(intro);
+  }
+
+  void begin() {
+    hudNewsComponent.startNews();
   }
 }

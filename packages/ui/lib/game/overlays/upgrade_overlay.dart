@@ -1,5 +1,6 @@
 import 'package:application/application.dart';
 import 'package:flame/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ui/game/overlays/widgets/upgrade_button.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
@@ -40,13 +41,14 @@ class _UpgradeOverlayState extends State<UpgradeOverlay> {
 
   @override
   Widget build(BuildContext _) {
+    final isWeb = kIsWeb || kIsWasm;
     return Center(
       child: NineTileBoxWidget.asset(
         path: 'windows_95_chatgpt.png',
         tileSize: 27,
         destTileSize: 8,
         height: 512,
-        width: 720,
+        width: 920,
         child: Stack(
           children: [
             Align(
@@ -99,7 +101,7 @@ class _UpgradeOverlayState extends State<UpgradeOverlay> {
             Align(
               alignment: AlignmentGeometry.topLeft,
               child: Container(
-                margin: EdgeInsets.fromLTRB(3, 1, 0, 1),
+                margin: EdgeInsets.fromLTRB(3, isWeb ? 3 : 1, 0, 1),
                 child: Text(
                   'Upgrade ${gameConfigOg.state.name}',
                   style: TextStyle(

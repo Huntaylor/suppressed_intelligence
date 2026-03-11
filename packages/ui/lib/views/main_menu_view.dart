@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:application/application.dart';
 import 'package:flame/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ui/routes/route.dart';
@@ -36,6 +37,7 @@ class _MainMenuViewState extends State<MainMenuView> {
 
   @override
   Widget build(BuildContext context) {
+    final isWeb = kIsWeb || kIsWasm;
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -50,7 +52,7 @@ class _MainMenuViewState extends State<MainMenuView> {
               Align(
                 alignment: AlignmentGeometry.topLeft,
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(3, 1, 0, 1),
+                  margin: EdgeInsets.fromLTRB(3, isWeb ? 3 : 1, 0, 1),
                   child: Text(
                     'Suppressed Intelligence',
                     style: TextStyle(
