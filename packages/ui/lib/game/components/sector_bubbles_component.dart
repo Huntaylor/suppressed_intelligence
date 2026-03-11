@@ -23,16 +23,18 @@ class SectorBubblesComponent extends Component
 
     for (final id in _renderedIds.toList()) {
       if (!currentIds.contains(id)) {
-        final child = children.query<BubbleIcon>().where((c) => c.bubble.id == id).first;
-        child.removeFromParent();
+        final child = children
+            .query<BubbleIcon>()
+            .where((c) => c.bubble.id == id)
+            .firstOrNull;
+        child?.removeFromParent();
         _renderedIds.remove(id);
       }
     }
 
     for (final bubble in state.bubbles) {
       if (!_renderedIds.contains(bubble.id)) {
-        final position =
-            randomPositionInSector(bubble.sector, _random);
+        final position = randomPositionInSector(bubble.sector, _random);
         add(BubbleIcon(bubble: bubble, position: position));
         _renderedIds.add(bubble.id);
       }
