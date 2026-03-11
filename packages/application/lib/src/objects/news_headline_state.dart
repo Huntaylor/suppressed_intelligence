@@ -33,12 +33,3 @@ class _Ready extends NewsHeadlineState {
   @override
   List<Object?> get props => _$props;
 }
-
-class _Paused extends NewsHeadlineState {
-  const _Paused({required this.tick});
-
-  final int tick;
-
-  @override
-  List<Object?> get props => _$props;
-}

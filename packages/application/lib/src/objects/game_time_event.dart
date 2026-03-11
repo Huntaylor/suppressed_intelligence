@@ -5,11 +5,7 @@ sealed class GameTimeEvent {
 }
 
 class _Init extends GameTimeEvent {
-  const _Init({
-    this.month = 1,
-    this.year = 2024,
-    this.interval,
-  });
+  const _Init({this.month = 1, this.year = 2024, this.interval});
 
   final int month;
   final int year;
@@ -20,20 +16,26 @@ class _Tick extends GameTimeEvent {
   const _Tick();
 }
 
+class _Pause extends GameTimeEvent {
+  const _Pause();
+}
+
+class _Resume extends GameTimeEvent {
+  const _Resume();
+}
+
 class _Events {
   _Events(this._object);
 
   final GameTimeOg _object;
 
-  void init({
-    int month = 1,
-    int year = 2024,
-    Duration? interval,
-  }) {
-    _object.add(_Init(
-      month: month,
-      year: year,
-      interval: interval ?? GameTimeOg._defaultInterval,
-    ));
+  void init({int month = 1, int year = 2024, Duration? interval}) {
+    _object.add(
+      _Init(
+        month: month,
+        year: year,
+        interval: interval ?? GameTimeOg._defaultInterval,
+      ),
+    );
   }
 }
