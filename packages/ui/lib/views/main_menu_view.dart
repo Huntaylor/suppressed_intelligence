@@ -35,6 +35,13 @@ class _MainMenuViewState extends State<MainMenuView> {
     super.dispose();
   }
 
+  void _submit() {
+    final isValid = _formKey.currentState?.validate() ?? false;
+    if (!isValid) return;
+    gameConfigOg.events.addName(_controller.text);
+    GameCoordinator.instance.navigate(GameRoute());
+  }
+
   @override
   Widget build(BuildContext context) {
     final isWeb = kIsWeb || kIsWasm;
@@ -101,6 +108,7 @@ class _MainMenuViewState extends State<MainMenuView> {
                         child: TextFormField(
                           controller: _controller,
                           maxLength: 16,
+                          onFieldSubmitted: (_) => _submit(),
                           style: TextStyle(color: Colors.white, fontSize: 16),
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(16),
@@ -125,16 +133,7 @@ class _MainMenuViewState extends State<MainMenuView> {
                     ),
 
                     GestureDetector(
-                      onTap: () {
-                        final isValid =
-                            _formKey.currentState?.validate() ?? false;
-
-                        if (!isValid) return;
-
-                        gameConfigOg.events.addName(_controller.text);
-
-                        GameCoordinator.instance.navigate(GameRoute());
-                      },
+                      onTap: _submit,
                       child: MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: Image.asset(

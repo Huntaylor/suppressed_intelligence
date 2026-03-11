@@ -29,7 +29,7 @@ class _MainAppState extends State<MainApp> {
   @override
   void initState() {
     super.initState();
-    GameCoordinator.initialize(widget.getIt);
+    GameCoordinator.initialize();
   }
 
   @override
