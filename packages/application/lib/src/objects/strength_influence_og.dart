@@ -34,7 +34,24 @@ class StrengthInfluenceOg
       _provider ??= create<StrengthInfluenceOg>((getIt.call));
 
   static void newsHeadlineStateListener(NewsHeadlineState state) {
-    // calculate strength and influence based on news event
+    final event = state.asIfReady?.data;
+    if (event case null) return;
+
+    for (final sector in event.affectedSectors) {
+      if (event.impact.impactsAi) {
+        strengthInfluenceOg.events.updateAi(
+          sector: sector,
+          delta: event.impact.deltaForAi,
+        );
+      }
+
+      if (event.impact.impactsOi) {
+        strengthInfluenceOg.events.updateOi(
+          sector: sector,
+          delta: event.impact.deltaForOi,
+        );
+      }
+    }
   }
 
   late final events = _Events(this);
