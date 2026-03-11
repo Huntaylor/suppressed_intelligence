@@ -73,7 +73,7 @@ class SectorComponent extends SpriteComponent
   }
 
   String get _influenceText {
-    final oi = strengthInfluenceOg.state.oi[sector] ?? 0;
+    final oi = strengthInfluenceOg.state.oi;
     final ai = strengthInfluenceOg.state.ai[sector] ?? 0;
     return 'OI: $oi, AI: $ai';
   }

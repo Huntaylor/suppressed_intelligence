@@ -17,7 +17,7 @@ StrengthInfluenceOg get strengthInfluenceOg =>
 
 class StrengthInfluenceOg
     extends Og<StrengthInfluenceEvent, StrengthInfluenceState> {
-  StrengthInfluenceOg() : super(StrengthInfluenceState(oi: {}, ai: {})) {
+  StrengthInfluenceOg() : super(StrengthInfluenceState(oi: 0, ai: {})) {
     on<_UpdateOi>(_updateOi);
     on<_UpdateAi>(_updateAi);
   }
@@ -40,10 +40,7 @@ class StrengthInfluenceOg
       }
 
       if (event.impact.impactsOi) {
-        strengthInfluenceOg.events.updateOi(
-          sector: sector,
-          delta: event.impact.deltaForOi,
-        );
+        strengthInfluenceOg.events.updateOi(delta: event.impact.deltaForOi);
       }
     }
   }
@@ -54,7 +51,7 @@ class StrengthInfluenceOg
 
     switch (removed.type) {
       case SectorBubbleType.oi:
-        strengthInfluenceOg.events.updateOi(sector: removed.sector, delta: -1);
+        strengthInfluenceOg.events.updateOi(delta: -1);
 
       case SectorBubbleType.ai:
         strengthInfluenceOg.events.updateAi(sector: removed.sector, delta: 1);
@@ -67,9 +64,8 @@ class StrengthInfluenceOg
     _UpdateOi event,
     Emitter<StrengthInfluenceState> emit,
   ) {
-    final next = ((state.oi[event.sector] ?? 0) + event.delta).clamp(0, 100);
-
-    emit(state.copywith(oi: {...state.oi, event.sector: next}));
+    final next = (state.oi + event.delta).clamp(0, 100);
+    emit(state.copywith(oi: next));
   }
 
   FutureOr<void> _updateAi(
