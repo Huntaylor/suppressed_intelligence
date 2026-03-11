@@ -1,17 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'news_event.dart';
+part of 'strength_influence_og.dart';
 
 // **************************************************************************
 // EquatableGenerator
 // **************************************************************************
 
-extension _$NewsEventEquatableAnnotations on NewsEvent {
-  List<Object?> get _$props => [
-    headline,
-    impact,
-    affectedSectors,
-    templateId,
-    impactsSectorsOnly,
-  ];
+extension _$StrengthInfluenceStateEquatableAnnotations
+    on StrengthInfluenceState {
+  List<Object?> get _$props => [oi, ai];
 }
