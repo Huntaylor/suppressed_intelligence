@@ -7,9 +7,9 @@ sealed class NewsHeadlineState extends Equatable {
 
   bool get isLoading => this is _Loading;
   _Loading? get asIfLoading => switch (this) {
-        final _Loading state => state,
-        _ => null,
-      };
+    final _Loading state => state,
+    _ => null,
+  };
 
   bool get isReady => this is _Ready;
   _Ready? get asIfReady => switch (this) {
@@ -26,9 +26,9 @@ class _Loading extends NewsHeadlineState {
 }
 
 class _Ready extends NewsHeadlineState {
-  const _Ready({required this.newsEvent});
+  const _Ready({required this.data});
 
-  final NewsEvent newsEvent;
+  final NewsEvent data;
 
   @override
   List<Object?> get props => _$props;

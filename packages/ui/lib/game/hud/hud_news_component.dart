@@ -12,9 +12,12 @@ class HudNewsComponent extends NineTileBoxComponent
     : super(anchor: Anchor.topCenter);
 
   late TextComponent aiName;
+  late MarqueeTextComponent newsText;
 
   @override
   FutureOr<void> onLoad() async {
+    newsHeadlineOg.events.init();
+
     aiName = TextComponent(
       position: Vector2(2, -.5),
       text: gameConfigOg.state.name,
@@ -33,11 +36,10 @@ class HudNewsComponent extends NineTileBoxComponent
       rightWidth: 9,
     );
 
-    final newsText = MarqueeTextComponent(
+    newsText = MarqueeTextComponent(
       position: Vector2(4, 11),
       size: Vector2(size.x - 8, size.y),
-      text:
-          'Breaking news, this text will continue to show what we call *breaking news*, why you ask? Because we said so, that\'s why. Now get the heck out of here before I pump your guts full of led!',
+      text: '',
     );
     addAll([newsText, aiName]);
     return super.onLoad();
@@ -47,6 +49,13 @@ class HudNewsComponent extends NineTileBoxComponent
   void update(double dt) {
     if (aiName.text != gameConfigOg.state.name) {
       aiName.text = gameConfigOg.state.name;
+    }
+
+    if (newsHeadlineOg.state.asIfReady?.data.headline
+        case final String headline) {
+      if (newsText.text != headline) {
+        newsText.text = headline;
+      }
     }
   }
 }

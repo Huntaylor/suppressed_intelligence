@@ -88,7 +88,7 @@ void main() {
       await Future<void>.delayed(Duration.zero);
 
       expect(og.state.isReady, isTrue);
-      expect(og.state.asIfReady?.newsEvent, newsEvent);
+      expect(og.state.asIfReady?.data, newsEvent);
       verify(() => repo.getNewsEvent()).called(1);
     });
 
@@ -112,7 +112,7 @@ void main() {
         async.flushMicrotasks();
 
         expect(og.state.isReady, isTrue);
-        expect(og.state.asIfReady?.newsEvent, newsEvent);
+        expect(og.state.asIfReady?.data, newsEvent);
         verify(() => repo.getNewsEvent()).called(1);
       });
     });
@@ -148,11 +148,11 @@ void main() {
 
         async.elapse(const Duration(minutes: 1));
         async.flushMicrotasks();
-        expect(og.state.asIfReady?.newsEvent.headline, 'Headline 1');
+        expect(og.state.asIfReady?.data.headline, 'Headline 1');
 
         async.elapse(const Duration(minutes: 1));
         async.flushMicrotasks();
-        expect(og.state.asIfReady?.newsEvent.headline, 'Headline 2');
+        expect(og.state.asIfReady?.data.headline, 'Headline 2');
 
         verify(() => repo.getNewsEvent()).called(2);
       });

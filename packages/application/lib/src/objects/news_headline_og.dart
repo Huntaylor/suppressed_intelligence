@@ -2,11 +2,11 @@ library news_headline_og;
 
 import 'dart:async';
 
-import 'package:application/src/og.dart';
 import 'package:application/src/objects/sector_stats_og.dart';
-import 'package:domain/domain.dart';
+import 'package:application/src/og.dart';
 import 'package:application/src/setup/setup.dart';
 import 'package:data/data.dart';
+import 'package:domain/domain.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:scoped_deps/scoped_deps.dart';
@@ -19,15 +19,14 @@ NewsHeadlineOg get newsHeadlineOg => read(NewsHeadlineOg.provider);
 
 /// Maps aggregate sector stats to negative-news bias (0.0–1.0).
 /// Low stats (player struggling) → 0.7–0.9; high stats (winning) → 0.1–0.3.
-double computeNegativeBiasFromSectorStats(
-  Map<WorldSectors, SectorStat> stats,
-) {
+double computeNegativeBiasFromSectorStats(Map<WorldSectors, SectorStat> stats) {
   if (stats.isEmpty) return 0.5;
 
   var sum = 0.0;
   var count = 0;
   for (final stat in stats.values) {
-    sum += stat.criticalThinking +
+    sum +=
+        stat.criticalThinking +
         stat.mediaDependency +
         stat.trustAi +
         stat.connectivity;
@@ -55,7 +54,8 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
 
   final NewsHeadlineRepo _repo;
   Timer? _timer;
-  Duration _interval = const Duration(minutes: 1);
+  Duration _interval = _defaultInterval;
+  static const _defaultInterval = Duration(seconds: 15);
 
   @override
   void dispose() {
@@ -65,7 +65,7 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
 
   FutureOr<void> _init(_Init event, Emitter<NewsHeadlineState> emit) {
     _interval = event.interval;
-    _startTimer();
+    events.checkForUpdates();
   }
 
   FutureOr<void> _checkForUpdates(
@@ -75,9 +75,8 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
     _timer?.cancel();
 
     final negativeBias = _computeNegativeBias();
-    final newsEvent =
-        await _repo.getNewsEvent(negativeBias: negativeBias);
-    emit(_Ready(newsEvent: newsEvent));
+    final newsEvent = await _repo.getNewsEvent(negativeBias: negativeBias);
+    emit(_Ready(data: newsEvent));
 
     _startTimer();
   }
