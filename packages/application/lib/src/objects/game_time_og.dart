@@ -2,8 +2,7 @@ library game_time_og;
 
 import 'dart:async';
 
-import 'package:application/src/og.dart';
-import 'package:application/src/setup/setup.dart';
+import 'package:application/application.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:scoped_deps/scoped_deps.dart';
@@ -66,7 +65,9 @@ class GameTimeOg extends Og<GameTimeEvent, GameTimeState> {
     if (_timer?.isActive case true) return;
 
     _timer = Timer.periodic(interval, (_) {
-      add(const _Tick());
+      if (gameOg.state.isPlaying case true) {
+        add(const _Tick());
+      }
     });
   }
 }

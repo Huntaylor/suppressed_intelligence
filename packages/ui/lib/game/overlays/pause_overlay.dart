@@ -1,3 +1,4 @@
+import 'package:application/application.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
@@ -33,9 +34,12 @@ class PauseOverlay extends StatelessWidget {
             Align(
               alignment: AlignmentGeometry.topRight,
               child: GestureDetector(
-                onTap: () => game
-                  ..overlays.remove('PauseOverlay')
-                  ..resumeEngine(),
+                onTap: () {
+                  gameOg.events.resume();
+                  game
+                    ..overlays.remove('PauseOverlay')
+                    ..resumeEngine();
+                },
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: Container(

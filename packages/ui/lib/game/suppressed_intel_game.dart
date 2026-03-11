@@ -122,6 +122,7 @@ class SuppressedIntelGame extends FlameGame
           position: Vector2(gameWidth - 64, 0),
           size: Vector2(30, 28),
           onPressed: () {
+            gameOg.events.pause();
             overlays.add('PauseOverlay');
             pauseEngine();
           },
