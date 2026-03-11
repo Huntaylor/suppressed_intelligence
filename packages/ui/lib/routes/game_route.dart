@@ -9,6 +9,7 @@ class GameRoute extends Route {
       body: GameWidget<SuppressedIntelGame>.controlled(
         overlayBuilderMap: {
           'PauseOverlay': (context, game) => PauseOverlay(game: game),
+          'UpgradeOverlay': (context, game) => UpgradeOverlay(game: game),
         },
         gameFactory: () => SuppressedIntelGame(),
       ),

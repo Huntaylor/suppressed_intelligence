@@ -14,7 +14,8 @@ enum InfrastructureLocation {
 
   /// Asia
   turkey(vectorLocation: (541.0, 245.0)),
-  japan(vectorLocation: (812.0, 256.0)),
+  // japan(vectorLocation: (812.0, 256.0)),
+  china(vectorLocation: (750.0, 272.0)),
   india(vectorLocation: (629.0, 282.0)),
 
   /// AF

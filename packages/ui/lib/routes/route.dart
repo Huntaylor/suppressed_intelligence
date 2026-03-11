@@ -4,6 +4,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ui/game/overlays/pause_overlay.dart';
+import 'package:ui/game/overlays/upgrade_overlay.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 import 'package:ui/views/main_menu_view.dart';
 import 'package:zenrouter/zenrouter.dart';

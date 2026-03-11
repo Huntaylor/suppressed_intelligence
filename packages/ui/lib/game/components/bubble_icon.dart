@@ -7,8 +7,8 @@ import 'package:ui/game/suppressed_intel_game.dart';
 
 class BubbleIcon extends SpriteComponent
     with HasGameReference<SuppressedIntelGame>, TapCallbacks {
-  BubbleIcon({super.position, super.size, super.priority})
-    : super(anchor: Anchor.bottomCenter);
+  BubbleIcon({super.position, super.size})
+    : super(anchor: Anchor.bottomCenter, priority: 4);
 
   late EffectController effectController;
 

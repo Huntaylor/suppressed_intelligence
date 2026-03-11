@@ -29,12 +29,12 @@ class WorldMap extends World with HasGameReference<SuppressedIntelGame> {
     await initializeInfrastructure();
 
     add(InfrastructureLines());
-
+    // if (!game.debugGame) {
     await addSectors();
-
-    if (game.debugVector) {
-      await addDragSector();
-    }
+    // }
+    // if (game.debugGame) {
+    //   await addDragSector();
+    // }
 
     return super.onLoad();
   }

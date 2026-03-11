@@ -35,6 +35,7 @@ class InfrastructureLines extends PositionComponent with Snapshot {
       isDrawn = true;
       takeSnapshot();
     }
+
     super.render(canvas);
   }
 
@@ -76,7 +77,7 @@ class InfrastructureLines extends PositionComponent with Snapshot {
     vectorBrazilToSouthAfrica,
     vectorNYToNigeria,
     vectorGreenlandToUK,
-    vectorAustraliaToJapan,
+    vectorAustraliaToChina,
     vectorNigeriaToPortugal,
     vectorIndiaToSouthAfrica,
     vectorPortugalToTurkey,
@@ -167,8 +168,8 @@ class InfrastructureLines extends PositionComponent with Snapshot {
     ];
   }
 
-  List<Vector2> get vectorAustraliaToJapan {
-    final japan = InfrastructureLocation.japan.vector2;
+  List<Vector2> get vectorAustraliaToChina {
+    final china = InfrastructureLocation.china.vector2;
     final australia = InfrastructureLocation.australia.vector2;
     return [
       australia,
@@ -176,7 +177,10 @@ class InfrastructureLines extends PositionComponent with Snapshot {
       Vector2(903, 409),
       Vector2(867, 327),
       Vector2(812, 273),
-      japan,
+      Vector2(783, 266),
+      Vector2(770, 265),
+      Vector2(760, 277),
+      china,
     ];
   }
 

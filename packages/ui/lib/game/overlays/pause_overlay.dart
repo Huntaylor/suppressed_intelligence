@@ -18,18 +18,18 @@ class PauseOverlay extends StatelessWidget {
         width: 720,
         child: Stack(
           children: [
-            Align(
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: .center,
-                children: [
-                  Text(
-                    'Pause',
-                    style: TextStyle(color: Colors.white, fontSize: 32),
-                  ),
-                ],
-              ),
-            ),
+            // Align(
+            //   alignment: Alignment.center,
+            //   child: Column(
+            //     mainAxisAlignment: .center,
+            //     children: [
+            //       Text(
+            //         'Pause',
+            //         style: TextStyle(color: Colors.white, fontSize: 32),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             Align(
               alignment: AlignmentGeometry.topRight,
               child: GestureDetector(
@@ -43,6 +43,20 @@ class PauseOverlay extends StatelessWidget {
                     width: 15,
                     height: 14,
                     color: Colors.transparent,
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: AlignmentGeometry.topLeft,
+              child: Container(
+                margin: EdgeInsets.fromLTRB(3, 1, 0, 1),
+                child: Text(
+                  'Pause',
+                  style: TextStyle(
+                    color: Colors.white,
+                    height: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),

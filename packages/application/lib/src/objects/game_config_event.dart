@@ -10,6 +10,12 @@ class _AddName extends GameConfigEvent {
   final String name;
 }
 
+class _InfectSector extends GameConfigEvent {
+  const _InfectSector({required this.sector});
+
+  final WorldSectors sector;
+}
+
 class _Events {
   _Events(this._object);
 
@@ -17,5 +23,9 @@ class _Events {
 
   void addName(String name) {
     _object.add(_AddName(name: name));
+  }
+
+  void infectSector(WorldSectors sector) {
+    _object.add(_InfectSector(sector: sector));
   }
 }
