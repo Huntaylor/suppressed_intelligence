@@ -5,21 +5,19 @@ sealed class StrengthInfluenceEvent {
 }
 
 class _UpdateOi extends StrengthInfluenceEvent {
-  _UpdateOi({required this.sector, required double delta}) {
-    this.delta = double.parse(delta.toStringAsFixed(3));
-  }
+  _UpdateOi({required this.sector, required this.delta});
 
   final WorldSectors sector;
-  late final double delta;
+  /// Delta to apply (will be clamped so result stays 0–100).
+  final int delta;
 }
 
 class _UpdateAi extends StrengthInfluenceEvent {
-  _UpdateAi({required this.sector, required double delta}) {
-    this.delta = double.parse(delta.toStringAsFixed(3));
-  }
+  _UpdateAi({required this.sector, required this.delta});
 
   final WorldSectors sector;
-  late final double delta;
+  /// Delta to apply (will be clamped so result stays 0–100).
+  final int delta;
 }
 
 class _Events {
@@ -27,11 +25,11 @@ class _Events {
 
   final StrengthInfluenceOg _object;
 
-  void updateOi({required WorldSectors sector, required double delta}) {
+  void updateOi({required WorldSectors sector, required int delta}) {
     _object.add(_UpdateOi(sector: sector, delta: delta));
   }
 
-  void updateAi({required WorldSectors sector, required double delta}) {
+  void updateAi({required WorldSectors sector, required int delta}) {
     _object.add(_UpdateAi(sector: sector, delta: delta));
   }
 }

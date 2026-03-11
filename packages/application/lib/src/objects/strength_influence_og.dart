@@ -54,16 +54,10 @@ class StrengthInfluenceOg
 
     switch (removed.type) {
       case SectorBubbleType.oi:
-        strengthInfluenceOg.events.updateOi(
-          sector: removed.sector,
-          delta: -0.01,
-        );
+        strengthInfluenceOg.events.updateOi(sector: removed.sector, delta: -1);
 
       case SectorBubbleType.ai:
-        strengthInfluenceOg.events.updateAi(
-          sector: removed.sector,
-          delta: 0.01,
-        );
+        strengthInfluenceOg.events.updateAi(sector: removed.sector, delta: 1);
     }
   }
 
@@ -73,27 +67,17 @@ class StrengthInfluenceOg
     _UpdateOi event,
     Emitter<StrengthInfluenceState> emit,
   ) {
-    emit(
-      state.copywith(
-        oi: {
-          ...state.oi,
-          event.sector: (state.oi[event.sector] ?? 0) + event.delta,
-        },
-      ),
-    );
+    final next = ((state.oi[event.sector] ?? 0) + event.delta).clamp(0, 100);
+
+    emit(state.copywith(oi: {...state.oi, event.sector: next}));
   }
 
   FutureOr<void> _updateAi(
     _UpdateAi event,
     Emitter<StrengthInfluenceState> emit,
   ) {
-    emit(
-      state.copywith(
-        ai: {
-          ...state.ai,
-          event.sector: (state.ai[event.sector] ?? 0) + event.delta,
-        },
-      ),
-    );
+    final next = ((state.ai[event.sector] ?? 0) + event.delta).clamp(0, 100);
+
+    emit(state.copywith(ai: {...state.ai, event.sector: next}));
   }
 }

@@ -3,11 +3,13 @@ part of strength_influence_og;
 final class StrengthInfluenceState extends Equatable {
   const StrengthInfluenceState({required this.oi, required this.ai});
 
-  final Map<WorldSectors, double> oi;
-  final Map<WorldSectors, double> ai;
+  /// OI (organic intelligence) strength per sector, 0–100.
+  final Map<WorldSectors, int> oi;
+  /// AI strength per sector, 0–100.
+  final Map<WorldSectors, int> ai;
 
-  double get overallOi {
-    double sum = 0;
+  int get overallOi {
+    var sum = 0;
 
     for (final e in WorldSectors.values) {
       sum += oi[e] ?? 0;
@@ -16,8 +18,8 @@ final class StrengthInfluenceState extends Equatable {
     return sum;
   }
 
-  double get overallAi {
-    double sum = 0;
+  int get overallAi {
+    var sum = 0;
 
     for (final e in WorldSectors.values) {
       sum += ai[e] ?? 0;
@@ -27,8 +29,8 @@ final class StrengthInfluenceState extends Equatable {
   }
 
   StrengthInfluenceState copywith({
-    Map<WorldSectors, double>? oi,
-    Map<WorldSectors, double>? ai,
+    Map<WorldSectors, int>? oi,
+    Map<WorldSectors, int>? ai,
   }) {
     return StrengthInfluenceState(oi: oi ?? this.oi, ai: ai ?? this.ai);
   }
