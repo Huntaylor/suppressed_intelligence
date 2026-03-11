@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:application/src/objects/game_og.dart';
 import 'package:application/src/objects/sector_stats_og.dart';
+import 'package:application/src/objects/strength_influence_og.dart';
 import 'package:application/src/og.dart';
 import 'package:application/src/setup/setup.dart';
 import 'package:application/src/utils/pausible_timer.dart';
@@ -47,6 +48,8 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
     on<_CheckForUpdates>(_checkForUpdates);
     on<_Pause>(_pause);
     on<_Resume>(_resume);
+
+    addListener(StrengthInfluenceOg.newsHeadlineStateListener);
   }
 
   static ScopedRef<NewsHeadlineOg>? _provider;
@@ -67,7 +70,7 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
   final NewsHeadlineRepo _repo;
   PausableTimer? _timer;
   Duration _interval = _defaultInterval;
-  static const _defaultInterval = Duration(seconds: 3);
+  static const _defaultInterval = Duration(seconds: 15);
 
   @override
   void dispose() {

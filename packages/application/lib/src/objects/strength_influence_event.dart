@@ -5,15 +5,17 @@ sealed class StrengthInfluenceEvent {
 }
 
 class _UpdateOi extends StrengthInfluenceEvent {
-  const _UpdateOi({this.strength, this.influence});
+  const _UpdateOi({required this.sector, this.strength, this.influence});
 
+  final WorldSectors sector;
   final double? strength;
   final double? influence;
 }
 
 class _UpdateAi extends StrengthInfluenceEvent {
-  const _UpdateAi({this.strength, this.influence});
+  const _UpdateAi({required this.sector, this.strength, this.influence});
 
+  final WorldSectors sector;
   final double? strength;
   final double? influence;
 }
@@ -23,11 +25,23 @@ class _Events {
 
   final StrengthInfluenceOg _object;
 
-  void updateOi({double? strength, double? influence}) {
-    _object.add(_UpdateOi(strength: strength, influence: influence));
+  void updateOi({
+    required WorldSectors sector,
+    double? strength,
+    double? influence,
+  }) {
+    _object.add(
+      _UpdateOi(sector: sector, strength: strength, influence: influence),
+    );
   }
 
-  void updateAi({double? strength, double? influence}) {
-    _object.add(_UpdateAi(strength: strength, influence: influence));
+  void updateAi({
+    required WorldSectors sector,
+    double? strength,
+    double? influence,
+  }) {
+    _object.add(
+      _UpdateAi(sector: sector, strength: strength, influence: influence),
+    );
   }
 }

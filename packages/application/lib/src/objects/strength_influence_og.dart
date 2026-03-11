@@ -12,14 +12,18 @@ part 'strength_influence_event.dart';
 part 'strength_influence_og.g.dart';
 part 'strength_influence_state.dart';
 
-StrengthInfluenceOg get strengthInfluenceOg => read(StrengthInfluenceOg.provider);
+StrengthInfluenceOg get strengthInfluenceOg =>
+    read(StrengthInfluenceOg.provider);
 
-class StrengthInfluenceOg extends Og<StrengthInfluenceEvent, StrengthInfluenceState> {
+class StrengthInfluenceOg
+    extends Og<StrengthInfluenceEvent, StrengthInfluenceState> {
   StrengthInfluenceOg()
-    : super(const StrengthInfluenceState(
-        oi: StrengthInfluence(strength: 0.5, influence: 0.5),
-        ai: StrengthInfluence(strength: 0.5, influence: 0.5),
-      )) {
+    : super(
+        StrengthInfluenceState(
+          oi: {for (final sector in WorldSectors.values) sector: 0.0},
+          ai: {for (final sector in WorldSectors.values) sector: 0.0},
+        ),
+      ) {
     on<_UpdateOi>(_updateOi);
     on<_UpdateAi>(_updateAi);
   }
@@ -29,29 +33,31 @@ class StrengthInfluenceOg extends Og<StrengthInfluenceEvent, StrengthInfluenceSt
   static ScopedRef<StrengthInfluenceOg> get provider =>
       _provider ??= create<StrengthInfluenceOg>((getIt.call));
 
+  static void newsHeadlineStateListener(NewsHeadlineState state) {
+    // calculate strength and influence based on news event
+  }
+
   late final events = _Events(this);
 
   FutureOr<void> _updateOi(
     _UpdateOi event,
     Emitter<StrengthInfluenceState> emit,
   ) {
-    emit(state.copywith(
-      oi: state.oi.copyWith(
-        strength: event.strength,
-        influence: event.influence,
+    emit(
+      state.copywith(
+        oi: {event.sector: event.strength ?? state.oiForSector(event.sector)},
       ),
-    ));
+    );
   }
 
   FutureOr<void> _updateAi(
     _UpdateAi event,
     Emitter<StrengthInfluenceState> emit,
   ) {
-    emit(state.copywith(
-      ai: state.ai.copyWith(
-        strength: event.strength,
-        influence: event.influence,
+    emit(
+      state.copywith(
+        ai: {event.sector: event.strength ?? state.aiForSector(event.sector)},
       ),
-    ));
+    );
   }
 }
