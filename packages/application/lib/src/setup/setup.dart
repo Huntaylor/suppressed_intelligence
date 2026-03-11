@@ -1,5 +1,6 @@
 import 'package:application/src/objects/game_config_og.dart';
 import 'package:application/src/objects/game_og.dart';
+import 'package:application/src/objects/game_time_og.dart';
 import 'package:application/src/objects/news_headline_og.dart';
 import 'package:application/src/objects/sector_stats_og.dart';
 import 'package:get_it/get_it.dart';
@@ -13,6 +14,7 @@ late final GetIt getIt;
 
 final providers = {
   GameOg.provider,
+  GameTimeOg.provider,
   NewsHeadlineOg.provider,
   SectorStatsOg.provider,
   GameConfigOg.provider,
