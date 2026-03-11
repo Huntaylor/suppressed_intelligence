@@ -6,7 +6,7 @@ sealed class StrengthInfluenceEvent {
 
 class _UpdateOi extends StrengthInfluenceEvent {
   _UpdateOi({required this.sector, required double delta}) {
-    delta = double.parse(delta.toStringAsFixed(2));
+    this.delta = double.parse(delta.toStringAsFixed(3));
   }
 
   final WorldSectors sector;
@@ -14,10 +14,12 @@ class _UpdateOi extends StrengthInfluenceEvent {
 }
 
 class _UpdateAi extends StrengthInfluenceEvent {
-  const _UpdateAi({required this.sector, required this.delta});
+  _UpdateAi({required this.sector, required double delta}) {
+    this.delta = double.parse(delta.toStringAsFixed(3));
+  }
 
   final WorldSectors sector;
-  final double delta;
+  late final double delta;
 }
 
 class _Events {
