@@ -21,6 +21,16 @@ abstract class Og<Event, State> {
     _eventHandlers[T] = (event, emit) => handler(event as T, emit);
   }
 
+  final List<void Function(State)> _stateListeners = [];
+
+  void addListener(void Function(State) listener) {
+    _stateListeners.add(listener);
+  }
+
+  void removeListener(void Function(State) listener) {
+    _stateListeners.remove(listener);
+  }
+
   @mustCallSuper
   void dispose() {}
 
@@ -37,5 +47,10 @@ abstract class Og<Event, State> {
     if (newState == _state) return;
 
     _state = newState;
+    for (final listener in _stateListeners) {
+      try {
+        listener(newState);
+      } catch (_) {}
+    }
   }
 }
