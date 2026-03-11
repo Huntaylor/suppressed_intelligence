@@ -50,6 +50,7 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
     on<_Resume>(_resume);
 
     addListener(StrengthInfluenceOg.newsHeadlineStateListener);
+    addListener(SectorStatsOg.newsHeadlineStateListener);
   }
 
   static ScopedRef<NewsHeadlineOg>? _provider;
