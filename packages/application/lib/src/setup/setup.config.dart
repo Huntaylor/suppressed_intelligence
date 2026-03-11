@@ -14,6 +14,8 @@ import 'package:application/src/objects/game_og.dart' as i_game_og;
 import 'package:application/src/objects/game_time_og.dart' as i_game_time_og;
 import 'package:application/src/objects/news_headline_og.dart'
     as i_news_headline_og;
+import 'package:application/src/objects/sector_bubble_og.dart'
+    as i_sector_bubble_og;
 import 'package:application/src/objects/sector_stats_og.dart'
     as i_sector_stats_og;
 import 'package:application/src/objects/strength_influence_og.dart'
@@ -31,6 +33,7 @@ extension GetItX on GetIt {
         repo: get<i_news_headline_repo.NewsHeadlineRepo>(),
       ),
     );
+    registerFactory(() => i_sector_bubble_og.SectorBubbleOg());
     registerFactory(
       () => i_sector_stats_og.SectorStatsOg(
         repo: get<i_sector_stats_repo.SectorStatsRepo>(),

@@ -4,6 +4,7 @@ import 'dart:async' show FutureOr;
 
 import 'package:application/src/objects/game_time_og.dart';
 import 'package:application/src/objects/news_headline_og.dart';
+import 'package:application/src/objects/sector_bubble_og.dart';
 import 'package:application/src/og.dart';
 import 'package:application/src/setup/setup.dart';
 import 'package:equatable/equatable.dart';
@@ -23,6 +24,7 @@ class GameOg extends Og<GameEvent, GameState> {
 
     addListener(NewsHeadlineOg.gameStateListener);
     addListener(GameTimeOg.gameStateListener);
+    addListener(SectorBubbleOg.gameStateListener);
   }
 
   static ScopedRef<GameOg>? _provider;

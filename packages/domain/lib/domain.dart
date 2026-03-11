@@ -4,10 +4,12 @@
 
 export 'src/enums/news_slot_type.dart';
 export 'src/enums/news_tone.dart';
+export 'src/enums/sector_bubble_type.dart';
 export 'src/enums/world_sectors.dart';
 export 'src/models/impact.dart';
 export 'src/models/impact_profile.dart';
 export 'src/models/news_event.dart';
+export 'src/models/sector_bubble.dart';
 export 'src/models/news_template.dart';
 export 'src/models/sector_stat.dart';
 export 'src/models/sector_stat_ranges.dart';

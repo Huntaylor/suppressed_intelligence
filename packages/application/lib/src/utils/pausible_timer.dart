@@ -1,7 +1,12 @@
 import 'dart:async';
 
 class PausableTimer {
-  PausableTimer(this.interval, this.onTick) : _remaining = interval;
+  PausableTimer(this.interval, this.onTick, {bool start = true})
+    : _remaining = interval {
+    if (start) {
+      this.start();
+    }
+  }
 
   final Duration interval;
   final void Function() onTick;
