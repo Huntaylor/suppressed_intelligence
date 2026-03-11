@@ -47,7 +47,7 @@ class StrengthInfluenceOg
       state.copywith(
         oi: {
           ...state.oi,
-          event.sector: event.strength ?? state.oiForSector(event.sector),
+          event.sector: state.oiForSector(event.sector) + event.delta,
         },
       ),
     );
@@ -61,7 +61,7 @@ class StrengthInfluenceOg
       state.copywith(
         ai: {
           ...state.ai,
-          event.sector: event.strength ?? state.aiForSector(event.sector),
+          event.sector: state.aiForSector(event.sector) + event.delta,
         },
       ),
     );
