@@ -111,7 +111,11 @@ class SuppressedIntelGame extends FlameGame
 
     world = worldMap;
 
-    final viewfinder = Viewfinder()..anchor = Anchor.topLeft;
+    final viewfinder = Viewfinder()
+      ..anchor = Anchor.topLeft
+      ..position = Vector2(-48, -32)
+      ..zoom = .95;
+
     camera = CameraComponent.withFixedResolution(
       width: gameWidth,
       height: gameHeight,

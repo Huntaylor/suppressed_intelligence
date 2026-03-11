@@ -12,8 +12,8 @@ class MarqueeTextComponent extends PositionComponent
     _text = value;
     _textWidth = _measureTextWidth(value);
     _textComponent.text = value;
-    _textComponent.position.x = 0 + 50;
-    _textComponent.position.y = size.y;
+    _textComponent.position.x = 75;
+    _textComponent.position.y = 16;
   }
 
   final double speed;
@@ -41,10 +41,16 @@ class MarqueeTextComponent extends PositionComponent
     _textComponent = TextComponent(
       text: text,
       textRenderer: textPaint,
-      position: Vector2(0 + 50, 0),
+      position: Vector2(75, 16),
     );
 
-    await add(ClipComponent.rectangle(size: size, children: [_textComponent]));
+    await add(
+      ClipComponent.rectangle(
+        position: Vector2(0, 2),
+        size: Vector2(size.x, size.y - 16),
+        children: [_textComponent],
+      ),
+    );
   }
 
   double _measureTextWidth(String text) {
@@ -60,7 +66,7 @@ class MarqueeTextComponent extends PositionComponent
   void update(double dt) {
     super.update(dt);
 
-    if (_textComponent.position.y != 0) {
+    if (_textComponent.position.y.ceil() != 0) {
       _textComponent.position.y -= speed * dt;
     } else {
       _textComponent.position.x -= speed * dt;
