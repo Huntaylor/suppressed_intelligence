@@ -54,6 +54,25 @@ class StrengthInfluenceOg
     }
   }
 
+  static void sectorBubbleStateListener(SectorBubbleState state) {
+    final removed = state.asIfRemovedBubble?.bubble;
+    if (removed == null) return;
+
+    switch (removed.type) {
+      case SectorBubbleType.oi:
+        strengthInfluenceOg.events.updateOi(
+          sector: removed.sector,
+          delta: -0.01,
+        );
+
+      case SectorBubbleType.ai:
+        strengthInfluenceOg.events.updateAi(
+          sector: removed.sector,
+          delta: 0.01,
+        );
+    }
+  }
+
   late final events = _Events(this);
 
   FutureOr<void> _updateOi(

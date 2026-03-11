@@ -71,15 +71,21 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
     emit(SectorBubbleState(bubbles: [...state.bubbles, bubble]));
   }
 
-  FutureOr<void> _clearBubble(
-    _ClearBubble event,
-    Emitter<SectorBubbleState> emit,
-  ) {
-    emit(
-      SectorBubbleState(
-        bubbles: state.bubbles.where((b) => b.id != event.bubbleId).toList(),
-      ),
-    );
+  void _clearBubble(_ClearBubble event, Emitter<SectorBubbleState> emit) {
+    SectorBubble? bubble;
+    final bubbles = [...state.bubbles];
+    for (final b in state.bubbles) {
+      if (b.id == event.bubbleId) {
+        bubble = b;
+        break;
+      }
+    }
+
+    if (bubble == null) return;
+    bubbles.remove(bubble);
+
+    emit(_RemovedBubble(bubble));
+    emit(SectorBubbleState(bubbles: bubbles));
   }
 
   void _startTimer() {
