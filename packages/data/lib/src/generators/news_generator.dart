@@ -1,13 +1,15 @@
 import 'dart:math';
 
 import 'package:domain/domain.dart';
+import 'package:get_it_injector/get_it_injector.dart';
 
 import '../data/news_templates.dart';
 import '../data/news_vocabulary.dart';
 
+@factory
 /// Generates [NewsEvent] headlines from grammatical templates and vocabulary.
 class NewsGenerator {
-  NewsGenerator({Random? random}) : _random = random ?? Random();
+  NewsGenerator({required Random random}) : _random = random;
 
   final Random _random;
 
@@ -79,8 +81,10 @@ class NewsGenerator {
     // Append optional sector suffix (e.g. " in [sector]." → " in North America.").
     if (template.sectorSuffix != null && template.sectorSuffix!.isNotEmpty) {
       final sector = _pickWorldSectorForHeadline(template);
-      final suffix = template.sectorSuffix!
-          .replaceAll(NewsSlotType.sector.placeholder, sector.displayName);
+      final suffix = template.sectorSuffix!.replaceAll(
+        NewsSlotType.sector.placeholder,
+        sector.displayName,
+      );
       headline = headline.trim();
       if (headline.endsWith('.')) {
         headline = headline.substring(0, headline.length - 1);
@@ -98,7 +102,8 @@ class NewsGenerator {
     final affectedSectors = _pickAffectedSectors(template);
 
     // Occasionally apply impact only to affected sectors (sector-specific events).
-    final hasSectorInHeadline = template.slotTypes.contains(NewsSlotType.sector) ||
+    final hasSectorInHeadline =
+        template.slotTypes.contains(NewsSlotType.sector) ||
         (template.sectorSuffix != null && template.sectorSuffix!.isNotEmpty);
     final impactsSectorsOnly =
         hasSectorInHeadline &&
@@ -187,9 +192,7 @@ class NewsGenerator {
   String _pickBenefitVerb(Map<NewsSlotType, String> existingValues) {
     final outcome = existingValues[NewsSlotType.outcome];
     final filtered = outcome == 'emotional stability'
-        ? benefitVerbVocabulary
-            .where((e) => e.value != 'stabilizes')
-            .toList()
+        ? benefitVerbVocabulary.where((e) => e.value != 'stabilizes').toList()
         : benefitVerbVocabulary;
     return pickWeighted(filtered, _random);
   }
@@ -200,12 +203,14 @@ class NewsGenerator {
     final outcome = existingValues[NewsSlotType.outcome];
     if (outcome == 'decision confidence') {
       final filtered = behaviorVocabulary
-          .where((e) =>
-              e.value == 'decision-making' ||
-              e.value == 'daily planning' ||
-              e.value == 'financial decision-making' ||
-              e.value == 'financial planning' ||
-              e.value == 'personal scheduling')
+          .where(
+            (e) =>
+                e.value == 'decision-making' ||
+                e.value == 'daily planning' ||
+                e.value == 'financial decision-making' ||
+                e.value == 'financial planning' ||
+                e.value == 'personal scheduling',
+          )
           .toList();
       if (filtered.isNotEmpty) {
         return pickWeighted(filtered, _random);
@@ -218,8 +223,8 @@ class NewsGenerator {
     final verb = existingValues[NewsSlotType.benefitVerb];
     var filtered = verb == 'stabilizes'
         ? outcomeVocabulary
-            .where((e) => e.value != 'emotional stability')
-            .toList()
+              .where((e) => e.value != 'emotional stability')
+              .toList()
         : outcomeVocabulary;
     // Avoid "media consumption" + "decision confidence" — odd pairing
     final behavior = existingValues[NewsSlotType.behavior];
