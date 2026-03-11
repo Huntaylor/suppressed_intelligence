@@ -3,7 +3,6 @@ library game_time_og;
 import 'dart:async';
 
 import 'package:application/application.dart';
-import 'package:application/src/utils/pausible_timer.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:scoped_deps/scoped_deps.dart';

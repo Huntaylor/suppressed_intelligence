@@ -8,10 +8,17 @@
 // ignore: lines_longer_than_80_chars
 // ignore_for_file: cs_forbidden_imports,directives_ordering,unnecessary_lambdas,prefer_const_constructors,require_trailing_commas,implementation_imports,lines_longer_than_80_chars,duplicate_ignore
 import 'package:get_it/get_it.dart';
+import 'package:data/src/generators/news_generator.dart' as i_news_generator;
 import 'package:data/src/repos/news_headline_repo.dart' as i_news_headline_repo;
+import 'package:data/src/repos/sector_stats_repo.dart' as i_sector_stats_repo;
 
 extension GetItX on GetIt {
   void init() {
-    registerFactory(() => i_news_headline_repo.NewsHeadlineRepo());
+    registerFactory(
+      () => i_news_headline_repo.NewsHeadlineRepo(
+        generator: get<i_news_generator.NewsGenerator>(),
+      ),
+    );
+    registerFactory(() => i_sector_stats_repo.SectorStatsRepo());
   }
 }

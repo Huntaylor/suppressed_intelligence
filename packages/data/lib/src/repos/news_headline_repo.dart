@@ -3,10 +3,9 @@ import 'package:domain/domain.dart';
 import '../generators/news_generator.dart';
 
 class NewsHeadlineRepo {
-  NewsHeadlineRepo({NewsGenerator? generator})
-      : _generator = generator ?? NewsGenerator();
+  NewsHeadlineRepo({required this.generator});
 
-  final NewsGenerator _generator;
+  final NewsGenerator generator;
 
   /// Fetches a generated [NewsEvent].
   ///
@@ -19,7 +18,7 @@ class NewsHeadlineRepo {
     double? negativeBias,
     Set<String>? avoidTemplateIds,
   }) async {
-    return _generator.generate(
+    return generator.generate(
       negativeBias: negativeBias,
       avoidTemplateIds: avoidTemplateIds,
     );
