@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:application/application.dart';
 import 'package:flame/components.dart';
 import 'package:ui/game/components/bubble_icon.dart';
+import 'package:ui/game/components/sector_component.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 import 'package:ui/game/utils/sector_bounds.dart';
 
@@ -43,7 +44,17 @@ class SectorBubblesComponent extends Component
     for (final bubble in state.bubbles) {
       if (!infectedSectors.contains(bubble.sector)) continue;
       if (!_renderedIds.contains(bubble.id)) {
-        final position = randomPositionInSector(bubble.sector, _random);
+        final sectorComponent = parent?.children
+            .query<SectorComponent>()
+            .where((c) => c.sector == bubble.sector)
+            .firstOrNull;
+        final position = sectorComponent != null
+            ? randomPositionInSectorWithinBounds(
+                bubble.sector,
+                _random,
+                sectorComponent.containsWorldPoint,
+              )
+            : randomPositionInSector(bubble.sector, _random);
         add(BubbleIcon(bubble: bubble, position: position));
         _renderedIds.add(bubble.id);
       }

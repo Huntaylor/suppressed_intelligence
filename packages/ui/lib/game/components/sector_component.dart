@@ -79,6 +79,13 @@ class SectorComponent extends SpriteComponent
     return alpha > 10;
   }
 
+  /// Returns true if the given world position is within this sector's visible
+  /// bounds (non-transparent pixels). Uses the same logic as [containsLocalPoint].
+  bool containsWorldPoint(Vector2 worldPoint) {
+    final localPoint = worldPoint - position + (size / 2);
+    return containsLocalPoint(localPoint);
+  }
+
   String get _influenceText {
     final oi = strengthInfluenceOg.state.oi;
     final ai = strengthInfluenceOg.state.ai[sector] ?? 0;

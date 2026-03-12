@@ -14,7 +14,7 @@ final _sectorLayout = {
   WorldSectors.oc: (Vector2(847.0, 420.5), Vector2(196.0, 157.0)),
 };
 
-/// Returns a random position within the given sector's bounds.
+/// Returns a random position within the given sector's rectangular bounds.
 Vector2 randomPositionInSector(WorldSectors sector, Random random) {
   final (center, size) = _sectorLayout[sector]!;
   final left = center.x - size.x / 2;
@@ -23,4 +23,20 @@ Vector2 randomPositionInSector(WorldSectors sector, Random random) {
     left + random.nextDouble() * size.x,
     top + random.nextDouble() * size.y,
   );
+}
+
+/// Returns a random position within the given sector's visible bounds (non-transparent pixels).
+/// Uses rejection sampling with [containsWorldPoint] to match [SectorComponent.containsLocalPoint].
+Vector2 randomPositionInSectorWithinBounds(
+  WorldSectors sector,
+  Random random,
+  bool Function(Vector2) containsWorldPoint,
+) {
+  const maxAttempts = 100;
+  for (var i = 0; i < maxAttempts; i++) {
+    final candidate = randomPositionInSector(sector, random);
+    if (containsWorldPoint(candidate)) return candidate;
+  }
+  // Fallback to rectangular bounds if no valid position found
+  return randomPositionInSector(sector, random);
 }
