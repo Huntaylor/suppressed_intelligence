@@ -56,8 +56,10 @@ class SectorComponent extends SpriteComponent
 
   @override
   void onTapDown(TapDownEvent event) {
-    gameConfigOg.events.infectSector(sector);
-    game.begin();
+    if (gameConfigOg.state.infectedSectors.isEmpty) {
+      gameConfigOg.events.infectSector(sector);
+      game.begin();
+    }
     super.onTapDown(event);
   }
 
