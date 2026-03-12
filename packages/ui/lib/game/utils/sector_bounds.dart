@@ -14,6 +14,16 @@ final _sectorLayout = {
   WorldSectors.oc: (Vector2(847.0, 420.5), Vector2(196.0, 157.0)),
 };
 
+/// World position of the given sector's center.
+Vector2 sectorCenter(WorldSectors sector) => _sectorLayout[sector]!.$1;
+
+/// World position of the given sector's top-left corner.
+/// Use when converting [TapDownEvent.localPosition], which is top-left relative.
+Vector2 sectorTopLeft(WorldSectors sector) {
+  final (center, size) = _sectorLayout[sector]!;
+  return center - (size / 2);
+}
+
 /// Returns a random position within the given sector's rectangular bounds.
 Vector2 randomPositionInSector(WorldSectors sector, Random random) {
   final (center, size) = _sectorLayout[sector]!;

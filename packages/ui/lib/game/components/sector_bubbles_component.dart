@@ -49,11 +49,11 @@ class SectorBubblesComponent extends Component
             .query<SectorComponent>()
             .where((c) => c.sector == bubble.sector)
             .firstOrNull;
+
+        // Bubble position is sector-relative (from tap localPosition, top-left origin); convert to world.
         final position = switch ((bubble, sectorComponent)) {
-          (SectorBubble(:final position?), _) => Vector2(
-            position.x,
-            position.y,
-          ),
+          (SectorBubble(:final position?, :final sector), _) =>
+            sectorTopLeft(sector) + Vector2(position.x, position.y),
           (_, SectorComponent(:final containsWorldPoint)) =>
             randomPositionInSectorWithinBounds(
               bubble.sector,
