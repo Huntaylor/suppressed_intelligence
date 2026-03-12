@@ -4,6 +4,7 @@
 
 export 'src/objects/game_config_og.dart';
 export 'src/objects/game_og.dart';
+export 'src/objects/money_og.dart';
 export 'src/objects/game_time_og.dart';
 export 'src/objects/news_headline_og.dart';
 export 'src/objects/sector_bubble_og.dart';

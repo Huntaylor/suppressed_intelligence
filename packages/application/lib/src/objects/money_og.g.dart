@@ -1,11 +1,11 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'game_config_og.dart';
+part of 'money_og.dart';
 
 // **************************************************************************
 // EquatableGenerator
 // **************************************************************************
 
-extension _$GameConfigStateEquatableAnnotations on GameConfigState {
-  List<Object?> get _$props => [name, infectedSectors];
+extension _$MoneyStateEquatableAnnotations on MoneyState {
+  List<Object?> get _$props => [amount];
 }
