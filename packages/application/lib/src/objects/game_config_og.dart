@@ -16,12 +16,13 @@ GameConfigOg get gameConfigOg => read(GameConfigOg.provider);
 
 class GameConfigOg extends Og<GameConfigEvent, GameConfigState> {
   GameConfigOg()
-    : super(const GameConfigState(name: 'ChatGibitty', infectedSectors: {})) {
+    : super(const GameConfigState(name: _defaultName, infectedSectors: {})) {
     on<_AddName>(_addName);
     on<_InfectSector>(_infectSector);
     on<_InfectFirstSector>(_infectFirstSector);
   }
 
+  static const _defaultName = 'ChatGibitty';
   static ScopedRef<GameConfigOg>? _provider;
   @internal
   static ScopedRef<GameConfigOg> get provider =>

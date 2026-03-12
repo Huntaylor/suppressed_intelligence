@@ -6,6 +6,8 @@ final class GameConfigState extends Equatable {
   final String name;
   final Set<WorldSectors> infectedSectors;
 
+  bool get hasUserSetName => name != GameConfigOg._defaultName;
+
   @override
   List<Object?> get props => _$props;
 
