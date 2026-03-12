@@ -24,6 +24,7 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
   SectorBubbleOg() : super(const SectorBubbleState()) {
     on<_Init>(_init);
     on<_SpawnBubble>(_spawnBubble);
+    on<_SpawnFirstBubble>(_spawnFirstBubble);
     on<_ClearBubble>(_clearBubble);
     on<_Pause>(_pause);
     on<_Resume>(_resume);
@@ -67,6 +68,25 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
     _interval = event.interval ?? _defaultInterval;
     _startTimer();
     _startExpiryTimer();
+  }
+
+  void _spawnFirstBubble(
+    _SpawnFirstBubble event,
+    Emitter<SectorBubbleState> emit,
+  ) {
+    final infectedSectors = gameConfigOg.state.infectedSectors;
+    if (infectedSectors.length != 1 || !infectedSectors.contains(event.sector)) {
+      return;
+    }
+    if (state.bubbles.isNotEmpty) return;
+
+    final bubble = SectorBubble(
+      sector: event.sector,
+      type: SectorBubbleType.ai,
+      position: (x: event.x, y: event.y),
+    );
+    _bubbleSpawnTimes[bubble.id] = _activeSeconds;
+    emit(SectorBubbleState(bubbles: [...state.bubbles, bubble]));
   }
 
   void _spawnBubble(_SpawnBubble event, Emitter<SectorBubbleState> emit) {

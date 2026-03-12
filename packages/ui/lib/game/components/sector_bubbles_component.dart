@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:application/application.dart';
+import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
 import 'package:ui/game/components/bubble_icon.dart';
 import 'package:ui/game/components/sector_component.dart';
@@ -48,13 +49,20 @@ class SectorBubblesComponent extends Component
             .query<SectorComponent>()
             .where((c) => c.sector == bubble.sector)
             .firstOrNull;
-        final position = sectorComponent != null
-            ? randomPositionInSectorWithinBounds(
-                bubble.sector,
-                _random,
-                sectorComponent.containsWorldPoint,
-              )
-            : randomPositionInSector(bubble.sector, _random);
+        final position = switch ((bubble, sectorComponent)) {
+          (SectorBubble(:final position?), _) => Vector2(
+            position.x,
+            position.y,
+          ),
+          (_, SectorComponent(:final containsWorldPoint)) =>
+            randomPositionInSectorWithinBounds(
+              bubble.sector,
+              _random,
+              containsWorldPoint,
+            ),
+          _ => randomPositionInSector(bubble.sector, _random),
+        };
+
         add(BubbleIcon(bubble: bubble, position: position));
         _renderedIds.add(bubble.id);
       }

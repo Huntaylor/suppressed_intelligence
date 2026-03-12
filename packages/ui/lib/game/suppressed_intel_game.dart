@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:application/application.dart';
+import 'package:domain/domain.dart';
 import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -216,9 +217,10 @@ class SuppressedIntelGame extends FlameGame
     world.add(intro);
   }
 
-  void begin() {
+  void begin({required WorldSectors firstSector}) {
     worldMap.timer.start();
-    hudNewsComponent.startNews();
+    gameConfigOg.events.infectFirstSector(firstSector);
+    hudNewsComponent.startNews(firstSector: firstSector);
     gameTimeOg.events.init();
     sectorBubbleOg.events.init();
     sectorStatsOg.events.init();

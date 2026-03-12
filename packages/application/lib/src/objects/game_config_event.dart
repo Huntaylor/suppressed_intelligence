@@ -16,6 +16,14 @@ class _InfectSector extends GameConfigEvent {
   final WorldSectors sector;
 }
 
+/// Infects the first sector at the given click coordinates. Only processes when
+/// [infectedSectors] is empty.
+class _InfectFirstSector extends GameConfigEvent {
+  const _InfectFirstSector({required this.sector});
+
+  final WorldSectors sector;
+}
+
 class _Events {
   _Events(this._object);
 
@@ -27,5 +35,11 @@ class _Events {
 
   void infectSector(WorldSectors sector) {
     _object.add(_InfectSector(sector: sector));
+  }
+
+  /// Infects the first sector at the given world coordinates. Only processes
+  /// when there are no infected sectors.
+  void infectFirstSector(WorldSectors sector) {
+    _object.add(_InfectFirstSector(sector: sector));
   }
 }

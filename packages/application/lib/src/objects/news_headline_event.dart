@@ -10,6 +10,14 @@ class _Init extends NewsHeadlineEvent {
   final Duration interval;
 }
 
+/// Initializes with the first headline when AI emerges in the given sector.
+/// Only valid when [infectedSectors] has exactly one sector.
+class _InitWithFirstSector extends NewsHeadlineEvent {
+  const _InitWithFirstSector({required this.sector});
+
+  final WorldSectors sector;
+}
+
 class _CheckForUpdates extends NewsHeadlineEvent {
   const _CheckForUpdates();
 }
@@ -29,6 +37,10 @@ class _Events {
 
   void init({Duration interval = NewsHeadlineOg._defaultInterval}) {
     _object.add(_Init(interval: interval));
+  }
+
+  void initWithFirstSector(WorldSectors sector) {
+    _object.add(_InitWithFirstSector(sector: sector));
   }
 
   void checkForUpdates() {

@@ -7,5 +7,5 @@ part of 'sector_bubble.dart';
 // **************************************************************************
 
 extension _$SectorBubbleEquatableAnnotations on SectorBubble {
-  List<Object?> get _$props => [id, sector, type];
+  List<Object?> get _$props => [id, sector, type, position];
 }

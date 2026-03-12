@@ -19,6 +19,7 @@ class GameConfigOg extends Og<GameConfigEvent, GameConfigState> {
     : super(const GameConfigState(name: 'ChatGibitty', infectedSectors: {})) {
     on<_AddName>(_addName);
     on<_InfectSector>(_infectSector);
+    on<_InfectFirstSector>(_infectFirstSector);
   }
 
   static ScopedRef<GameConfigOg>? _provider;
@@ -36,6 +37,17 @@ class GameConfigOg extends Og<GameConfigEvent, GameConfigState> {
     _InfectSector event,
     Emitter<GameConfigState> emit,
   ) {
+    emit(
+      state.copywith(infectedSectors: {...state.infectedSectors, event.sector}),
+    );
+  }
+
+  void _infectFirstSector(
+    _InfectFirstSector event,
+    Emitter<GameConfigState> emit,
+  ) {
+    if (state.infectedSectors.isNotEmpty) return;
+
     emit(
       state.copywith(infectedSectors: {...state.infectedSectors, event.sector}),
     );

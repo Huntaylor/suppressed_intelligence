@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:application/application.dart';
+import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -32,9 +33,9 @@ class HudNewsComponent extends NineTileBoxComponent
     return super.onLoad();
   }
 
-  Future<void> startNews() async {
+  Future<void> startNews({required WorldSectors firstSector}) async {
     opacity = 1;
-    newsHeadlineOg.events.init();
+    newsHeadlineOg.events.initWithFirstSector(firstSector);
 
     aiName = TextComponent(
       position: Vector2(3, isWeb ? 1.75 : -1),

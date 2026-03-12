@@ -11,6 +11,12 @@ class Impact extends Equatable {
     required this.connectivity,
   });
 
+  const Impact.neutral()
+    : mediaDependency = 0,
+      trustAi = 0,
+      criticalThinking = 0,
+      connectivity = 0;
+
   final int mediaDependency;
   final int trustAi;
   final int criticalThinking;
@@ -31,7 +37,8 @@ class Impact extends Equatable {
 
   /// Delta to apply to AI strength (0–100 scale). [trustAi] is primary; [mediaDependency] adds
   /// a secondary boost (more media reliance → more exposure to AI-mediated content).
-  int get deltaForAi => trustAi * _deltaScale + mediaDependency * _mediaDependencyScale;
+  int get deltaForAi =>
+      trustAi * _deltaScale + mediaDependency * _mediaDependencyScale;
 
   /// Whether this impact affects OI strength (criticalThinking ≠ 0).
   bool get impactsOi => criticalThinking != 0;

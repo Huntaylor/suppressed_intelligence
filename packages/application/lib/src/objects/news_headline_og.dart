@@ -46,6 +46,7 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
     : _repo = repo,
       super(const _Loading()) {
     on<_Init>(_init);
+    on<_InitWithFirstSector>(_initWithFirstSector);
     on<_CheckForUpdates>(_checkForUpdates);
     on<_Pause>(_pause);
     on<_Resume>(_resume);
@@ -83,6 +84,22 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
   FutureOr<void> _init(_Init event, Emitter<NewsHeadlineState> emit) {
     _interval = event.interval;
     events.checkForUpdates();
+  }
+
+  void _initWithFirstSector(
+    _InitWithFirstSector event,
+    Emitter<NewsHeadlineState> emit,
+  ) {
+    if (gameConfigOg.state.infectedSectors.isEmpty) return;
+
+    final headline = 'AI has emerged in ${event.sector.displayName}';
+    final newsEvent = NewsEvent(
+      headline: headline,
+      impact: .neutral(),
+      affectedSectors: [event.sector],
+    );
+    emit(_Ready(data: newsEvent));
+    _startTimer();
   }
 
   FutureOr<void> _checkForUpdates(
