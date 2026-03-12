@@ -74,10 +74,6 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
     _SpawnFirstBubble event,
     Emitter<SectorBubbleState> emit,
   ) {
-    final infectedSectors = gameConfigOg.state.infectedSectors;
-    if (infectedSectors.length != 1 || !infectedSectors.contains(event.sector)) {
-      return;
-    }
     if (state.bubbles.isNotEmpty) return;
 
     final bubble = SectorBubble(
