@@ -21,7 +21,6 @@ class SectorComponent extends SpriteComponent
 
   double _targetOpacity = 0.0;
   final double _fadeSpeed = 3.0;
-  bool _isHovered = false;
   bool debugStrength = false;
 
   @override
@@ -56,6 +55,7 @@ class SectorComponent extends SpriteComponent
 
   @override
   void onTapDown(TapDownEvent event) {
+    if (game.infoStartUp) return;
     if (gameConfigOg.state.infectedSectors.isEmpty) {
       final localPosition = event.localPosition;
 
@@ -99,20 +99,18 @@ class SectorComponent extends SpriteComponent
 
   @override
   void onHoverEnter() {
+    if (game.infoStartUp) return;
     if (debugStrength) {
       influenceComponent.text = _influenceText;
     }
-    if (_isHovered) return;
-    _isHovered = true;
     _targetOpacity = 1.0;
   }
 
   @override
   void onHoverExit() {
+    if (game.infoStartUp) return;
     influenceComponent.text = '';
 
-    if (!_isHovered) return;
-    _isHovered = false;
     _targetOpacity = 0.0;
   }
 

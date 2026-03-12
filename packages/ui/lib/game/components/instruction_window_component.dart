@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:application/application.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
 class InstructionWindowComponent extends NineTileBoxComponent
-    with HasGameReference<SuppressedIntelGame> {
+    with HasGameReference<SuppressedIntelGame>, TapCallbacks {
   InstructionWindowComponent({super.position, super.size})
     : super(anchor: Anchor.topCenter, priority: 5);
 
@@ -94,6 +95,7 @@ class InstructionWindowComponent extends NineTileBoxComponent
       button: SpriteComponent.fromImage(startImage),
       buttonDown: SpriteComponent.fromImage(startImagePressed),
       onPressed: () {
+        game.infoStartUp = false;
         removeFromParent();
       },
     );

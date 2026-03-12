@@ -8,6 +8,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:ui/game/components/instruction_window_component.dart';
+import 'package:ui/game/components/world_info_display.dart';
 import 'package:ui/game/hud/hud_news_component.dart';
 import 'package:ui/game/hud/hud_pause_button.dart';
 import 'package:ui/game/hud/hud_upgrade_button.dart';
@@ -22,11 +23,17 @@ class SuppressedIntelGame extends FlameGame
 
   late bool debugGame;
 
+  late bool infoStartUp;
+
   late WorldMap worldMap;
 
   late TextComponent mouseDebug;
   late TextComponent positionText;
+
   late HudNewsComponent hudNewsComponent;
+
+  late HudUpgradeButton hudUpgradeButton;
+  late WorldInfoDisplay worldInfoDisplay;
 
   late String mouseText;
 
@@ -37,11 +44,36 @@ class SuppressedIntelGame extends FlameGame
 
   @override
   FutureOr<void> onLoad() async {
+    infoStartUp = true;
     hudNewsComponent = HudNewsComponent(
       size: Vector2(360, 32),
-      position: Vector2(gameWidth / 2, 0),
+      position: Vector2(gameWidth / 2, -64),
     )..opacity = 0;
-    debugGame = true;
+
+    worldInfoDisplay = WorldInfoDisplay(
+      size: Vector2(360, 32),
+      position: Vector2(gameWidth / 2, gameHeight + 32),
+    );
+
+    hudUpgradeButton = HudUpgradeButton(
+      position: Vector2(gameWidth, 32),
+      size: Vector2(30, 28),
+      onPressed: () {
+        if (overlays.isActive('PauseOverlay')) {
+          gameOg.events.pause();
+          overlays
+            ..remove('PauseOverlay')
+            ..add('UpgradeOverlay');
+          resumeEngine();
+        } else if (overlays.isActive('UpgradeOverlay')) {
+          overlays.remove('UpgradeOverlay');
+        } else {
+          overlays.add('UpgradeOverlay');
+        }
+      },
+    );
+
+    debugGame = false;
 
     mousePosition = Vector2.zero();
     mouseText = 'Initial Text';
@@ -126,7 +158,7 @@ class SuppressedIntelGame extends FlameGame
         FpsTextComponent(),
         hudNewsComponent,
         HudPauseButton(
-          position: Vector2(gameWidth - 64, 0),
+          position: Vector2(gameWidth, 0),
           size: Vector2(30, 28),
           onPressed: () {
             if (overlays.isActive('UpgradeOverlay')) {
@@ -146,23 +178,8 @@ class SuppressedIntelGame extends FlameGame
             }
           },
         ),
-        HudUpgradeButton(
-          position: Vector2(gameWidth - 64, 32),
-          size: Vector2(30, 28),
-          onPressed: () {
-            if (overlays.isActive('PauseOverlay')) {
-              gameOg.events.pause();
-              overlays
-                ..remove('PauseOverlay')
-                ..add('UpgradeOverlay');
-              resumeEngine();
-            } else if (overlays.isActive('UpgradeOverlay')) {
-              overlays.remove('UpgradeOverlay');
-            } else {
-              overlays.add('UpgradeOverlay');
-            }
-          },
-        ),
+        hudUpgradeButton,
+        worldInfoDisplay,
       ],
     );
   }
@@ -223,6 +240,9 @@ class SuppressedIntelGame extends FlameGame
     worldMap.timer.start();
     gameConfigOg.events.infectFirstSector(firstSector);
     hudNewsComponent.startNews(firstSector: firstSector);
+    worldInfoDisplay.displayInfo();
+    hudUpgradeButton.startGame();
+
     gameTimeOg.events.init();
     sectorBubbleOg.events.init();
     sectorStatsOg.events.init();

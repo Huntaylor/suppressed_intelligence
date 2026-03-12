@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:application/application.dart';
 import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ui/game/hud/marquee_text_component.dart';
@@ -42,8 +43,6 @@ class HudNewsComponent extends NineTileBoxComponent
 
   Future<void> startNews({required WorldSectors firstSector}) async {
     opacity = 1;
-    newsHeadlineOg.events.initWithFirstSector(firstSector);
-
     aiName = TextComponent(
       position: Vector2(3, isWeb ? 1.75 : -1),
       text: gameConfigOg.state.name,
@@ -57,6 +56,13 @@ class HudNewsComponent extends NineTileBoxComponent
       size: Vector2(size.x - 8, size.y),
       text: '',
     );
+    add(
+      MoveToEffect(
+        Vector2(position.x, position.y + 64),
+        EffectController(duration: 1),
+      ),
+    );
+    newsHeadlineOg.events.initWithFirstSector(firstSector);
 
     final time = gameTimeOg.state;
     dateText = TextComponent(
