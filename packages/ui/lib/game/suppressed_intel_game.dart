@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:application/application.dart';
+import 'package:domain/domain.dart';
 import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -34,8 +35,11 @@ class SuppressedIntelGame extends FlameGame
   final double gameWidth = 1024;
   final double gameHeight = 515;
 
+  late WorldSectors? initialSector;
+
   @override
   FutureOr<void> onLoad() async {
+    initialSector = null;
     hudNewsComponent = HudNewsComponent(
       size: Vector2(360, 32),
       position: Vector2(gameWidth / 2, 0),
@@ -209,7 +213,7 @@ class SuppressedIntelGame extends FlameGame
 
   void _intializeGame() {
     final intro = InstructionWindowComponent(
-      size: Vector2(360, 180),
+      size: Vector2(360, 220),
       position: Vector2(gameWidth / 2, gameHeight / 5),
     );
 
@@ -217,6 +221,7 @@ class SuppressedIntelGame extends FlameGame
   }
 
   void begin() {
+    worldMap.timer.start();
     hudNewsComponent.startNews();
     gameTimeOg.events.init();
     sectorBubbleOg.events.init();

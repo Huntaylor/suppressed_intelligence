@@ -9,9 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
 class SectorComponent extends SpriteComponent
-    with
-        HasGameReference<SuppressedIntelGame>,
-        HoverCallbacks /*, TapCallbacks */ {
+    with HasGameReference<SuppressedIntelGame>, HoverCallbacks, TapCallbacks {
   SectorComponent({required this.sector}) : super(anchor: .center);
 
   final WorldSectors sector;
@@ -23,15 +21,15 @@ class SectorComponent extends SpriteComponent
 
   double _targetOpacity = 0.0;
   final double _fadeSpeed = 3.0;
-
+  bool _isHovered = false;
   bool debugStrength = false;
 
   @override
   FutureOr<void> onLoad() async {
     debugStrength = true;
-
     final image = await game.images.load(sector.imagePath);
     sprite = Sprite(image);
+
     _byteData = await image.toByteData();
     size = Vector2(sector.size.width, sector.size.height);
     position = Vector2(sector.position.x, sector.position.y);
@@ -53,8 +51,17 @@ class SectorComponent extends SpriteComponent
 
     add(influenceComponent);
 
-    // add(opacityEffectFadeOut);
     return super.onLoad();
+  }
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    if (game.initialSector == null && game.debugGame) {
+      game.initialSector = sector;
+      gameConfigOg.events.infectSector(sector);
+      game.begin();
+    }
+    super.onTapDown(event);
   }
 
   @override
@@ -83,14 +90,33 @@ class SectorComponent extends SpriteComponent
     if (debugStrength) {
       influenceComponent.text = _influenceText;
     }
+    if (_isHovered) return;
+    _isHovered = true;
     _targetOpacity = 1.0;
   }
 
   @override
   void onHoverExit() {
     influenceComponent.text = '';
+
+    if (!_isHovered) return;
+    _isHovered = false;
     _targetOpacity = 0.0;
   }
+
+  // @override
+  // void onHoverEnter() {
+  //   if (debugStrength) {
+  //     influenceComponent.text = _influenceText;
+  //   }
+  //   _targetOpacity = 1.0;
+  // }
+
+  // @override
+  // void onHoverExit() {
+  //   influenceComponent.text = '';
+  //   _targetOpacity = 0.0;
+  // }
 
   @override
   void update(double dt) {

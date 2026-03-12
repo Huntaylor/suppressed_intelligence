@@ -15,7 +15,7 @@ fpg: flutter pub get
 
 spider: cd scripts; dart run _scripts:clean_assets
 
-webbuild: flutter build web --release --wasm
+webbuild: flutter build web --release
 
 winrun: flutter run -d windows
 

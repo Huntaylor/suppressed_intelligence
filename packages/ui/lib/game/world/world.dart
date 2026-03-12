@@ -12,6 +12,8 @@ import 'package:ui/game/components/sector_placement_component.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
 class WorldMap extends World with HasGameReference<SuppressedIntelGame> {
+  WorldMap();
+
   late Timer timer;
 
   late List<Path> dataPaths;
@@ -20,7 +22,7 @@ class WorldMap extends World with HasGameReference<SuppressedIntelGame> {
   FutureOr<void> onLoad() async {
     dataPaths = getLocationPaths();
 
-    timer = Timer(.25, onTick: addMovement, repeat: true);
+    timer = Timer(.25, onTick: addMovement, repeat: true, autoStart: false);
     final darkWorldSprite = await game.images.load('world_map_dark.png');
     // final darkWorldSprite = await game.images.load('world_map_dark_infra.png');
     add(SpriteComponent.fromImage(darkWorldSprite));

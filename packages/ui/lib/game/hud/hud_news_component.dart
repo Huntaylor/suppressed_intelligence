@@ -37,7 +37,7 @@ class HudNewsComponent extends NineTileBoxComponent
     newsHeadlineOg.events.init();
 
     aiName = TextComponent(
-      position: Vector2(2, -.5),
+      position: Vector2(3, isWeb ? 1.75 : -1),
       text: gameConfigOg.state.name,
       textRenderer: TextPaint(
         style: const TextStyle(fontSize: 8, color: Colors.white),
@@ -45,7 +45,7 @@ class HudNewsComponent extends NineTileBoxComponent
     );
 
     newsText = MarqueeTextComponent(
-      position: Vector2(4, 11),
+      position: Vector2(4, isWeb ? 13 : 11),
       size: Vector2(size.x - 8, size.y),
       text: '',
     );

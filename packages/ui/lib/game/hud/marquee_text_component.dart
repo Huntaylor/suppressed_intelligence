@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
@@ -15,6 +16,8 @@ class MarqueeTextComponent extends PositionComponent
     _textComponent.position.x = 75;
     _textComponent.position.y = 16;
   }
+
+  final bool isWeb = kIsWasm || kIsWeb;
 
   final double speed;
 
@@ -46,8 +49,8 @@ class MarqueeTextComponent extends PositionComponent
 
     await add(
       ClipComponent.rectangle(
-        position: Vector2(0, 2),
-        size: Vector2(size.x, size.y - 16),
+        position: Vector2(0, isWeb ? 1 : 2),
+        size: Vector2(size.x, size.y - (isWeb ? 17 : 16)),
         children: [_textComponent],
       ),
     );
@@ -66,7 +69,7 @@ class MarqueeTextComponent extends PositionComponent
   void update(double dt) {
     super.update(dt);
 
-    if (_textComponent.position.y.ceil() != 0) {
+    if (_textComponent.position.y.ceil() >= 0) {
       _textComponent.position.y -= speed * dt;
     } else {
       _textComponent.position.x -= speed * dt;

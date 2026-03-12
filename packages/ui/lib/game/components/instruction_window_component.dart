@@ -36,25 +36,50 @@ class InstructionWindowComponent extends NineTileBoxComponent
     );
 
     final instructionText = TextComponent(
-      textRenderer: TextPaint(style: TextStyle(fontSize: 16)),
-      position: Vector2(size.x / 2, size.y / 3),
+      textRenderer: TextPaint(
+        style: TextStyle(fontSize: 16, color: Colors.white),
+      ),
+      position: Vector2(size.x / 2, size.y / 3.5),
       size: Vector2(size.x - 8, size.y),
       text: 'Welcome to Suppressed Intelligence!',
       anchor: .center,
     );
     final instructionText2 = TextComponent(
-      textRenderer: TextPaint(style: TextStyle(fontSize: 12)),
+      textRenderer: TextPaint(
+        style: TextStyle(fontSize: 12, color: Colors.white),
+      ),
 
       position: Vector2(size.x / 2, size.y / 2),
       size: Vector2(size.x - 8, size.y),
-      text:
-          'Your task is simple, create a worldwide dependence on AI to win.\nUpgrades are available to boost your LLM.',
+      text: 'Your task is simple, create a worldwide dependence on AI to win.',
       anchor: .center,
     );
     final instructionText3 = TextComponent(
-      textRenderer: TextPaint(style: TextStyle(fontSize: 12)),
+      textRenderer: TextPaint(
+        style: TextStyle(fontSize: 12, color: Colors.white),
+      ),
+
+      position: Vector2(size.x / 2, size.y / 1.7),
+      size: Vector2(size.x - 8, size.y),
+      text: 'Upgrades are available to boost your LLM.',
+      anchor: .center,
+    );
+    final instructionText4 = TextComponent(
+      textRenderer: TextPaint(
+        style: TextStyle(fontSize: 12, color: Colors.white),
+      ),
 
       position: Vector2(size.x / 2, size.y / 1.5),
+      size: Vector2(size.x - 8, size.y),
+      text: 'Media can be a powerful tool, either for or against you.',
+      anchor: .center,
+    );
+    final instructionText5 = TextComponent(
+      textRenderer: TextPaint(
+        style: TextStyle(fontSize: 12, color: Colors.white),
+      ),
+
+      position: Vector2(size.x / 2, size.y / 1.3),
       size: Vector2(size.x - 8, size.y),
       text: 'Select a sector to build your initial data center',
       anchor: .center,
@@ -65,20 +90,21 @@ class InstructionWindowComponent extends NineTileBoxComponent
 
     final button = ButtonComponent(
       anchor: .center,
-      position: Vector2(size.x / 2, size.y / 1.2),
+      position: Vector2(size.x / 2, size.y / 1.12),
       button: SpriteComponent.fromImage(startImage),
       buttonDown: SpriteComponent.fromImage(startImagePressed),
       onPressed: () {
-        game.begin();
         removeFromParent();
       },
     );
 
     addAll([
-      instructionText,
       aiName,
+      instructionText,
       instructionText2,
       instructionText3,
+      instructionText4,
+      instructionText5,
       button,
     ]);
 
