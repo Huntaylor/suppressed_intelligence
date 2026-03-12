@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:application/application.dart';
+import 'package:domain/domain.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:scoped_deps/scoped_deps.dart';
@@ -27,6 +28,13 @@ class MoneyOg extends Og<MoneyEvent, MoneyState> {
       _provider ??= create<MoneyOg>((getIt.call));
 
   static const _incomePerMonth = 100;
+  static const _incomePerAiBubble = 25;
+
+  static void sectorBubbleStateListener(SectorBubbleState state) {
+    final removed = state.asIfRemovedBubble?.bubble;
+    if (removed == null || removed.type != SectorBubbleType.ai) return;
+    moneyOg.events.addMoney(_incomePerAiBubble);
+  }
 
   static void gameTimeListener(GameTimeState state) {
     moneyOg.events.addMoney(_incomePerMonth);
