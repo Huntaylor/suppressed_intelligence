@@ -47,19 +47,25 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
 
   final Random _random = Random();
   PausableTimer? _timer;
+  PausableTimer? _expiryTimer;
   Duration _interval = _defaultInterval;
   static const _defaultInterval = Duration(seconds: 8);
+  static const _bubbleLifespan = Duration(seconds: 23);
+  int _activeSeconds = 0;
+  final Map<int, int> _bubbleSpawnTimes = {};
 
   @override
   void dispose() {
     gameOg.removeListener(gameStateListener);
     _timer?.cancel();
+    _expiryTimer?.cancel();
     super.dispose();
   }
 
   FutureOr<void> _init(_Init event, Emitter<SectorBubbleState> emit) {
     _interval = event.interval ?? _defaultInterval;
     _startTimer();
+    _startExpiryTimer();
   }
 
   FutureOr<void> _spawnBubble(
@@ -71,6 +77,7 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
     final type = SectorBubbleType.values[_random.nextInt(2)];
     final bubble = SectorBubble(sector: sector, type: type);
 
+    _bubbleSpawnTimes[bubble.id] = _activeSeconds;
     emit(SectorBubbleState(bubbles: [...state.bubbles, bubble]));
   }
 
@@ -86,6 +93,7 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
 
     if (bubble == null) return;
     bubbles.remove(bubble);
+    _bubbleSpawnTimes.remove(bubble.id);
 
     emit(_RemovedBubble(bubble));
     emit(SectorBubbleState(bubbles: bubbles));
@@ -99,11 +107,26 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
     });
   }
 
+  void _startExpiryTimer() {
+    if (_expiryTimer?.isRunning case true) return;
+
+    _expiryTimer = PausableTimer(const Duration(seconds: 1), () {
+      _activeSeconds++;
+      for (final entry in _bubbleSpawnTimes.entries.toList()) {
+        if (_activeSeconds - entry.value >= _bubbleLifespan.inSeconds) {
+          add(_ClearBubble(bubbleId: entry.key));
+        }
+      }
+    });
+  }
+
   void _pause(_Pause event, Emitter<SectorBubbleState> emit) {
     _timer?.pause();
+    _expiryTimer?.pause();
   }
 
   void _resume(_Resume event, Emitter<SectorBubbleState> emit) {
     _timer?.resume();
+    _expiryTimer?.resume();
   }
 }
