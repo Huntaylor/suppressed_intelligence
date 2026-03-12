@@ -87,18 +87,5 @@ void main() {
       expect(event.headline, isNot(contains('[')));
     });
 
-    test('impactsSectorsOnly is set occasionally for sector-focused templates', () {
-      // Use many seeds to find sector templates; with 30% chance some should hit.
-      var sectorSpecificCount = 0;
-      for (var seed = 0; seed < 200; seed++) {
-        final event = NewsGenerator(random: Random(seed)).generate();
-        if (event.impactsSectorsOnly) {
-          sectorSpecificCount++;
-          expect(event.affectedSectors, isNotEmpty);
-        }
-      }
-      expect(sectorSpecificCount, greaterThan(0),
-          reason: 'Some events should have sector-specific impact');
-    });
   });
 }

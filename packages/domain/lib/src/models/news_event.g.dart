@@ -12,6 +12,5 @@ extension _$NewsEventEquatableAnnotations on NewsEvent {
     impact,
     affectedSectors,
     templateId,
-    impactsSectorsOnly,
   ];
 }

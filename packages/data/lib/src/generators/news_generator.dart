@@ -13,9 +13,6 @@ class NewsGenerator {
 
   final Random _random;
 
-  /// Chance (0.0–1.0) that a sector-focused template produces sector-specific impact.
-  static const double _sectorSpecificImpactChance = 0.3;
-
   /// Weighted distribution: 70% common (8–15), 25% strong (15–20), 5% rare (20–25).
   static int _pickPercent(Random random) {
     final r = random.nextDouble();
@@ -33,30 +30,52 @@ class NewsGenerator {
   /// [avoidHeadlines] when provided, retries if the generated headline matches
   /// (reduces duplicates in batches).
   ///
+  /// [infectedSectors] when provided, restricts headlines and affected sectors
+  /// to only these sectors (news events only happen in infected sectors).
+  ///
   /// [avoidTemplateIds] when provided, down-weights recently used templates so
   /// the same structure doesn't repeat too often (keeps news feeling fresh).
   NewsEvent generate({
     double? negativeBias,
     Set<String>? avoidHeadlines,
+    Set<WorldSectors>? infectedSectors,
     Set<String>? avoidTemplateIds,
   }) {
     final bias = negativeBias?.clamp(0.0, 1.0) ?? 0.5;
     const maxRetries = 25;
     for (var attempt = 0; attempt < maxRetries; attempt++) {
-      final event = _generateOne(bias, avoidTemplateIds);
+      final event = _generateOne(bias, infectedSectors, avoidTemplateIds);
       if (avoidHeadlines == null || !avoidHeadlines.contains(event.headline)) {
         return event;
       }
     }
-    return _generateOne(bias, avoidTemplateIds);
+
+    return _generateOne(bias, infectedSectors, avoidTemplateIds);
   }
 
-  NewsEvent _generateOne(double bias, [Set<String>? avoidTemplateIds]) {
+  NewsEvent _generateOne(
+    double bias, [
+    Set<WorldSectors>? infectedSectors,
+    Set<String>? avoidTemplateIds,
+  ]) {
     final template = _pickTemplate(bias, avoidTemplateIds);
+    // When headline contains sector slot or suffix, restrict sector picks to infected sectors.
+    final hasSectorInHeadline = template.slotTypes.contains(NewsSlotType.sector) ||
+        (template.sectorSuffix != null && template.sectorSuffix!.isNotEmpty);
+    final sectorPool =
+        hasSectorInHeadline && infectedSectors != null && infectedSectors.isNotEmpty
+            ? infectedSectors
+            : null;
+
     final slotValues = <NewsSlotType, String>{};
 
     for (final slotType in template.slotTypes) {
-      final value = _pickSlotValue(slotType, template, slotValues);
+      final value = _pickSlotValue(
+        slotType,
+        template,
+        slotValues,
+        sectorPool,
+      );
       if (value != null) {
         slotValues[slotType] = value;
       }
@@ -80,7 +99,7 @@ class NewsGenerator {
 
     // Append optional sector suffix (e.g. " in [sector]." → " in North America.").
     if (template.sectorSuffix != null && template.sectorSuffix!.isNotEmpty) {
-      final sector = _pickWorldSectorForHeadline(template);
+      final sector = _pickWorldSectorForHeadline(template, sectorPool);
       final suffix = template.sectorSuffix!.replaceAll(
         NewsSlotType.sector.placeholder,
         sector.displayName,
@@ -99,22 +118,13 @@ class NewsGenerator {
       connectivity: template.impactProfile.connectivity,
     );
 
-    final affectedSectors = _pickAffectedSectors(template);
-
-    // Occasionally apply impact only to affected sectors (sector-specific events).
-    final hasSectorInHeadline =
-        template.slotTypes.contains(NewsSlotType.sector) ||
-        (template.sectorSuffix != null && template.sectorSuffix!.isNotEmpty);
-    final impactsSectorsOnly =
-        hasSectorInHeadline &&
-        _random.nextDouble() < _sectorSpecificImpactChance;
+    final affectedSectors = _pickAffectedSectors(template, sectorPool);
 
     return NewsEvent(
       headline: headline.trim(),
       impact: impact,
       affectedSectors: affectedSectors,
       templateId: template.id,
-      impactsSectorsOnly: impactsSectorsOnly,
     );
   }
 
@@ -144,6 +154,7 @@ class NewsGenerator {
     NewsSlotType slotType,
     NewsTemplate newsTemplate,
     Map<NewsSlotType, String> existingValues,
+    Set<WorldSectors>? eligibleSectors,
   ) {
     switch (slotType) {
       case NewsSlotType.percent:
@@ -161,7 +172,10 @@ class NewsGenerator {
       case NewsSlotType.aiRecommendation:
         return pickWeighted(aiRecommendationVocabulary, _random);
       case NewsSlotType.sector:
-        return _pickWorldSectorForHeadline(newsTemplate).displayName;
+        return _pickWorldSectorForHeadline(
+          newsTemplate,
+          eligibleSectors,
+        ).displayName;
       case NewsSlotType.aiSystem:
         return newsTemplate.tone == NewsTone.positive
             ? pickWeighted(aiSystemPositiveVocabulary, _random)
@@ -274,25 +288,39 @@ class NewsGenerator {
   }
 
   /// Picks a single [WorldSectors] for use in headline (sector slot or sectorSuffix).
-  /// Uses [template.sectorBias] when present, otherwise random from all.
-  WorldSectors _pickWorldSectorForHeadline(NewsTemplate template) {
+  /// Uses [template.sectorBias] when present, otherwise random.
+  /// When [eligibleSectors] is provided and non-empty, only picks from that set.
+  WorldSectors _pickWorldSectorForHeadline(
+    NewsTemplate template, [
+    Set<WorldSectors>? eligibleSectors,
+  ]) {
+    List<WorldSectors> pool = WorldSectors.values;
     if (template.sectorBias != null && template.sectorBias!.isNotEmpty) {
-      return template.sectorBias![_random.nextInt(template.sectorBias!.length)];
+      pool = template.sectorBias!;
     }
-    return WorldSectors.values[_random.nextInt(WorldSectors.values.length)];
+    if (eligibleSectors != null && eligibleSectors.isNotEmpty) {
+      pool = pool.where((s) => eligibleSectors.contains(s)).toList();
+      if (pool.isEmpty) pool = eligibleSectors.toList();
+    }
+    return pool[_random.nextInt(pool.length)];
   }
 
-  List<WorldSectors> _pickAffectedSectors(NewsTemplate template) {
+  /// Picks affected sectors for the news event.
+  /// When [eligibleSectors] is provided and non-empty, only picks from that set.
+  List<WorldSectors> _pickAffectedSectors(
+    NewsTemplate template, [
+    Set<WorldSectors>? eligibleSectors,
+  ]) {
+    List<WorldSectors> pool = WorldSectors.values;
     if (template.sectorBias != null && template.sectorBias!.isNotEmpty) {
-      final count =
-          1 + _random.nextInt(template.sectorBias!.length.clamp(1, 3));
-      final shuffled = List<WorldSectors>.from(template.sectorBias!)
-        ..shuffle(_random);
-      return shuffled.take(count).toList();
+      pool = template.sectorBias!;
     }
-    final all = WorldSectors.values;
-    final count = 1 + _random.nextInt(3);
-    final shuffled = List<WorldSectors>.from(all)..shuffle(_random);
+    if (eligibleSectors != null && eligibleSectors.isNotEmpty) {
+      pool = pool.where((s) => eligibleSectors.contains(s)).toList();
+      if (pool.isEmpty) pool = eligibleSectors.toList();
+    }
+    final count = 1 + _random.nextInt(pool.length.clamp(1, 3));
+    final shuffled = List<WorldSectors>.from(pool)..shuffle(_random);
     return shuffled.take(count).toList();
   }
 }

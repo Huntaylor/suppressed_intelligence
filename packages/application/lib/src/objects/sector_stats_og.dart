@@ -2,6 +2,7 @@ library sector_stats_og;
 
 import 'dart:async';
 
+import 'package:application/src/objects/game_config_og.dart';
 import 'package:application/src/objects/news_headline_og.dart';
 import 'package:application/src/og.dart';
 import 'package:application/src/setup/setup.dart';
@@ -63,9 +64,8 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
 
     final newsEvent = event.event;
     final impact = newsEvent.impact;
-    final sectorsToUpdate = newsEvent.impactsSectorsOnly
-        ? newsEvent.affectedSectors
-        : WorldSectors.values;
+    // Apply impact only to infected sectors (news pool).
+    final sectorsToUpdate = gameConfigOg.state.infectedSectors;
 
     final updated = Map<WorldSectors, SectorStat>.from(current.stats);
     for (final sector in sectorsToUpdate) {

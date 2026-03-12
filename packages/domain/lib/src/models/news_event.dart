@@ -11,7 +11,6 @@ class NewsEvent extends Equatable {
     required this.impact,
     required this.affectedSectors,
     this.templateId,
-    this.impactsSectorsOnly = false,
   });
 
   final String headline;
@@ -21,10 +20,6 @@ class NewsEvent extends Equatable {
   /// Template ID used to generate this headline. Use with [NewsGenerator]'s
   /// [avoidTemplateIds] to reduce structural repetition in batches.
   final String? templateId;
-
-  /// When true, [impact] applies only to [affectedSectors]; when false,
-  /// impact applies globally. Set occasionally for sector-focused events.
-  final bool impactsSectorsOnly;
 
   @override
   List<Object?> get props => _$props;

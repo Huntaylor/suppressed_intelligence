@@ -11,7 +11,6 @@ Each `NewsEvent` has:
 - **headline** — dynamically generated from templates with slot placeholders
 - **impact** — `Impact` deltas (mediaDependency, trustAi, criticalThinking, connectivity)
 - **affectedSectors** — `List<WorldSectors>` (which regions the news affects)
-- **impactsSectorsOnly** — when true, impact applies only to `affectedSectors`; when false, impact applies globally. Set occasionally (~30%) for sector-focused templates.
 
 Headlines are built from **sentence templates** with **slots** filled from **vocabulary lists**. Templates are grammatical structures; new sentences require only new const entries in Dart files.
 
@@ -70,7 +69,7 @@ Selection uses `pickWeighted()`: `P(entry) ∝ weight`. Authorities (WHO, FDA, E
 3. **Format** — Sentence-start slots get capitalized; WHO, FDA, EU, AI preserved. Percent: weighted pick (70% 8–15, 25% 15–20, 5% 20–25), wrapped in percentFormat.
 4. **Replace placeholders** — Substitute `[slot_key]` with formatted values.
 5. **Sector suffix** — If template has `sectorSuffix` (e.g. `" in [sector]."`), append it after stripping a trailing period from the headline. Allows any template to include a sector without a dedicated slot.
-6. **Impact & sectors** — From template's `impactProfile`; sectors from `sectorBias` or random 1–3. For templates with a sector slot or `sectorSuffix`, ~30% chance of `impactsSectorsOnly: true` (impact applies only to affected sectors).
+6. **Impact & sectors** — From template's `impactProfile`; sectors from `sectorBias` or random 1–3.
 
 ### Generator Parameters
 

@@ -2,6 +2,7 @@ library news_headline_og;
 
 import 'dart:async';
 
+import 'package:application/src/objects/game_config_og.dart';
 import 'package:application/src/objects/game_og.dart';
 import 'package:application/src/objects/sector_stats_og.dart';
 import 'package:application/src/objects/strength_influence_og.dart';
@@ -90,8 +91,17 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
   ) async {
     _timer?.cancel();
 
+    final infectedSectors = gameConfigOg.state.infectedSectors;
+    if (infectedSectors.isEmpty) {
+      _startTimer();
+      return;
+    }
+
     final negativeBias = _computeNegativeBias();
-    final newsEvent = await _repo.getNewsEvent(negativeBias: negativeBias);
+    final newsEvent = await _repo.getNewsEvent(
+      negativeBias: negativeBias,
+      eligibleSectors: infectedSectors,
+    );
     emit(_Ready(data: newsEvent));
 
     _startTimer();
