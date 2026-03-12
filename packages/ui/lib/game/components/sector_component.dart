@@ -100,6 +100,7 @@ class SectorComponent extends SpriteComponent
   @override
   void onHoverEnter() {
     if (game.infoStartUp) return;
+    sectorStatsOg.events.selectSector(sector);
     if (debugStrength) {
       influenceComponent.text = _influenceText;
     }
@@ -109,6 +110,7 @@ class SectorComponent extends SpriteComponent
   @override
   void onHoverExit() {
     if (game.infoStartUp) return;
+    sectorStatsOg.events.removeSelection();
     influenceComponent.text = '';
 
     _targetOpacity = 0.0;
