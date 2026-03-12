@@ -20,6 +20,7 @@ class HudNewsComponent extends NineTileBoxComponent
 
   late TextComponent aiName;
   late TextComponent dateText;
+  late TextComponent moneyText;
   late MarqueeTextComponent newsText;
 
   final bool isWeb = kIsWasm || kIsWeb;
@@ -67,7 +68,17 @@ class HudNewsComponent extends NineTileBoxComponent
       ),
     );
 
-    addAll([newsText, aiName, dateText]);
+    final amount = moneyOg.state.amount;
+    moneyText = TextComponent(
+      anchor: Anchor.topRight,
+      position: Vector2(size.x - 90, isWeb ? 1.75 : -1),
+      text: '\$$amount',
+      textRenderer: TextPaint(
+        style: const TextStyle(fontSize: 8, color: Colors.white),
+      ),
+    );
+
+    addAll([newsText, aiName, dateText, moneyText]);
   }
 
   @override
@@ -88,6 +99,12 @@ class HudNewsComponent extends NineTileBoxComponent
       final dateStr = '${_monthNames[time.month - 1]} ${time.year}';
       if (dateText.text != dateStr) {
         dateText.text = dateStr;
+      }
+
+      final amount = moneyOg.state.amount;
+      final moneyStr = '\$$amount';
+      if (moneyText.text != moneyStr) {
+        moneyText.text = moneyStr;
       }
     }
   }
