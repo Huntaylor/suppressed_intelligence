@@ -26,9 +26,18 @@ class _Loading extends SectorStatsState {
 }
 
 class _Ready extends SectorStatsState {
-  const _Ready({required this.stats});
+  const _Ready({required this.stats, this.selectedSector});
 
   final Map<WorldSectors, SectorStat> stats;
+  final WorldSectors? selectedSector;
+
+  _Ready setSector(WorldSectors selectedSector) {
+    return _Ready(stats: stats, selectedSector: selectedSector);
+  }
+
+  _Ready removeSector() {
+    return _Ready(stats: stats, selectedSector: null);
+  }
 
   @override
   List<Object?> get props => _$props;

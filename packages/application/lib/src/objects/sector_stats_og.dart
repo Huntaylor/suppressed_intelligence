@@ -25,6 +25,8 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     on<_Init>(_init);
     on<_Refresh>(_refresh);
     on<_ApplyNewsImpact>(_applyNewsImpact);
+    on<_SelectSector>(_selectSector);
+    on<_RemoveSelection>(_removeSelection);
   }
 
   static ScopedRef<SectorStatsOg>? _provider;
@@ -84,7 +86,22 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
       );
     }
 
-    emit(_Ready(stats: updated));
+    emit(_Ready(stats: updated, selectedSector: current.selectedSector));
+  }
+
+  void _selectSector(_SelectSector event, Emitter<SectorStatsState> emit) {
+    final current = state.asIfReady;
+    if (current == null) return;
+    emit(current.setSector(event.sector));
+  }
+
+  void _removeSelection(
+    _RemoveSelection event,
+    Emitter<SectorStatsState> emit,
+  ) {
+    final current = state.asIfReady;
+    if (current == null) return;
+    emit(current.removeSector());
   }
 
   static int _clampStat(int value) => value.clamp(0, 100);

@@ -11,5 +11,5 @@ extension _$SectorStatsStateEquatableAnnotations on SectorStatsState {
 }
 
 extension _$ReadyEquatableAnnotations on _Ready {
-  List<Object?> get _$props => [stats];
+  List<Object?> get _$props => [stats, selectedSector];
 }
