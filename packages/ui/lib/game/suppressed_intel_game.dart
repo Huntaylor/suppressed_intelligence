@@ -41,7 +41,7 @@ class SuppressedIntelGame extends FlameGame
       size: Vector2(360, 32),
       position: Vector2(gameWidth / 2, 0),
     )..opacity = 0;
-    debugGame = false;
+    debugGame = true;
 
     mousePosition = Vector2.zero();
     mouseText = 'Initial Text';
