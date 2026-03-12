@@ -1,7 +1,15 @@
 part of 'route.dart';
 
-class GameRoute extends Route {
+class GameRoute extends Route with RouteRedirect<Route> {
   GameRoute();
+
+  @override
+  FutureOr<Route> redirect() {
+    if (!gameConfigOg.state.hasUserSetName) {
+      return MainMenuRoute();
+    }
+    return this;
+  }
 
   @override
   Widget build(GameCoordinator coordinator, BuildContext context) {
