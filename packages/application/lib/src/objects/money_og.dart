@@ -3,8 +3,7 @@ library money_og;
 import 'dart:async';
 import 'dart:math';
 
-import 'package:application/src/og.dart';
-import 'package:application/src/setup/setup.dart';
+import 'package:application/application.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:scoped_deps/scoped_deps.dart';
@@ -26,6 +25,12 @@ class MoneyOg extends Og<MoneyEvent, MoneyState> {
   @internal
   static ScopedRef<MoneyOg> get provider =>
       _provider ??= create<MoneyOg>((getIt.call));
+
+  static const _incomePerMonth = 100;
+
+  static void gameTimeListener(GameTimeState state) {
+    moneyOg.events.addMoney(_incomePerMonth);
+  }
 
   late final events = _Events(this);
 

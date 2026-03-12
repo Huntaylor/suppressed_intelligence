@@ -19,6 +19,7 @@ class GameTimeOg extends Og<GameTimeEvent, GameTimeState> {
     on<_Tick>(_tick);
     on<_Pause>(_pause);
     on<_Resume>(_resume);
+    addListener(MoneyOg.gameTimeListener);
   }
 
   static ScopedRef<GameTimeOg>? _provider;
