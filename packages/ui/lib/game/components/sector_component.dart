@@ -57,13 +57,12 @@ class SectorComponent extends SpriteComponent
   @override
   void onTapDown(TapDownEvent event) {
     if (gameConfigOg.state.infectedSectors.isEmpty) {
-      // TODO(taylor): Get the global position of the tap
-      final position = event.localPosition;
+      final localPosition = event.localPosition;
 
       sectorBubbleOg.events.spawnFirstBubble(
         sector,
-        x: position.x,
-        y: position.y,
+        x: localPosition.x,
+        y: localPosition.y,
       );
       game.begin(firstSector: sector);
     }
