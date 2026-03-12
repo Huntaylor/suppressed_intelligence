@@ -209,12 +209,14 @@ class SuppressedIntelGame extends FlameGame
   ///-------
 
   void _intializeGame() {
-    final intro = InstructionWindowComponent(
-      size: Vector2(360, 220),
-      position: Vector2(gameWidth / 2, gameHeight / 5),
-    );
+    if (gameConfigOg.state.infectedSectors.isEmpty) {
+      final intro = InstructionWindowComponent(
+        size: Vector2(360, 220),
+        position: Vector2(gameWidth / 2, gameHeight / 5),
+      );
 
-    world.add(intro);
+      world.add(intro);
+    }
   }
 
   void begin({required WorldSectors firstSector}) {
