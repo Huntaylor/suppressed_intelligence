@@ -3,6 +3,7 @@ library sector_bubble_og;
 import 'dart:async';
 import 'dart:math';
 
+import 'package:application/src/objects/game_config_og.dart';
 import 'package:application/src/objects/game_og.dart';
 import 'package:application/src/objects/strength_influence_og.dart';
 import 'package:application/src/og.dart';
@@ -68,11 +69,11 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
     _startExpiryTimer();
   }
 
-  FutureOr<void> _spawnBubble(
-    _SpawnBubble event,
-    Emitter<SectorBubbleState> emit,
-  ) {
-    final sectors = WorldSectors.values;
+  void _spawnBubble(_SpawnBubble event, Emitter<SectorBubbleState> emit) {
+    final infectedSectors = gameConfigOg.state.infectedSectors;
+    if (infectedSectors.isEmpty) return;
+
+    final sectors = infectedSectors.toList();
     final sector = sectors[_random.nextInt(sectors.length)];
     final type = SectorBubbleType.values[_random.nextInt(2)];
     final bubble = SectorBubble(sector: sector, type: type);

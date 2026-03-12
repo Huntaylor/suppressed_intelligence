@@ -21,19 +21,27 @@ class SectorBubblesComponent extends Component
     final state = sectorBubbleOg.state;
     final currentIds = state.bubbles.map((b) => b.id).toSet();
 
+    final infectedSectors = gameConfigOg.state.infectedSectors;
+
     for (final id in _renderedIds.toList()) {
-      if (!currentIds.contains(id)) {
-        for (final child in children.query<BubbleIcon>()) {
-          if (child.bubble.id == id) {
-            child.removeFromParent();
-            _renderedIds.remove(id);
-            break;
-          }
-        }
+      final child = children
+          .query<BubbleIcon>()
+          .where((c) => c.bubble.id == id)
+          .firstOrNull;
+      if (child == null) {
+        _renderedIds.remove(id);
+        continue;
+      }
+      final remove =
+          !currentIds.contains(id) ||
+          !infectedSectors.contains(child.bubble.sector);
+      if (remove) {
+        child.removeFromParent();
+        _renderedIds.remove(id);
       }
     }
-
     for (final bubble in state.bubbles) {
+      if (!infectedSectors.contains(bubble.sector)) continue;
       if (!_renderedIds.contains(bubble.id)) {
         final position = randomPositionInSector(bubble.sector, _random);
         add(BubbleIcon(bubble: bubble, position: position));
