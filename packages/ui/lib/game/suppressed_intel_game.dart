@@ -34,11 +34,8 @@ class SuppressedIntelGame extends FlameGame
   final double gameWidth = 1024;
   final double gameHeight = 515;
 
-  late WorldSectors? initialSector;
-
   @override
   FutureOr<void> onLoad() async {
-    initialSector = null;
     hudNewsComponent = HudNewsComponent(
       size: Vector2(360, 32),
       position: Vector2(gameWidth / 2, 0),

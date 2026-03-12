@@ -56,11 +56,8 @@ class SectorComponent extends SpriteComponent
 
   @override
   void onTapDown(TapDownEvent event) {
-    if (game.initialSector == null && game.debugGame) {
-      game.initialSector = sector;
-      gameConfigOg.events.infectSector(sector);
-      game.begin();
-    }
+    gameConfigOg.events.infectSector(sector);
+    game.begin();
     super.onTapDown(event);
   }
 
