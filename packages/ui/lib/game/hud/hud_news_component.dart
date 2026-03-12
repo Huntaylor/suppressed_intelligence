@@ -13,7 +13,13 @@ class HudNewsComponent extends NineTileBoxComponent
   HudNewsComponent({super.position, super.size})
     : super(anchor: Anchor.topCenter);
 
+  static const _monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December',
+  ];
+
   late TextComponent aiName;
+  late TextComponent dateText;
   late MarqueeTextComponent newsText;
 
   final bool isWeb = kIsWasm || kIsWeb;
@@ -51,7 +57,17 @@ class HudNewsComponent extends NineTileBoxComponent
       text: '',
     );
 
-    addAll([newsText, aiName]);
+    final time = gameTimeOg.state;
+    dateText = TextComponent(
+      anchor: Anchor.topRight,
+      position: Vector2(size.x - 5, isWeb ? 1.75 : -1),
+      text: '${_monthNames[time.month - 1]} ${time.year}',
+      textRenderer: TextPaint(
+        style: const TextStyle(fontSize: 8, color: Colors.white),
+      ),
+    );
+
+    addAll([newsText, aiName, dateText]);
   }
 
   @override
@@ -66,6 +82,12 @@ class HudNewsComponent extends NineTileBoxComponent
         if (newsText.text != headline) {
           newsText.text = headline;
         }
+      }
+
+      final time = gameTimeOg.state;
+      final dateStr = '${_monthNames[time.month - 1]} ${time.year}';
+      if (dateText.text != dateStr) {
+        dateText.text = dateStr;
       }
     }
   }
