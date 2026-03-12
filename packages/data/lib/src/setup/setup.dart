@@ -7,6 +7,7 @@ import 'setup.config.dart';
 
 @dep_inj.setup
 void setup(GetIt i) {
-  i.registerFactory(Random.new);
+  final seed = DateTime.now().millisecondsSinceEpoch;
+  i.registerSingleton(Random(seed));
   i.init();
 }
