@@ -6,6 +6,7 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ui/game/components/loading_bar.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
 class WorldInfoDisplay extends NineTileBoxComponent
@@ -88,11 +89,12 @@ class WorldInfoDisplay extends NineTileBoxComponent
   }
 
   void displayInfo() {
-    add(
+    addAll([
       MoveToEffect(
         Vector2(game.gameWidth / 2, game.gameHeight - size.y),
         EffectController(duration: .5),
       ),
-    );
+      LoadingBar(position: Vector2(137, 29)),
+    ]);
   }
 }
