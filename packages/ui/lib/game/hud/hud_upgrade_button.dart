@@ -16,7 +16,7 @@ class HudUpgradeButton extends HudButtonComponent {
   FutureOr<void> onLoad() async {
     newPosition = Vector2(position.x - 64, position.y);
     moveToEffect = MoveToEffect(newPosition, EffectController(duration: 1));
-    debugMode = true;
+    // debugMode = true;
     final buttonUpImage = await game.images.load('upgrade_button.png');
     final buttonDownImage = await game.images.load(
       'upgrade_button_pressed.png',
@@ -29,6 +29,6 @@ class HudUpgradeButton extends HudButtonComponent {
   }
 
   Future<void> startGame() async {
-    add(moveToEffect);
+    // add(moveToEffect);
   }
 }

@@ -15,12 +15,12 @@ class HudPauseButton extends HudButtonComponent with HoverCallbacks {
     final buttonDownImage = await game.images.load('pause_button_pressed.png');
     button = SpriteComponent.fromImage(buttonUpImage);
     buttonDown = SpriteComponent.fromImage(buttonDownImage);
-    add(
-      MoveToEffect(
-        Vector2(position.x - 64, position.y),
-        EffectController(duration: 1),
-      ),
-    );
+    // add(
+    //   MoveToEffect(
+    //     Vector2(position.x - 64, position.y),
+    //     EffectController(duration: 1),
+    //   ),
+    // );
 
     return super.onLoad();
   }

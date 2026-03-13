@@ -31,6 +31,7 @@ class SuppressedIntelGame extends FlameGame
   late TextComponent positionText;
 
   late HudNewsComponent hudNewsComponent;
+  late HudPauseButton hudPauseButton;
 
   late HudUpgradeButton hudUpgradeButton;
   late WorldInfoDisplay worldInfoDisplay;
@@ -56,7 +57,7 @@ class SuppressedIntelGame extends FlameGame
     );
 
     hudUpgradeButton = HudUpgradeButton(
-      position: Vector2(gameWidth, 32),
+      position: Vector2(gameWidth - 64, 32),
       size: Vector2(30, 28),
       onPressed: () {
         if (overlays.isActive('PauseOverlay')) {
@@ -69,6 +70,28 @@ class SuppressedIntelGame extends FlameGame
           overlays.remove('UpgradeOverlay');
         } else {
           overlays.add('UpgradeOverlay');
+        }
+      },
+    );
+
+    hudPauseButton = HudPauseButton(
+      position: Vector2(gameWidth - 64, 0),
+      size: Vector2(30, 28),
+      onPressed: () {
+        if (overlays.isActive('UpgradeOverlay')) {
+          gameOg.events.pause();
+          overlays
+            ..remove('UpgradeOverlay')
+            ..add('PauseOverlay');
+          pauseEngine();
+        } else if (overlays.isActive('PauseOverlay')) {
+          gameOg.events.resume();
+          overlays.remove('PauseOverlay');
+          resumeEngine();
+        } else {
+          gameOg.events.pause();
+          overlays.add('PauseOverlay');
+          pauseEngine();
         }
       },
     );
@@ -157,27 +180,7 @@ class SuppressedIntelGame extends FlameGame
       hudComponents: [
         FpsTextComponent(),
         hudNewsComponent,
-        HudPauseButton(
-          position: Vector2(gameWidth, 0),
-          size: Vector2(30, 28),
-          onPressed: () {
-            if (overlays.isActive('UpgradeOverlay')) {
-              gameOg.events.pause();
-              overlays
-                ..remove('UpgradeOverlay')
-                ..add('PauseOverlay');
-              pauseEngine();
-            } else if (overlays.isActive('PauseOverlay')) {
-              gameOg.events.resume();
-              overlays.remove('PauseOverlay');
-              resumeEngine();
-            } else {
-              gameOg.events.pause();
-              overlays.add('PauseOverlay');
-              pauseEngine();
-            }
-          },
-        ),
+        hudPauseButton,
         hudUpgradeButton,
         worldInfoDisplay,
       ],

@@ -5,14 +5,20 @@ class UpgradeButton extends StatefulWidget {
     super.key,
     required this.button,
     required this.buttonPressed,
-    required this.buttonLabel,
     required this.width,
     required this.height,
+    required this.onPressed,
+    required this.isDisabled,
+    required this.disabledButton,
   });
 
   final Image button;
   final Image buttonPressed;
-  final String buttonLabel;
+  final Image disabledButton;
+
+  final Function() onPressed;
+
+  final bool isDisabled;
 
   final double width;
   final double height;
@@ -24,42 +30,40 @@ class UpgradeButton extends StatefulWidget {
 class _UpgradeButtonState extends State<UpgradeButton> {
   bool isPressed = false;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  Image get buttonSprite => widget.isDisabled
+      ? widget.disabledButton
+      : isPressed
+      ? widget.buttonPressed
+      : widget.button;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: 16,
-      mainAxisAlignment: .center,
-      children: [
-        Text(
-          widget.buttonLabel,
-          style: TextStyle(color: Colors.white70, fontSize: 24),
+    return GestureDetector(
+      onTapDown: widget.isDisabled
+          ? null
+          : (details) {
+              widget.onPressed();
+              setState(() {
+                isPressed = true;
+              });
+            },
+      onTapUp: widget.isDisabled
+          ? null
+          : (details) {
+              setState(() {
+                isPressed = false;
+              });
+            },
+      child: MouseRegion(
+        cursor: widget.isDisabled
+            ? SystemMouseCursors.basic
+            : SystemMouseCursors.click,
+        child: SizedBox(
+          width: widget.width,
+          height: widget.height,
+          child: buttonSprite,
         ),
-        GestureDetector(
-          onTapDown: (details) {
-            setState(() {
-              isPressed = true;
-            });
-          },
-          onTapUp: (details) {
-            setState(() {
-              isPressed = false;
-            });
-          },
-          child: MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: SizedBox(
-              width: widget.width,
-              height: widget.height,
-              child: isPressed ? widget.buttonPressed : widget.button,
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
