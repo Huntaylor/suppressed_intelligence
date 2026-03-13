@@ -92,7 +92,8 @@ class NewsHeadlineOg extends Og<NewsHeadlineEvent, NewsHeadlineState> {
   ) {
     if (gameConfigOg.state.infectedSectors.isEmpty) return;
 
-    final headline = 'AI has emerged in ${event.sector.displayName}';
+    final headline =
+        'A data center has been built for the LLM called ${gameConfigOg.state.name} in ${event.sector.displayName}!';
     final newsEvent = NewsEvent(
       headline: headline,
       impact: .neutral(),

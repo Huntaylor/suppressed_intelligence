@@ -11,12 +11,22 @@ import 'package:ui/game/suppressed_intel_game.dart';
 
 class HudNewsComponent extends NineTileBoxComponent
     with HasGameReference<SuppressedIntelGame> {
-  HudNewsComponent({super.position, super.size})
-    : super(anchor: Anchor.topCenter);
+  HudNewsComponent({super.position})
+    : super(anchor: Anchor.topCenter, size: Vector2(360, 32));
 
   static const _monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   late TextComponent aiName;
@@ -25,6 +35,8 @@ class HudNewsComponent extends NineTileBoxComponent
   late MarqueeTextComponent newsText;
 
   final bool isWeb = kIsWasm || kIsWeb;
+
+  bool shouldDisplay = false;
 
   @override
   FutureOr<void> onLoad() async {
@@ -42,9 +54,8 @@ class HudNewsComponent extends NineTileBoxComponent
   }
 
   Future<void> startNews({required WorldSectors firstSector}) async {
-    opacity = 1;
     aiName = TextComponent(
-      position: Vector2(3, isWeb ? 1.75 : -1),
+      position: Vector2(3, isWeb ? 1.75 : -.25),
       text: gameConfigOg.state.name,
       textRenderer: TextPaint(
         style: const TextStyle(fontSize: 8, color: Colors.white),
@@ -56,18 +67,11 @@ class HudNewsComponent extends NineTileBoxComponent
       size: Vector2(size.x - 8, size.y),
       text: '',
     );
-    add(
-      MoveToEffect(
-        Vector2(position.x, position.y + 64),
-        EffectController(duration: 1),
-      ),
-    );
-    newsHeadlineOg.events.initWithFirstSector(firstSector);
 
     final time = gameTimeOg.state;
     dateText = TextComponent(
       anchor: Anchor.topRight,
-      position: Vector2(size.x - 5, isWeb ? 1.75 : -1),
+      position: Vector2(size.x - 5, isWeb ? 1.75 : 0),
       text: '${_monthNames[time.month - 1]} ${time.year}',
       textRenderer: TextPaint(
         style: const TextStyle(fontSize: 8, color: Colors.white),
@@ -77,19 +81,25 @@ class HudNewsComponent extends NineTileBoxComponent
     final amount = moneyOg.state.amount;
     moneyText = TextComponent(
       anchor: Anchor.topRight,
-      position: Vector2(size.x - 90, isWeb ? 1.75 : -1),
+      position: Vector2(size.x - 90, isWeb ? 1.75 : 0),
       text: '\$$amount',
       textRenderer: TextPaint(
         style: const TextStyle(fontSize: 8, color: Colors.white),
       ),
     );
 
-    addAll([newsText, aiName, dateText, moneyText]);
+    add(
+      MoveToEffect(
+        Vector2(position.x, position.y + size.y),
+        EffectController(duration: .5),
+        onComplete: () => _displayText(firstSector),
+      ),
+    );
   }
 
   @override
   void update(double dt) {
-    if (opacity != 0) {
+    if (shouldDisplay) {
       if (aiName.text != gameConfigOg.state.name) {
         aiName.text = gameConfigOg.state.name;
       }
@@ -113,5 +123,12 @@ class HudNewsComponent extends NineTileBoxComponent
         moneyText.text = moneyStr;
       }
     }
+  }
+
+  void _displayText(WorldSectors firstSector) {
+    shouldDisplay = true;
+    newsHeadlineOg.events.initWithFirstSector(firstSector);
+
+    addAll([newsText, aiName, dateText, moneyText]);
   }
 }

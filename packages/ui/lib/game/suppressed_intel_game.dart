@@ -46,14 +46,18 @@ class SuppressedIntelGame extends FlameGame
   @override
   FutureOr<void> onLoad() async {
     infoStartUp = true;
-    hudNewsComponent = HudNewsComponent(
-      size: Vector2(360, 32),
-      position: Vector2(gameWidth / 2, -64),
-    )..opacity = 0;
+    hudNewsComponent = HudNewsComponent();
 
-    worldInfoDisplay = WorldInfoDisplay(
-      size: Vector2(360, 32),
-      position: Vector2(gameWidth / 2, gameHeight + 32),
+    hudNewsComponent.position = Vector2(
+      gameWidth / 2,
+      0 - hudNewsComponent.size.y,
+    );
+
+    worldInfoDisplay = WorldInfoDisplay();
+
+    worldInfoDisplay.position = Vector2(
+      gameWidth / 2,
+      gameHeight + worldInfoDisplay.size.y,
     );
 
     hudUpgradeButton = HudUpgradeButton(
@@ -129,6 +133,8 @@ class SuppressedIntelGame extends FlameGame
 
   @override
   void onTapDown(TapDownEvent event) {
+    sectorStatsOg.events.removeSelection();
+
     if (debugGame) {
       positionText = TextComponent(
         anchor: Anchor.bottomCenter,

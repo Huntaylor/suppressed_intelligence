@@ -65,6 +65,8 @@ class SectorComponent extends SpriteComponent
         y: localPosition.y,
       );
       game.begin(firstSector: sector);
+    } else {
+      sectorStatsOg.events.selectSector(sector);
     }
     super.onTapDown(event);
   }
@@ -100,7 +102,6 @@ class SectorComponent extends SpriteComponent
   @override
   void onHoverEnter() {
     if (game.infoStartUp) return;
-    sectorStatsOg.events.selectSector(sector);
     if (debugStrength) {
       influenceComponent.text = _influenceText;
     }
@@ -110,25 +111,10 @@ class SectorComponent extends SpriteComponent
   @override
   void onHoverExit() {
     if (game.infoStartUp) return;
-    sectorStatsOg.events.removeSelection();
     influenceComponent.text = '';
 
     _targetOpacity = 0.0;
   }
-
-  // @override
-  // void onHoverEnter() {
-  //   if (debugStrength) {
-  //     influenceComponent.text = _influenceText;
-  //   }
-  //   _targetOpacity = 1.0;
-  // }
-
-  // @override
-  // void onHoverExit() {
-  //   influenceComponent.text = '';
-  //   _targetOpacity = 0.0;
-  // }
 
   @override
   void update(double dt) {
