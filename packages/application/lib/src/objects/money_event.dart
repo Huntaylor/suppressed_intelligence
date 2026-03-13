@@ -36,4 +36,8 @@ class _Events {
   void setMoney(int amount) {
     _object.add(_SetMoney(amount: amount));
   }
+
+  void removeMoney(int amount) {
+    _object.add(_RemoveMoney(amount: amount));
+  }
 }

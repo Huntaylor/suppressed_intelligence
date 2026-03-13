@@ -21,6 +21,7 @@ import 'package:application/src/objects/sector_stats_og.dart'
     as i_sector_stats_og;
 import 'package:application/src/objects/strength_influence_og.dart'
     as i_strength_influence_og;
+import 'package:application/src/objects/upgrades_og.dart' as i_upgrades_og;
 import 'package:data/src/repos/news_headline_repo.dart' as i_news_headline_repo;
 import 'package:data/src/repos/sector_stats_repo.dart' as i_sector_stats_repo;
 
@@ -42,5 +43,6 @@ extension GetItX on GetIt {
       ),
     );
     registerFactory(() => i_strength_influence_og.StrengthInfluenceOg());
+    registerFactory(() => i_upgrades_og.UpgradesOg());
   }
 }

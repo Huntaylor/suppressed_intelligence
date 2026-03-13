@@ -4,12 +4,13 @@
 
 export 'src/objects/game_config_og.dart';
 export 'src/objects/game_og.dart';
-export 'src/objects/money_og.dart';
 export 'src/objects/game_time_og.dart';
+export 'src/objects/money_og.dart';
 export 'src/objects/news_headline_og.dart';
 export 'src/objects/sector_bubble_og.dart';
 export 'src/objects/sector_stats_og.dart';
 export 'src/objects/strength_influence_og.dart';
+export 'src/objects/upgrades_og.dart';
 export 'src/og.dart';
 export 'src/setup/setup.config.dart';
 export 'src/setup/setup.dart';

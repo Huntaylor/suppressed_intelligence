@@ -391,3 +391,10 @@ If you'd like, I can also help design:
 - **The Media Infrastructure mechanics** (this is where spread math gets interesting)
 - **The OI Task Force AI system**
 - **The influence spread algorithm between regions** (similar to Plague Inc transmission).
+
+---
+
+Clicking AI bubbles will potentially infect a sector
+When a sector is infected, then all lines to the sector will change color
+Once infected, the sector will now receive AI bubbles
+Once all neighboring sectors are infected, the sector's stats will increase when a bubble is clicked
