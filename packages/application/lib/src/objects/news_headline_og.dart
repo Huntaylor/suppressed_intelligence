@@ -29,12 +29,8 @@ double computeNegativeBiasFromSectorStats(Map<WorldSectors, SectorStat> stats) {
   var sum = 0.0;
   var count = 0;
   for (final stat in stats.values) {
-    sum +=
-        stat.criticalThinking +
-        stat.mediaDependency +
-        stat.trustAi +
-        stat.connectivity;
-    count += 4;
+    sum += stat.criticalThinking + stat.trustAi;
+    count += 2;
   }
   final avg = sum / count;
   final performance = (avg / 100).clamp(0.0, 1.0);

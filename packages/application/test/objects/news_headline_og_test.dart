@@ -25,12 +25,9 @@ void main() {
 
     test('low stats (player struggling) returns high bias 0.7–0.9', () {
       final stats = {
-        WorldSectors.na: SectorStat(
-          sector: WorldSectors.na,
+        WorldSectors.na: SectorStat(sector: WorldSectors.na).copyWith(
           criticalThinking: 25,
-          mediaDependency: 20,
           trustAi: 25,
-          connectivity: 20,
         ),
       };
       final bias = computeNegativeBiasFromSectorStats(stats);
@@ -40,12 +37,9 @@ void main() {
 
     test('high stats (player winning) returns low bias 0.25–0.45', () {
       final stats = {
-        WorldSectors.na: SectorStat(
-          sector: WorldSectors.na,
+        WorldSectors.na: SectorStat(sector: WorldSectors.na).copyWith(
           criticalThinking: 80,
-          mediaDependency: 75,
           trustAi: 85,
-          connectivity: 90,
         ),
       };
       final bias = computeNegativeBiasFromSectorStats(stats);
@@ -55,12 +49,9 @@ void main() {
 
     test('mixed stats returns mid bias 0.4–0.65', () {
       final stats = {
-        WorldSectors.na: SectorStat(
-          sector: WorldSectors.na,
+        WorldSectors.na: SectorStat(sector: WorldSectors.na).copyWith(
           criticalThinking: 50,
-          mediaDependency: 50,
           trustAi: 50,
-          connectivity: 50,
         ),
       };
       final bias = computeNegativeBiasFromSectorStats(stats);
@@ -163,7 +154,7 @@ void main() {
         );
 
         await runScoped(() async {
-          // GameConfigOg defaults to empty infectedSectors
+          gameConfigOg.events.clearInfectedSectors();
           final og = NewsHeadlineOg(repo: repo);
           addTearDown(og.dispose);
 
@@ -307,10 +298,5 @@ void main() {
 
 class _MockNewsHeadlineRepo extends Mock implements data.NewsHeadlineRepo {}
 
-const _zeroImpact = Impact(
-  mediaDependency: 0,
-  trustAi: 0,
-  criticalThinking: 0,
-  connectivity: 0,
-);
+const _zeroImpact = Impact(trustAi: 0, criticalThinking: 0);
 const _emptySectors = <WorldSectors>[];

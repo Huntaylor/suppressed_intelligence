@@ -9,7 +9,7 @@ Generates dynamic `NewsEvent` headlines from grammatical sentence templates. Pro
 Each `NewsEvent` has:
 
 - **headline** — dynamically generated from templates with slot placeholders
-- **impact** — `Impact` deltas (mediaDependency, trustAi, criticalThinking, connectivity)
+- **impact** — `Impact` deltas (trustAi, criticalThinking)
 - **affectedSectors** — `List<WorldSectors>` (which regions the news affects)
 
 Headlines are built from **sentence templates** with **slots** filled from **vocabulary lists**. Templates are grammatical structures; new sentences require only new const entries in Dart files.
@@ -97,13 +97,13 @@ The application layer computes `negativeBias` from game state (e.g. aggregate se
 
 ## Impact Profiles
 
-| Profile       | mediaDependency | trustAi | criticalThinking | connectivity |
-| ------------- | --------------- | ------- | ---------------- | ------------ |
-| warning       | 5               | -3      | 2                | 0            |
-| positiveStudy | 0               | 4       | -2               | 1            |
-| regulation    | 2               | -1      | 1                | 0            |
-| trustReport   | 3               | 2       | 0                | 1            |
-| informational | 1               | 0       | 0                | 0            |
+| Profile       | trustAi | criticalThinking |
+| ------------- | ------- | ---------------- |
+| warning       | -3      | 2                |
+| positiveStudy | 4       | -2               |
+| regulation    | -1      | 1                |
+| trustReport   | 2       | 0                |
+| informational | 0       | 0                |
 
 ---
 

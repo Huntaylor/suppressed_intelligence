@@ -112,10 +112,8 @@ class NewsGenerator {
     }
 
     final impact = Impact(
-      mediaDependency: template.impactProfile.mediaDependency,
       trustAi: template.impactProfile.trustAi,
       criticalThinking: template.impactProfile.criticalThinking,
-      connectivity: template.impactProfile.connectivity,
     );
 
     final affectedSectors = _pickAffectedSectors(template, sectorPool);

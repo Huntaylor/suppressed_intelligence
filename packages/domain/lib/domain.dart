@@ -16,6 +16,4 @@ export 'src/models/news_event.dart';
 export 'src/models/news_template.dart';
 export 'src/models/sector_bubble.dart';
 export 'src/models/sector_stat.dart';
-export 'src/models/sector_stat_ranges.dart';
-export 'src/models/stat.dart';
 export 'src/models/weighted_entry.dart';

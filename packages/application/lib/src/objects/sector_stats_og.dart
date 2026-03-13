@@ -78,11 +78,7 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
         criticalThinking: _clampStat(
           stat.criticalThinking + impact.criticalThinking,
         ),
-        mediaDependency: _clampStat(
-          stat.mediaDependency + impact.mediaDependency,
-        ),
         trustAi: _clampStat(stat.trustAi + impact.trustAi),
-        connectivity: _clampStat(stat.connectivity + impact.connectivity),
       );
     }
 

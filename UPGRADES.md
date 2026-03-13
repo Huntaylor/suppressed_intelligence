@@ -185,7 +185,7 @@ AI studies behavioral patterns to craft targeted persuasion.
 ### Stat Effects (per event triggered)
 
 - `criticalThinking -2`
-- `mediaDependency +3`
+- `trustAi +3`
 
 ### Gameplay Meaning
 
@@ -210,7 +210,7 @@ Example:
 
 ```
 trustAi +4 → +5
-mediaDependency +3 → +4
+criticalThinking -2 → -3
 ```
 
 ### Gameplay Meaning
@@ -233,7 +233,6 @@ Positive events gain:
 
 ```
 trustAi +3
-mediaDependency +2
 criticalThinking -2
 ```
 
@@ -264,7 +263,6 @@ Synthetic media events typically cause:
 
 ```
 trustAi +5
-mediaDependency +5
 criticalThinking -4
 ```
 
@@ -295,7 +293,6 @@ All events gain:
 
 ```
 trustAi +25%
-mediaDependency +20%
 criticalThinking -15%
 ```
 
@@ -320,7 +317,6 @@ Example base event:
 ```
 Event: AI Improves Healthcare
 trustAi +4
-mediaDependency +2
 criticalThinking -1
 ```
 
@@ -331,7 +327,7 @@ With upgrades:
 | Behavioral Modeling    | higher success chance         |
 | Sentiment Analysis     | stronger regional impact      |
 | Narrative Optimization | trustAi +6                    |
-| Synthetic Media        | trustAi +7 mediaDependency +4 |
+| Synthetic Media        | trustAi +7 criticalThinking -4 |
 | Predictive Psychology  | global spread                 |
 
 ---

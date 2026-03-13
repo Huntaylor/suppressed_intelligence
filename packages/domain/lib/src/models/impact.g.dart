@@ -7,10 +7,5 @@ part of 'impact.dart';
 // **************************************************************************
 
 extension _$ImpactEquatableAnnotations on Impact {
-  List<Object?> get _$props => [
-    mediaDependency,
-    trustAi,
-    criticalThinking,
-    connectivity,
-  ];
+  List<Object?> get _$props => [trustAi, criticalThinking];
 }

@@ -24,6 +24,10 @@ class _InfectFirstSector extends GameConfigEvent {
   final WorldSectors sector;
 }
 
+class _ClearInfectedSectors extends GameConfigEvent {
+  const _ClearInfectedSectors();
+}
+
 class _Events {
   _Events(this._object);
 
@@ -41,5 +45,9 @@ class _Events {
   /// when there are no infected sectors.
   void infectFirstSector(WorldSectors sector) {
     _object.add(_InfectFirstSector(sector: sector));
+  }
+
+  void clearInfectedSectors() {
+    _object.add(const _ClearInfectedSectors());
   }
 }

@@ -1,5 +1,3 @@
-import 'package:domain/src/models/sector_stat_ranges.dart';
-
 enum WorldSectors {
   /// North America
   na('53-4E41'),
@@ -43,46 +41,6 @@ enum WorldSectors {
     WorldSectors.as => 'Asia',
     WorldSectors.af => 'Africa',
     WorldSectors.oc => 'Oceania',
-  };
-
-  /// Default stat ranges for this sector, used to generate [SectorStat] values.
-  SectorStatRanges get defaultRanges => switch (this) {
-    WorldSectors.na => const SectorStatRanges(
-      criticalThinking: (40, 75),
-      mediaDependency: (20, 55),
-      trustAi: (45, 80),
-      connectivity: (70, 95),
-    ),
-    WorldSectors.sa => const SectorStatRanges(
-      criticalThinking: (35, 70),
-      mediaDependency: (30, 65),
-      trustAi: (40, 75),
-      connectivity: (50, 85),
-    ),
-    WorldSectors.eu => const SectorStatRanges(
-      criticalThinking: (45, 80),
-      mediaDependency: (25, 60),
-      trustAi: (35, 70),
-      connectivity: (75, 95),
-    ),
-    WorldSectors.as => const SectorStatRanges(
-      criticalThinking: (40, 75),
-      mediaDependency: (35, 70),
-      trustAi: (50, 85),
-      connectivity: (65, 95),
-    ),
-    WorldSectors.af => const SectorStatRanges(
-      criticalThinking: (30, 65),
-      mediaDependency: (40, 75),
-      trustAi: (35, 70),
-      connectivity: (35, 75),
-    ),
-    WorldSectors.oc => const SectorStatRanges(
-      criticalThinking: (40, 75),
-      mediaDependency: (25, 60),
-      trustAi: (40, 75),
-      connectivity: (60, 90),
-    ),
   };
 
   String get imagePath => switch (this) {
