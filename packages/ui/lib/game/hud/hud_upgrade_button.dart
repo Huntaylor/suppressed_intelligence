@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/input.dart';
+import 'package:ui/game/suppressed_intel_game.dart';
 
-class HudUpgradeButton extends HudButtonComponent {
-  HudUpgradeButton({super.position, super.size, super.margin, super.onPressed})
-    : super(anchor: .topLeft);
+class HudUpgradeButton extends ButtonComponent
+    with HasGameReference<SuppressedIntelGame> {
+  HudUpgradeButton({super.position, super.onPressed})
+    : super(anchor: .topLeft, size: Vector2(30, 28));
 
   late Vector2 newPosition;
 
@@ -14,9 +16,8 @@ class HudUpgradeButton extends HudButtonComponent {
 
   @override
   FutureOr<void> onLoad() async {
-    newPosition = Vector2(position.x - 64, position.y);
-    moveToEffect = MoveToEffect(newPosition, EffectController(duration: 1));
-    // debugMode = true;
+    newPosition = Vector2(position.x - (size.x * 2), position.y);
+    moveToEffect = MoveToEffect(newPosition, EffectController(duration: .5));
     final buttonUpImage = await game.images.load('upgrade_button.png');
     final buttonDownImage = await game.images.load(
       'upgrade_button_pressed.png',
@@ -28,7 +29,7 @@ class HudUpgradeButton extends HudButtonComponent {
     return super.onLoad();
   }
 
-  Future<void> startGame() async {
-    // add(moveToEffect);
+  Future<void> moveHud() async {
+    add(moveToEffect);
   }
 }

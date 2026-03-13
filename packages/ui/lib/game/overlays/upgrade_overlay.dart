@@ -28,6 +28,8 @@ class _UpgradeOverlayState extends State<UpgradeOverlay> {
   bool isSearchedPressed = false;
   bool isClosePressed = false;
 
+  int totalMoney = 0;
+
   @override
   void initState() {
     ramImage = Image.asset('assets/images/ram_button.png');
@@ -40,12 +42,19 @@ class _UpgradeOverlayState extends State<UpgradeOverlay> {
 
     powerImage = Image.asset('assets/images/power_button.png');
     powerImagePressed = Image.asset('assets/images/power_button_pressed.png');
+
+    moneyOg.addListener((state) {
+      setState(() {
+        totalMoney = state.amount;
+      });
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext _) {
     final isWeb = kIsWeb || kIsWasm;
+
     return Center(
       child: NineTileBoxWidget.asset(
         path: 'windows_95_chatgpt.png',
@@ -68,6 +77,16 @@ class _UpgradeOverlayState extends State<UpgradeOverlay> {
                     height: 14,
                     color: Colors.transparent,
                   ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: .bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  '\$$totalMoney',
+                  style: TextStyle(color: Colors.white, fontSize: 32),
                 ),
               ),
             ),

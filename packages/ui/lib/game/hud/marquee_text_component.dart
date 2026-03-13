@@ -50,7 +50,7 @@ class MarqueeTextComponent extends PositionComponent
     await add(
       ClipComponent.rectangle(
         position: Vector2(0, isWeb ? 1 : 2),
-        size: Vector2(size.x, size.y - (isWeb ? 17 : 16)),
+        size: Vector2(size.x, size.y - (isWeb ? 19 : 16)),
         children: [_textComponent],
       ),
     );

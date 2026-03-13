@@ -27,24 +27,27 @@ class WorldInfoDisplay extends NineTileBoxComponent
   @override
   FutureOr<void> onLoad() async {
     sectorName = TextComponent(
-      position: Vector2(3, isWeb ? 1.75 : .5),
+      position: Vector2(3, isWeb ? 3 : .5),
       text: 'World',
       textRenderer: TextPaint(
         style: const TextStyle(fontSize: 8, color: Colors.white),
       ),
     );
+
     worldData = TextComponent(
-      position: Vector2(4, isWeb ? 15 : 13),
+      position: Vector2(4, isWeb ? 30 : 29),
       size: Vector2(size.x - 10, size.y),
       text: 'World Data',
       textRenderer: TextPaint(
         style: const TextStyle(fontSize: 12, color: Colors.white),
       ),
     );
+
     newPosition = position;
     final nineTileImage = await game.images.load(
       'windows_95_no_close_chatgpt.png',
     );
+
     nineTileBox = NineTileBox.withGrid(
       Sprite(nineTileImage),
       topHeight: 9,
@@ -63,14 +66,12 @@ class WorldInfoDisplay extends NineTileBoxComponent
 
     if (currentSector == null) {
       sectorName.text = 'Global Impact';
-      worldData.text = formatAsPercentage(
-        (strengthInfluenceOg.state.overallAi / 6) / 100,
-      );
+      worldData.text =
+          'Total AI Dependency: ${formatAsPercentage((strengthInfluenceOg.state.overallAi / 6) / 100)}';
     } else {
-      sectorName.text = currentSector!.codeName;
-      worldData.text = formatAsPercentage(
-        (strengthInfluenceOg.state.ai[currentSector] ?? 0) / 100,
-      );
+      sectorName.text = currentSector!.displayName;
+      worldData.text =
+          'Sector AI Dependency: ${formatAsPercentage((strengthInfluenceOg.state.ai[currentSector] ?? 0) / 100)}';
     }
     super.update(dt);
   }

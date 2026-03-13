@@ -31,7 +31,6 @@ class HudNewsComponent extends NineTileBoxComponent
 
   late TextComponent aiName;
   late TextComponent dateText;
-  late TextComponent moneyText;
   late MarqueeTextComponent newsText;
 
   final bool isWeb = kIsWasm || kIsWeb;
@@ -55,7 +54,7 @@ class HudNewsComponent extends NineTileBoxComponent
 
   Future<void> startNews({required WorldSectors firstSector}) async {
     aiName = TextComponent(
-      position: Vector2(3, isWeb ? 1.75 : -.25),
+      position: Vector2(3, isWeb ? 2 : -.25),
       text: gameConfigOg.state.name,
       textRenderer: TextPaint(
         style: const TextStyle(fontSize: 8, color: Colors.white),
@@ -63,7 +62,7 @@ class HudNewsComponent extends NineTileBoxComponent
     );
 
     newsText = MarqueeTextComponent(
-      position: Vector2(4, isWeb ? 13 : 11),
+      position: Vector2(4, isWeb ? 15 : 11),
       size: Vector2(size.x - 8, size.y),
       text: '',
     );
@@ -71,18 +70,8 @@ class HudNewsComponent extends NineTileBoxComponent
     final time = gameTimeOg.state;
     dateText = TextComponent(
       anchor: Anchor.topRight,
-      position: Vector2(size.x - 5, isWeb ? 1.75 : 0),
+      position: Vector2(size.x - 5, isWeb ? 2 : 0),
       text: '${_monthNames[time.month - 1]} ${time.year}',
-      textRenderer: TextPaint(
-        style: const TextStyle(fontSize: 8, color: Colors.white),
-      ),
-    );
-
-    final amount = moneyOg.state.amount;
-    moneyText = TextComponent(
-      anchor: Anchor.topRight,
-      position: Vector2(size.x - 90, isWeb ? 1.75 : 0),
-      text: '\$$amount',
       textRenderer: TextPaint(
         style: const TextStyle(fontSize: 8, color: Colors.white),
       ),
@@ -116,12 +105,6 @@ class HudNewsComponent extends NineTileBoxComponent
       if (dateText.text != dateStr) {
         dateText.text = dateStr;
       }
-
-      final amount = moneyOg.state.amount;
-      final moneyStr = '\$$amount';
-      if (moneyText.text != moneyStr) {
-        moneyText.text = moneyStr;
-      }
     }
   }
 
@@ -129,6 +112,6 @@ class HudNewsComponent extends NineTileBoxComponent
     shouldDisplay = true;
     newsHeadlineOg.events.initWithFirstSector(firstSector);
 
-    addAll([newsText, aiName, dateText, moneyText]);
+    addAll([newsText, aiName, dateText]);
   }
 }
