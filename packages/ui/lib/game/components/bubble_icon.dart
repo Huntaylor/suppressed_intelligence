@@ -48,7 +48,7 @@ class BubbleIcon extends SpriteComponent
         EffectController(duration: 0.15, curve: Curves.easeIn),
       ),
     );
-    sectorBubbleOg.events.clearBubble(bubble.id);
+    sectorBubbleOg.events.clickBubble(bubble.id);
     super.onTapDown(event);
   }
 }
