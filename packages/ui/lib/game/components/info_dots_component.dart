@@ -1,0 +1,38 @@
+import 'package:application/application.dart';
+import 'package:flame/components.dart';
+import 'package:ui/game/components/info_dot_component.dart';
+import 'package:ui/game/suppressed_intel_game.dart';
+
+/// Syncs [infoDotsOg] state to info dot components on the world map.
+class InfoDotsComponent extends PositionComponent
+    with HasGameReference<SuppressedIntelGame> {
+  InfoDotsComponent() : super(priority: 4, position: Vector2.zero());
+
+  final Set<int> _spawnedIds = {};
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+
+    final dots = infoDotsOg.state.asIfVisibleDots?.dots;
+
+    if (dots == null) {
+      return;
+    }
+
+    final currentIds = dots.map((d) => d.id).toSet();
+    _spawnedIds.removeWhere((id) => !currentIds.contains(id));
+
+    for (final dot in dots) {
+      if (_spawnedIds.contains(dot.id)) continue;
+
+      add(
+        InfoDotComponent.normal(
+          position: Vector2(dot.dot.point.x, dot.dot.point.y),
+          dot: dot,
+        ),
+      );
+      _spawnedIds.add(dot.id);
+    }
+  }
+}

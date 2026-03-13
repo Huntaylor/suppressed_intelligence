@@ -31,8 +31,8 @@ class MoneyOg extends Og<MoneyEvent, MoneyState> {
   static const _incomePerAiBubble = 25;
 
   static void sectorBubbleStateListener(SectorBubbleState state) {
-    final removed = state.asIfRemovedBubble?.bubble;
-    if (removed == null || removed.type != SectorBubbleType.ai) return;
+    final clicked = state.asIfClickedBubble?.bubble;
+    if (clicked == null || clicked.type != SectorBubbleType.ai) return;
     moneyOg.events.addMoney(_incomePerAiBubble);
   }
 

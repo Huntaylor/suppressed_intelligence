@@ -5,6 +5,7 @@ import 'dart:math';
 
 import 'package:application/src/objects/game_config_og.dart';
 import 'package:application/src/objects/game_og.dart';
+import 'package:application/src/objects/info_dots_og.dart';
 import 'package:application/src/objects/money_og.dart';
 import 'package:application/src/objects/strength_influence_og.dart';
 import 'package:application/src/og.dart';
@@ -26,10 +27,12 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
     on<_Init>(_init);
     on<_SpawnBubble>(_spawnBubble);
     on<_SpawnFirstBubble>(_spawnFirstBubble);
+    on<_ClickBubble>(_clickBubble);
     on<_ClearBubble>(_clearBubble);
     on<_Pause>(_pause);
     on<_Resume>(_resume);
 
+    addListener(InfoDotsOg.sectorBubbleStateListener);
     addListener(StrengthInfluenceOg.sectorBubbleStateListener);
     addListener(MoneyOg.sectorBubbleStateListener);
   }
@@ -100,6 +103,24 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
     emit(SectorBubbleState(bubbles: [...state.bubbles, bubble]));
   }
 
+  void _clickBubble(_ClickBubble event, Emitter<SectorBubbleState> emit) {
+    SectorBubble? bubble;
+    final bubbles = [...state.bubbles];
+    for (final b in state.bubbles) {
+      if (b.id == event.bubbleId) {
+        bubble = b;
+        break;
+      }
+    }
+
+    if (bubble == null) return;
+    bubbles.remove(bubble);
+    _bubbleSpawnTimes.remove(bubble.id);
+
+    emit(_ClickedBubble(bubble));
+    emit(SectorBubbleState(bubbles: bubbles));
+  }
+
   void _clearBubble(_ClearBubble event, Emitter<SectorBubbleState> emit) {
     SectorBubble? bubble;
     final bubbles = [...state.bubbles];
@@ -114,7 +135,6 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
     bubbles.remove(bubble);
     _bubbleSpawnTimes.remove(bubble.id);
 
-    emit(_RemovedBubble(bubble));
     emit(SectorBubbleState(bubbles: bubbles));
   }
 

@@ -100,7 +100,11 @@ class SuppressedIntelGame extends FlameGame
 
     hudUpgradeButton.position = Vector2(gameWidth + hudUpgradeButton.x, 32);
 
-    debugGame = false;
+    hudPauseButton.position = Vector2(gameWidth + hudPauseButton.x, 0);
+
+    hudUpgradeButton.position = Vector2(gameWidth + hudUpgradeButton.x, 32);
+
+    debugGame = true;
 
     mousePosition = Vector2.zero();
     mouseText = 'Initial Text';
@@ -246,7 +250,6 @@ class SuppressedIntelGame extends FlameGame
   }
 
   void begin({required WorldSectors firstSector}) {
-    worldMap.timer.start();
     gameConfigOg.events.infectFirstSector(firstSector);
     hudNewsComponent.startNews(firstSector: firstSector);
     worldInfoDisplay.displayInfo();

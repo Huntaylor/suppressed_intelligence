@@ -28,8 +28,16 @@ class _SpawnFirstBubble extends SectorBubbleEvent {
   final double y;
 }
 
+/// Expires a bubble (e.g. when its lifetime runs out). Does not emit [ClickedBubble].
 class _ClearBubble extends SectorBubbleEvent {
   const _ClearBubble({required this.bubbleId});
+
+  final int bubbleId;
+}
+
+/// User clicked/tapped a bubble. Emits [ClickedBubble] for listeners.
+class _ClickBubble extends SectorBubbleEvent {
+  const _ClickBubble({required this.bubbleId});
 
   final int bubbleId;
 }
@@ -55,7 +63,7 @@ class _Events {
     _object.add(_SpawnFirstBubble(sector: sector, x: x, y: y));
   }
 
-  void clearBubble(int bubbleId) {
-    _object.add(_ClearBubble(bubbleId: bubbleId));
+  void clickBubble(int bubbleId) {
+    _object.add(_ClickBubble(bubbleId: bubbleId));
   }
 }

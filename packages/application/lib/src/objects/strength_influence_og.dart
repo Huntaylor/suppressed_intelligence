@@ -46,15 +46,15 @@ class StrengthInfluenceOg
   }
 
   static void sectorBubbleStateListener(SectorBubbleState state) {
-    final removed = state.asIfRemovedBubble?.bubble;
-    if (removed == null) return;
+    final clicked = state.asIfClickedBubble?.bubble;
+    if (clicked == null) return;
 
-    switch (removed.type) {
+    switch (clicked.type) {
       case SectorBubbleType.oi:
         strengthInfluenceOg.events.updateOi(delta: -1);
 
       case SectorBubbleType.ai:
-        strengthInfluenceOg.events.updateAi(sector: removed.sector, delta: 1);
+        strengthInfluenceOg.events.updateAi(sector: clicked.sector, delta: 1);
     }
   }
 

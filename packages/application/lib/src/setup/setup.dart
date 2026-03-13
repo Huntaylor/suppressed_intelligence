@@ -1,5 +1,6 @@
 import 'package:application/src/objects/game_config_og.dart';
 import 'package:application/src/objects/game_og.dart';
+import 'package:application/src/objects/info_dots_og.dart';
 import 'package:application/src/objects/money_og.dart';
 import 'package:application/src/objects/game_time_og.dart';
 import 'package:application/src/objects/news_headline_og.dart';
@@ -19,6 +20,7 @@ late final GetIt getIt;
 final providers = {
   GameOg.provider,
   GameTimeOg.provider,
+  InfoDotsOg.provider,
   MoneyOg.provider,
   NewsHeadlineOg.provider,
   SectorBubbleOg.provider,

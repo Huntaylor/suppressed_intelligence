@@ -7,8 +7,8 @@ final class SectorBubbleState extends Equatable {
 
   final List<SectorBubble> bubbles;
 
-  _RemovedBubble? get asIfRemovedBubble => switch (this) {
-    final _RemovedBubble state => state,
+  _ClickedBubble? get asIfClickedBubble => switch (this) {
+    final _ClickedBubble state => state,
     _ => null,
   };
 
@@ -16,8 +16,8 @@ final class SectorBubbleState extends Equatable {
   List<Object?> get props => _$props;
 }
 
-final class _RemovedBubble extends SectorBubbleState {
-  const _RemovedBubble(this.bubble);
+final class _ClickedBubble extends SectorBubbleState {
+  const _ClickedBubble(this.bubble);
 
   final SectorBubble bubble;
 
