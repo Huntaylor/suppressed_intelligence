@@ -100,11 +100,7 @@ class SuppressedIntelGame extends FlameGame
 
     hudUpgradeButton.position = Vector2(gameWidth + hudUpgradeButton.x, 32);
 
-    hudPauseButton.position = Vector2(gameWidth + hudPauseButton.x, 0);
-
-    hudUpgradeButton.position = Vector2(gameWidth + hudUpgradeButton.x, 32);
-
-    debugGame = true;
+    debugGame = false;
 
     mousePosition = Vector2.zero();
     mouseText = 'Initial Text';

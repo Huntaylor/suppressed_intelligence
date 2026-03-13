@@ -94,7 +94,7 @@ class WorldInfoDisplay extends NineTileBoxComponent
         Vector2(game.gameWidth / 2, game.gameHeight - size.y),
         EffectController(duration: .5),
       ),
-      LoadingBar(position: Vector2(137, 29)),
+      LoadingBar(position: Vector2(158, 29)),
     ]);
   }
 }

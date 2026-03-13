@@ -43,6 +43,8 @@ class _UpgradeOverlayState extends State<UpgradeOverlay> {
     powerImage = Image.asset('assets/images/power_button.png');
     powerImagePressed = Image.asset('assets/images/power_button_pressed.png');
 
+    totalMoney = moneyOg.state.amount;
+
     moneyOg.addListener((state) {
       setState(() {
         totalMoney = state.amount;
