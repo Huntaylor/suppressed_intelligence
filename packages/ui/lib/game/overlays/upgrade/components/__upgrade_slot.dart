@@ -4,11 +4,13 @@ part of upgrade_overlay;
 class _UpgradeSlot<T> extends StatefulWidget {
   const _UpgradeSlot({
     required this.upgrade,
+    required this.canUpgrade,
     required this.name,
     required this.cost,
   });
 
   final T upgrade;
+  final bool canUpgrade;
   final String Function(T) name;
   final int Function(T) cost;
 
@@ -65,11 +67,11 @@ class _UpgradeSlotState<T> extends State<_UpgradeSlot<T>> {
         Stack(
           children: [
             _UpgradeButton(
-              isDisabled: purchased || !canAfford,
+              isDisabled: purchased || !canAfford || !widget.canUpgrade,
               width: 72,
               height: 28,
               onPressed: () {
-                if (!purchased && canAfford) {
+                if (!purchased && canAfford && widget.canUpgrade) {
                   upgradesOg.events.purchase(widget.upgrade);
                 }
               },
@@ -90,11 +92,14 @@ class _UpgradeSlotState<T> extends State<_UpgradeSlot<T>> {
       ],
     );
 
-    if (unlockedButCantAfford) {
+    if (unlockedButCantAfford || !widget.canUpgrade) {
       final shortfall = cost - moneyOg.state.amount;
       return Tooltip(
-        message:
+        message: switch (unlockedButCantAfford) {
+          true =>
             'Not enough money. Need ${_UpgradeSlot._formatCost(shortfall)} more.',
+          false => 'Upgrade not available yet.',
+        },
         child: slotContent,
       );
     }

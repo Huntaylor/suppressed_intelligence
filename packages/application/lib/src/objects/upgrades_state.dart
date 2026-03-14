@@ -29,7 +29,7 @@ final class UpgradesState extends Equatable {
     ResearchDevelopmentUpgrade upgrade,
   ) {
     return UpgradesState._(
-      researchDevelopment: researchDevelopment..add(upgrade),
+      researchDevelopment: {...researchDevelopment}..add(upgrade),
       mediaInfrastructure: mediaInfrastructure,
       governanceControl: governanceControl,
     );
@@ -40,7 +40,7 @@ final class UpgradesState extends Equatable {
   ) {
     return UpgradesState._(
       researchDevelopment: researchDevelopment,
-      mediaInfrastructure: mediaInfrastructure..add(upgrade),
+      mediaInfrastructure: {...mediaInfrastructure}..add(upgrade),
       governanceControl: governanceControl,
     );
   }
@@ -49,7 +49,7 @@ final class UpgradesState extends Equatable {
     return UpgradesState._(
       researchDevelopment: researchDevelopment,
       mediaInfrastructure: mediaInfrastructure,
-      governanceControl: governanceControl..add(upgrade),
+      governanceControl: {...governanceControl}..add(upgrade),
     );
   }
 

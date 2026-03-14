@@ -17,6 +17,10 @@ class _DropInfoDot extends InfoDotsEvent {
   final InfoDot dot;
 }
 
+class _StartAuto extends InfoDotsEvent {
+  const _StartAuto();
+}
+
 class _Events {
   _Events(this._object);
 

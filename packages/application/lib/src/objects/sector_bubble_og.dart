@@ -8,6 +8,7 @@ import 'package:application/src/objects/game_og.dart';
 import 'package:application/src/objects/info_dots_og.dart';
 import 'package:application/src/objects/money_og.dart';
 import 'package:application/src/objects/strength_influence_og.dart';
+import 'package:application/src/objects/upgrades_og.dart';
 import 'package:application/src/og.dart';
 import 'package:application/src/setup/setup.dart';
 import 'package:application/src/utils/pausible_timer.dart';
@@ -91,6 +92,12 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
   }
 
   void _spawnBubble(_SpawnBubble event, Emitter<SectorBubbleState> emit) {
+    if (upgradesOg.state.hasPurchased(
+      ResearchDevelopmentUpgrade.hardwareUpgrade1,
+    )) {
+      return;
+    }
+
     final config = gameConfigOg.state;
     if (config.infectedSectors.isEmpty) return;
 

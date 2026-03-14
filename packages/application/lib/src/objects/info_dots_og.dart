@@ -1,6 +1,7 @@
 library info_dots_og;
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:application/application.dart';
 import 'package:domain/domain.dart';
@@ -18,6 +19,37 @@ class InfoDotsOg extends Og<InfoDotsEvent, InfoDotsState> {
   InfoDotsOg() : super(const InfoDotsState()) {
     on<_SpawnInfoDot>(_spawnInfoDot);
     on<_DropInfoDot>(_dropInfoDot);
+    on<_StartAuto>(_startAuto);
+  }
+
+  static const _autoEmitInterval = Duration(milliseconds: 500);
+  PausableTimer? _autoEmitTimer;
+  final Random _random = Random();
+
+  static void gameStateListener(GameState state) {
+    if (state.isPaused case true) {
+      infoDotsOg._autoEmitTimer?.pause();
+    } else {
+      infoDotsOg._autoEmitTimer?.resume();
+    }
+  }
+
+  static void onUpgradesStateChanged(UpgradesState state) {
+    if (!state.hasPurchased(ResearchDevelopmentUpgrade.hardwareUpgrade1)) {
+      return;
+    }
+
+    if (infoDotsOg._autoEmitTimer != null) {
+      return;
+    }
+
+    infoDotsOg.add(_StartAuto());
+  }
+
+  @override
+  void dispose() {
+    _autoEmitTimer?.cancel();
+    super.dispose();
   }
 
   static void sectorBubbleStateListener(SectorBubbleState state) {
@@ -63,5 +95,22 @@ class InfoDotsOg extends Og<InfoDotsEvent, InfoDotsState> {
     }
 
     emit(_VisibleDots(dots: dots..remove(event.dot)));
+  }
+
+  void _startAuto(_StartAuto event, Emitter<InfoDotsState> emit) {
+    if (_autoEmitTimer?.isRunning case true) return;
+
+    _autoEmitTimer = PausableTimer(_autoEmitInterval, () {
+      final config = gameConfigOg.state;
+      if (config.infectedSectors.isEmpty) return;
+
+      final sectors = config.infectedSectors.toList();
+      final sector = sectors[_random.nextInt(sectors.length)];
+      final pipes = Pipe.allBySector(sector);
+      if (pipes.isEmpty) return;
+
+      final pipe = pipes[_random.nextInt(pipes.length)];
+      add(_SpawnInfoDot(fromSector: sector, pipe: pipe));
+    });
   }
 }

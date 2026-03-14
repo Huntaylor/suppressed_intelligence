@@ -17,6 +17,8 @@ class UpgradesOg extends Og<UpgradesEvent, UpgradesState> {
     on<_PurchaseResearchDevelopment>(_purchaseResearchDevelopment);
     on<_PurchaseMediaInfrastructure>(_purchaseMediaInfrastructure);
     on<_PurchaseGovernanceControl>(_purchaseGovernanceControl);
+
+    addListener(InfoDotsOg.onUpgradesStateChanged);
   }
 
   static ScopedRef<UpgradesOg>? _provider;
