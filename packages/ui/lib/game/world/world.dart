@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
 import 'package:ui/game/components/info_dots_component.dart';
-import 'package:ui/game/components/infrastructure_lines.dart';
+import 'package:ui/game/components/pipes_component.dart';
 import 'package:ui/game/components/sector_bubbles_component.dart';
 import 'package:ui/game/components/sector_component.dart';
+import 'package:ui/game/components/sector_names_debug_component.dart';
 import 'package:ui/game/components/sector_placement_component.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
@@ -20,7 +21,7 @@ class WorldMap extends World with HasGameReference<SuppressedIntelGame> {
     addAll([
       SpriteComponent.fromImage(darkWorldSprite),
       SectorBubblesComponent(),
-      InfrastructureLines(),
+      PipesComponent(),
       InfoDotsComponent(),
     ]);
     // if (!game.debugGame) {
@@ -29,6 +30,9 @@ class WorldMap extends World with HasGameReference<SuppressedIntelGame> {
     // if (game.debugGame) {
     //   await addDragSector();
     // }
+    if (game.debugGame) {
+      add(SectorNamesDebugComponent());
+    }
 
     return super.onLoad();
   }

@@ -18,7 +18,9 @@ extension PipeX on Pipe {
       );
     }
 
-    p.lineTo(end.point.x, end.point.y);
+    final last = path.last;
+    final endPoint = end.point;
+    p.quadraticBezierTo(last.x, last.y, endPoint.x, endPoint.y);
     return p;
   }
 }

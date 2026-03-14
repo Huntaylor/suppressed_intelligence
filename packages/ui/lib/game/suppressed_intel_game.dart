@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 
 import 'package:application/application.dart';
@@ -7,7 +9,9 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ui/game/components/instruction_window_component.dart';
+import 'package:ui/game/components/pipes_component.dart';
 import 'package:ui/game/components/world_info_display.dart';
 import 'package:ui/game/hud/hud_news_component.dart';
 import 'package:ui/game/hud/hud_pause_button.dart';
@@ -15,20 +19,24 @@ import 'package:ui/game/hud/hud_upgrade_button.dart';
 import 'package:ui/game/world/world.dart';
 
 class SuppressedIntelGame extends FlameGame
-    with TapCallbacks, MouseMovementDetector, DragCallbacks, ScrollDetector {
+    with
+        TapCallbacks,
+        MouseMovementDetector,
+        DragCallbacks,
+        ScrollDetector,
+        KeyboardEvents {
   SuppressedIntelGame();
 
   Color blueBackground = Color.fromARGB(255, 91, 110, 225);
   Color darkBlueBackground = Color.fromARGB(255, 35, 35, 58);
 
-  late bool debugGame;
+  bool debugGame = true;
 
   late bool infoStartUp;
 
   late WorldMap worldMap;
 
   late TextComponent mouseDebug;
-  late TextComponent positionText;
 
   late HudNewsComponent hudNewsComponent;
   late HudPauseButton hudPauseButton;
@@ -100,8 +108,6 @@ class SuppressedIntelGame extends FlameGame
 
     hudUpgradeButton.position = Vector2(gameWidth + hudUpgradeButton.x, 32);
 
-    debugGame = false;
-
     mousePosition = Vector2.zero();
     mouseText = 'Initial Text';
     mouseDebug = TextComponent(text: mouseText, priority: 2);
@@ -136,22 +142,25 @@ class SuppressedIntelGame extends FlameGame
     sectorStatsOg.events.removeSelection();
 
     if (debugGame) {
-      positionText = TextComponent(
-        anchor: Anchor.bottomCenter,
-        textRenderer: TextPaint(
-          style: TextPaint.defaultTextStyle.copyWith(
-            backgroundColor: Colors.black,
-            color: Colors.red,
-            fontSize: 8,
-          ),
-        ),
-        text: mouseText,
-        priority: 2,
-        position: camera.globalToLocal(event.localPosition),
-      );
-      world.add(positionText);
+      print(mouseText);
     }
     super.onTapDown(event);
+  }
+
+  @override
+  KeyEventResult onKeyEvent(
+    KeyEvent event,
+    Set<LogicalKeyboardKey> keysPressed,
+  ) {
+    if (debugGame &&
+        event is KeyDownEvent &&
+        event.logicalKey == LogicalKeyboardKey.keyR) {
+      print('--------------------------------');
+      world.children.query<PipesComponent>().firstOrNull?.repaint();
+      return KeyEventResult.handled;
+    }
+
+    return KeyEventResult.ignored;
   }
 
   @override

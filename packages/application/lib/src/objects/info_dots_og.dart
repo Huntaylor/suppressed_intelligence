@@ -26,7 +26,7 @@ class InfoDotsOg extends Og<InfoDotsEvent, InfoDotsState> {
 
     if (spawned.type != SectorBubbleType.ai) return;
 
-    final pipes = Pipe.allBySector(spawned.sector, includeEnd: false);
+    final pipes = Pipe.allBySector(spawned.sector);
 
     for (final pipe in pipes) {
       infoDotsOg.add(_SpawnInfoDot(dot: pipe.start, pipe: pipe));
