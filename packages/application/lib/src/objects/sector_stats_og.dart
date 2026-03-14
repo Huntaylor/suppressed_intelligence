@@ -1,6 +1,7 @@
 library sector_stats_og;
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:application/src/objects/game_config_og.dart';
 import 'package:application/src/objects/news_headline_og.dart';
@@ -103,6 +104,9 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
 
   static int _clampStat(int value) => value.clamp(0, 100);
 
+  static const _infectionBasePercent = 1;
+  static const _infectionPerReceivedPercent = 2;
+
   void _receiveInfoDot(_ReceiveInfoDot event, Emitter<SectorStatsState> emit) {
     final current = state.asIfReady;
 
@@ -112,7 +116,20 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     if (stat == null || current == null) return;
 
     final updated = stat.incrementReceievedInfoDots();
-
     emit(current.updateStat(sector, updated));
+
+    if (!gameConfigOg.state.infectedSectors.contains(sector) &&
+        _hasBecomeInfected(receivedInfoCount: updated.receievedInfoDots)) {
+      gameConfigOg.events.infectSector(sector);
+    }
   }
+
+  bool _hasBecomeInfected({required int receivedInfoCount}) {
+    final probabilityPercent = (_infectionBasePercent +
+            receivedInfoCount * _infectionPerReceivedPercent)
+        .clamp(0, 100);
+    return _random.nextInt(100) < probabilityPercent;
+  }
+
+  final Random _random = Random();
 }

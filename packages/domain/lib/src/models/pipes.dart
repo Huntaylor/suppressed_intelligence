@@ -56,6 +56,12 @@ sealed class Pipe extends Equatable {
     return false;
   }).toList();
 
+  /// Sectors connected by pipe to [sector].
+  static Set<WorldSectors> neighborsOf(WorldSectors sector) =>
+      allBySector(sector)
+          .map((p) => p.start.sector == sector ? p.end.sector : p.start.sector)
+          .toSet();
+
   @override
   List<Object?> get props => _$props;
 }
