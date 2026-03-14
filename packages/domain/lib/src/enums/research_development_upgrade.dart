@@ -32,7 +32,7 @@ enum ResearchDevelopmentUpgrade {
   /// AI predicts public reactions before publishing information.
   ///
   /// Purchase Effect: Lowers the trustAi stat \
-  /// UI Change: Increase dot speed \
+  /// UI Change: Increase dot frequency \
   /// Incremental Effect: Increase sector stats by .05% when dot arrives to sector
   hardwareUpgrade2(25000);
 

@@ -158,7 +158,10 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
 
   /// When [hardwareUpgrade1] is purchased, each info dot received in a sector
   /// increases that sector's trustAI by 0.025 percentage points (+1 every 40 receives).
-  static const _trustAiBonusEveryNReceives = 40;
+  static const _trustAiBonusEveryNReceivesHardware1 = 40;
+  /// When [hardwareUpgrade2] is purchased, each info dot received in a sector
+  /// increases that sector's trustAI by 0.05 percentage points (+1 every 20 receives).
+  static const _trustAiBonusEveryNReceivesHardware2 = 20;
 
   void _receiveInfoDot(_ReceiveInfoDot event, Emitter<SectorStatsState> emit) {
     final current = state.asIfReady;
@@ -169,13 +172,23 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     if (stat == null || current == null) return;
 
     var updated = stat.incrementReceievedInfoDots();
+    var trustBonus = 0;
     if (upgradesOg.state.hasPurchased(
           ResearchDevelopmentUpgrade.hardwareUpgrade1,
         ) &&
-        updated.receievedInfoDots % _trustAiBonusEveryNReceives == 0) {
+        updated.receievedInfoDots % _trustAiBonusEveryNReceivesHardware1 == 0) {
+      trustBonus += 1;
+    }
+    if (upgradesOg.state.hasPurchased(
+          ResearchDevelopmentUpgrade.hardwareUpgrade2,
+        ) &&
+        updated.receievedInfoDots % _trustAiBonusEveryNReceivesHardware2 == 0) {
+      trustBonus += 1;
+    }
+    if (trustBonus != 0) {
       updated = updated.copyWith(
-        trustAi: _clampStat(updated.trustAi + 1),
-        criticalThinking: _clampStat(updated.criticalThinking - 1),
+        trustAi: _clampStat(updated.trustAi + trustBonus),
+        criticalThinking: _clampStat(updated.criticalThinking - trustBonus),
       );
     }
     emit(current.updateStat(sector, updated));
