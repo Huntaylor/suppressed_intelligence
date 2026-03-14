@@ -31,13 +31,10 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
     on<_ClearBubble>(_clearBubble);
     on<_Pause>(_pause);
     on<_Resume>(_resume);
-    on<_UpdateSpawnInterval>(_updateSpawnInterval);
 
     addListener(InfoDotsOg.sectorBubbleStateListener);
     addListener(StrengthInfluenceOg.sectorBubbleStateListener);
     addListener(MoneyOg.sectorBubbleStateListener);
-
-    gameConfigOg.addListener(_gameConfigStateListener);
   }
 
   static ScopedRef<SectorBubbleOg>? _provider;
@@ -53,14 +50,6 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
     }
   }
 
-  void _gameConfigStateListener(GameConfigState configState) {
-    add(
-      _UpdateSpawnInterval(
-        infectedSectorCount: configState.infectedSectors.length,
-      ),
-    );
-  }
-
   late final events = _Events(this);
 
   final Random _random = Random();
@@ -68,41 +57,22 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
   PausableTimer? _expiryTimer;
   Duration _interval = _defaultInterval;
   static const _defaultInterval = Duration(seconds: 4);
-  static const _bubbleLifespan = Duration(seconds: 8);
+  static const _bubbleLifespan = Duration(seconds: 10);
   int _activeSeconds = 0;
   final Map<int, int> _bubbleSpawnTimes = {};
 
   @override
   void dispose() {
     gameOg.removeListener(gameStateListener);
-    gameConfigOg.removeListener(_gameConfigStateListener);
     _timer?.cancel();
     _expiryTimer?.cancel();
     super.dispose();
   }
 
   FutureOr<void> _init(_Init event, Emitter<SectorBubbleState> emit) {
-    final count = max(1, gameConfigOg.state.infectedSectors.length);
-    _interval =
-        event.interval ??
-        Duration(milliseconds: _defaultInterval.inMilliseconds ~/ count);
+    _interval = event.interval ?? _defaultInterval;
     _startTimer();
     _startExpiryTimer();
-  }
-
-  void _updateSpawnInterval(
-    _UpdateSpawnInterval event,
-    Emitter<SectorBubbleState> emit,
-  ) {
-    final count = max(1, event.infectedSectorCount);
-    _interval = Duration(
-      milliseconds: _defaultInterval.inMilliseconds ~/ count,
-    );
-    _timer?.cancel();
-    _startTimer();
-    if (gameOg.state.isPaused) {
-      _timer?.pause();
-    }
   }
 
   void _spawnFirstBubble(

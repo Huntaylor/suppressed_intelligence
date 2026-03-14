@@ -50,14 +50,6 @@ class _Resume extends SectorBubbleEvent {
   const _Resume();
 }
 
-/// Updates spawn interval based on infected sector count. Resets timer with
-/// new frequency (interval ÷ count).
-class _UpdateSpawnInterval extends SectorBubbleEvent {
-  const _UpdateSpawnInterval({required this.infectedSectorCount});
-
-  final int infectedSectorCount;
-}
-
 class _Events {
   _Events(this._object);
 
