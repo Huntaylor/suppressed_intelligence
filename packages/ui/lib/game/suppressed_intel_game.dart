@@ -30,7 +30,7 @@ class SuppressedIntelGame extends FlameGame
   Color blueBackground = Color.fromARGB(255, 91, 110, 225);
   Color darkBlueBackground = Color.fromARGB(255, 35, 35, 58);
 
-  bool debugGame = true;
+  bool debugGame = false;
 
   late bool infoStartUp;
 
@@ -152,12 +152,16 @@ class SuppressedIntelGame extends FlameGame
     KeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
-    if (debugGame &&
-        event is KeyDownEvent &&
-        event.logicalKey == LogicalKeyboardKey.keyR) {
-      print('--------------------------------');
-      world.children.query<PipesComponent>().firstOrNull?.repaint();
-      return KeyEventResult.handled;
+    if (event is KeyDownEvent) {
+      if (event.logicalKey == LogicalKeyboardKey.escape) {
+        sectorStatsOg.events.removeSelection();
+        return KeyEventResult.handled;
+      }
+      if (debugGame && event.logicalKey == LogicalKeyboardKey.keyR) {
+        print('--------------------------------');
+        world.children.query<PipesComponent>().firstOrNull?.repaint();
+        return KeyEventResult.handled;
+      }
     }
 
     return KeyEventResult.ignored;

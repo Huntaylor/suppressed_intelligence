@@ -22,6 +22,7 @@ class SectorComponent extends SpriteComponent
   double _targetOpacity = 0.0;
   final double _fadeSpeed = 3.0;
   bool debugStrength = false;
+  bool _isHovered = false;
 
   @override
   FutureOr<void> onLoad() async {
@@ -102,23 +103,26 @@ class SectorComponent extends SpriteComponent
   @override
   void onHoverEnter() {
     if (game.infoStartUp) return;
+    _isHovered = true;
     if (debugStrength) {
       influenceComponent.text = _influenceText;
     }
-    _targetOpacity = 1.0;
   }
 
   @override
   void onHoverExit() {
     if (game.infoStartUp) return;
+    _isHovered = false;
     influenceComponent.text = '';
-
-    _targetOpacity = 0.0;
   }
 
   @override
   void update(double dt) {
     super.update(dt);
+
+    final isSelected =
+        sectorStatsOg.state.asIfReady?.selectedSector == sector;
+    _targetOpacity = (_isHovered || isSelected) ? 1.0 : 0.0;
 
     if ((opacity - _targetOpacity).abs() > 0.01) {
       opacity += (_targetOpacity - opacity) * _fadeSpeed * dt;
