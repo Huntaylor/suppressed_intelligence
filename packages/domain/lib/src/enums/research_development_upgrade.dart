@@ -24,14 +24,14 @@ enum ResearchDevelopmentUpgrade {
 
   /// AI generates convincing articles, images, and videos.
   ///
-  /// Purchase Effect: Lowers the trustAi stat
+  /// Purchase Effect: Lowers the trustAi stat by half \
   /// UI Change: Automatic info dots \
   /// Incremental Effect: Increase sector stats by .025% when dot arrives to sector
   hardwareUpgrade1(10000),
 
   /// AI predicts public reactions before publishing information.
   ///
-  /// Purchase Effect: Lowers the trustAi stat \
+  /// Purchase Effect: Lowers the trustAi stat by half \
   /// UI Change: Increase dot frequency \
   /// Incremental Effect: Increase sector stats by .05% when dot arrives to sector
   hardwareUpgrade2(25000);
