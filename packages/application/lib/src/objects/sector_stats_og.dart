@@ -106,6 +106,8 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
 
   static const _infectionBasePercent = 1;
   static const _infectionPerReceivedPercent = 2;
+  /// Each already-infected sector reduces infection chance (harder to spread).
+  static const _infectionPenaltyPerInfectedPercent = 8;
 
   void _receiveInfoDot(_ReceiveInfoDot event, Emitter<SectorStatsState> emit) {
     final current = state.asIfReady;
@@ -118,16 +120,25 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     final updated = stat.incrementReceievedInfoDots();
     emit(current.updateStat(sector, updated));
 
-    if (!gameConfigOg.state.infectedSectors.contains(sector) &&
-        _hasBecomeInfected(receivedInfoCount: updated.receievedInfoDots)) {
+    final infectedSectors = gameConfigOg.state.infectedSectors;
+    if (!infectedSectors.contains(sector) &&
+        _hasBecomeInfected(
+          receivedInfoCount: updated.receievedInfoDots,
+          infectedSectorCount: infectedSectors.length,
+        )) {
       gameConfigOg.events.infectSector(sector);
     }
   }
 
-  bool _hasBecomeInfected({required int receivedInfoCount}) {
-    final probabilityPercent = (_infectionBasePercent +
-            receivedInfoCount * _infectionPerReceivedPercent)
-        .clamp(0, 100);
+  bool _hasBecomeInfected({
+    required int receivedInfoCount,
+    required int infectedSectorCount,
+  }) {
+    final rawPercent = _infectionBasePercent +
+        receivedInfoCount * _infectionPerReceivedPercent;
+    final penalty =
+        infectedSectorCount * _infectionPenaltyPerInfectedPercent;
+    final probabilityPercent = (rawPercent - penalty).clamp(0, 100);
     return _random.nextInt(100) < probabilityPercent;
   }
 
