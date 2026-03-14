@@ -26,7 +26,9 @@ class SectorComponent extends SpriteComponent
 
   @override
   FutureOr<void> onLoad() async {
-    debugStrength = true;
+    priority = game.sectorComponentPriority;
+
+    debugStrength = false;
     final image = await game.images.load(sector.imagePath);
     sprite = Sprite(image);
 

@@ -20,15 +20,14 @@ class WorldInfoDisplay extends NineTileBoxComponent
   int sectorTrustStat = 0;
   int sectorThinkingStat = 100;
 
-  double overallAi = 0;
-
   final bool isWeb = kIsWasm || kIsWeb;
 
   late Vector2 newPosition;
 
   double speed = 45.0;
 
-  late ProgressBar progressBar;
+  late ProgressBar mainProgressBar;
+  late ProgressBar secondaryProgressBar;
 
   @override
   FutureOr<void> onLoad() async {
@@ -71,18 +70,15 @@ class WorldInfoDisplay extends NineTileBoxComponent
       rightWidth: 9,
     );
 
-    progressBar = ProgressBar(position: Vector2(158, 29));
+    mainProgressBar = ProgressBar(position: Vector2(158, 29));
+    secondaryProgressBar = ProgressBar(position: Vector2(158, 15));
 
     sectorStatsOg.addListener((state) {
-      final currentSector = sectorStatsOg.state.asIfReady?.selectedSector;
+      final currentSector = state.asIfReady?.selectedSector;
       final data = state.asIfReady?.stats[currentSector];
       if (data == null) return;
       sectorThinkingStat = data.criticalThinking;
       sectorTrustStat = data.trustAi;
-    });
-
-    strengthInfluenceOg.addListener((state) {
-      overallAi = state.overallAi;
     });
 
     addAll([worldData, sectorName, secondaryData]);
@@ -94,17 +90,46 @@ class WorldInfoDisplay extends NineTileBoxComponent
     final currentSector = sectorStatsOg.state.asIfReady?.selectedSector;
 
     if (currentSector == null) {
+      final overallAiStat = strengthInfluenceOg.state.overallAi;
+      final oiStat = strengthInfluenceOg.state.oi;
+      secondaryProgressBar.setProgress = oiStat;
+      mainProgressBar.setProgress = overallAiStat.toInt();
       sectorName.text = 'Global Impact';
       worldData.text =
-          'Total AI Dependency: ${formatAsPercentage((overallAi) / 100)}';
-      secondaryData.text = '';
+          'Total AI Dependency at ${formatAsPercentage((overallAiStat) / 100)}';
+      secondaryData.text =
+          'OI Influence at ${formatAsPercentage((oiStat) / 100)}';
+
+      if (gameConfigOg.state.isOIPresent) {
+        if (secondaryProgressBar.opacity != 1) {
+          secondaryProgressBar.opacity = 1;
+        }
+        secondaryData.text =
+            'OI Influence at ${formatAsPercentage((oiStat) / 100)}';
+      } else {
+        secondaryData.text = '';
+        if (secondaryProgressBar.opacity != 0) {
+          secondaryProgressBar.opacity = 0;
+        }
+      }
     } else {
+      // Trust AI Progress
+      mainProgressBar.setProgress = sectorTrustStat;
+
+      // Critical Thinking Progress
+      secondaryProgressBar.setProgress = sectorThinkingStat;
+
+      if (secondaryProgressBar.opacity != 1) {
+        secondaryProgressBar.opacity = 1;
+      }
+
       sectorName.text = currentSector.displayName;
       worldData.text =
           'AI Trust at ${formatAsPercentage((sectorTrustStat) / 100)}';
       secondaryData.text =
           'Critical Thinking at ${formatAsPercentage((sectorThinkingStat) / 100)}';
     }
+
     super.update(dt);
   }
 
@@ -125,7 +150,8 @@ class WorldInfoDisplay extends NineTileBoxComponent
         Vector2(game.gameWidth / 2, game.gameHeight - size.y),
         EffectController(duration: .5),
       ),
-      progressBar,
+      mainProgressBar,
+      secondaryProgressBar,
     ]);
   }
 }

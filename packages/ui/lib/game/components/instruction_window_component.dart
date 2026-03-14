@@ -11,7 +11,7 @@ import 'package:ui/game/suppressed_intel_game.dart';
 class InstructionWindowComponent extends NineTileBoxComponent
     with HasGameReference<SuppressedIntelGame>, TapCallbacks {
   InstructionWindowComponent({super.position, super.size})
-    : super(anchor: Anchor.topCenter, priority: 5);
+    : super(anchor: Anchor.topCenter);
 
   late TextComponent aiName;
 
@@ -19,6 +19,8 @@ class InstructionWindowComponent extends NineTileBoxComponent
 
   @override
   FutureOr<void> onLoad() async {
+    priority = game.infoWindowPriority;
+
     final nineTileImage = await game.images.load(
       'windows_95_no_close_chatgpt.png',
     );
@@ -86,8 +88,10 @@ class InstructionWindowComponent extends NineTileBoxComponent
       anchor: .center,
     );
 
-    final startImage = await game.images.load('menu_button.png');
-    final startImagePressed = await game.images.load('menu_button_pressed.png');
+    final startImage = await game.images.load('menu_start_button.png');
+    final startImagePressed = await game.images.load(
+      'menu_start_button_pressed.png',
+    );
 
     final button = ButtonComponent(
       anchor: .center,

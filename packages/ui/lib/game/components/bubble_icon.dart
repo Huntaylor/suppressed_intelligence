@@ -11,7 +11,7 @@ import 'package:ui/game/suppressed_intel_game.dart';
 class BubbleIcon extends SpriteComponent
     with HasGameReference<SuppressedIntelGame>, TapCallbacks {
   BubbleIcon({required this.bubble, required super.position, super.size})
-    : super(anchor: Anchor.bottomCenter, priority: 4);
+    : super(anchor: Anchor.bottomCenter);
 
   final SectorBubble bubble;
 
@@ -19,6 +19,8 @@ class BubbleIcon extends SpriteComponent
 
   @override
   FutureOr<void> onLoad() async {
+    priority = game.bubbleIconPriority;
+
     final iconPath = switch (bubble.type) {
       SectorBubbleType.oi => 'icons/oi_bubble_icon_32x48.png',
       SectorBubbleType.ai => 'icons/ai_bubble_icon_32x48.png',

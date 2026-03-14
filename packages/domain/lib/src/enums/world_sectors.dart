@@ -51,6 +51,14 @@ enum WorldSectors {
     WorldSectors.af => 'sector_sprites/sector_3.png',
     WorldSectors.oc => 'sector_sprites/sector_4.png',
   };
+  String get darkImagePath => switch (this) {
+    WorldSectors.na => 'sector_sprites/dark_version/sector_1_dark.png',
+    WorldSectors.sa => 'sector_sprites/dark_version/sector_2_dark.png',
+    WorldSectors.eu => 'sector_sprites/dark_version/sector_5_dark.png',
+    WorldSectors.as => 'sector_sprites/dark_version/sector_6_dark.png',
+    WorldSectors.af => 'sector_sprites/dark_version/sector_3_dark.png',
+    WorldSectors.oc => 'sector_sprites/dark_version/sector_4_dark.png',
+  };
 
   ({double x, double y}) get position => switch (this) {
     WorldSectors.na => (x: 216.0, y: 177.0),

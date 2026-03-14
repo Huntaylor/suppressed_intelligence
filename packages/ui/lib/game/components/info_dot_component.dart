@@ -3,9 +3,11 @@ import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
+import 'package:ui/game/suppressed_intel_game.dart';
 import 'package:ui/game/utils/extensions/pipe_extensions.dart';
 
-class InfoDotComponent extends CircleComponent {
+class InfoDotComponent extends CircleComponent
+    with HasGameReference<SuppressedIntelGame> {
   InfoDotComponent.normal({
     super.position,
     required this.dot,
@@ -14,7 +16,6 @@ class InfoDotComponent extends CircleComponent {
     double radius = 3,
   }) : super(
          paint: Paint()..color = color,
-         priority: 3,
          radius: radius,
          anchor: Anchor.center,
        );
@@ -24,6 +25,8 @@ class InfoDotComponent extends CircleComponent {
 
   @override
   Future<void> onLoad() async {
+    priority = game.infoDotsPriority;
+
     add(
       MoveAlongPathEffect(
         dot.pipe.toPath(reverse: reverse),

@@ -49,7 +49,7 @@ class StrengthInfluenceOg
     final event = state.asIfReady?.data;
     if (event case null) return;
 
-    if (event.impact.impactsOi) {
+    if (event.impact.impactsOi && gameConfigOg.state.isOIPresent) {
       strengthInfluenceOg.events.updateOi(delta: event.impact.deltaForOi);
     }
   }

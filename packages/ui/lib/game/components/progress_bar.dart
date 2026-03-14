@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:application/application.dart';
 import 'package:flame/components.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
@@ -13,8 +12,6 @@ class ProgressBar extends NineTileBoxComponent
   late Timer timer;
   late Timer backwards;
 
-  // double progress = 0;
-
   List<RectangleComponent> loadingBars = [];
 
   Vector2 fillBarPosition = Vector2(4, 3.5);
@@ -23,19 +20,6 @@ class ProgressBar extends NineTileBoxComponent
 
   @override
   FutureOr<void> onLoad() async {
-    // timer = Timer(
-    //   .1,
-    //   onTick: () => createLoadingTick(),
-    //   autoStart: true,
-    //   repeat: true,
-    // );
-    // backwards = Timer(
-    //   .1,
-    //   onTick: () => removeLoadingTick(),
-    //   autoStart: false,
-    //   repeat: true,
-    // );
-
     // paint = Paint()..color = Color.fromARGB(255, 1, 0, 128);
     paint = Paint()..color = Color.fromARGB(255, 1, 1, 175);
     final nineTileImage = await game.images.load(
@@ -50,45 +34,37 @@ class ProgressBar extends NineTileBoxComponent
       rightWidth: 4,
     );
 
-    strengthInfluenceOg.addListener((state) {
-      final data = state.overallAi;
-
-      final filled = (data / 100 * 32).round();
-
-      final currentProgress = loadingBars.length;
-      if (filled != currentProgress) {
-        if (filled > currentProgress) {
-          createLoadingTick(filled);
-        } else if (filled < currentProgress) {
-          removeLoadingTick(filled);
-        }
-      }
-    });
-
     return super.onLoad();
   }
 
-  // @override
-  // void update(double dt) {
-  //   backwards.update(dt);
-  //   timer.update(dt);
-  //   super.update(dt);
-  // }
+  set setProgress(int data) => _setProgressBar(data);
 
-  void removeLoadingTick(int filled) {
-    // count--;
-    if (filled <= 0) {
+  void removeLoadingTick(int removed) {
+    if (removed < 0) {
+      return;
+    }
+    if (removed == 0) {
+      for (var i = 0; i < loadingBars.length; i++) {
+        final rect = loadingBars.last;
+        loadingBars.remove(rect);
+        rect.removeFromParent();
+        fillBarPosition = Vector2(
+          fillBarPosition.x - (rect.size.x + 1),
+          fillBarPosition.y,
+        );
+      }
       return;
     }
 
-    final rect = loadingBars.last;
-
-    loadingBars.remove(rect);
-    rect.removeFromParent();
-    fillBarPosition = Vector2(
-      fillBarPosition.x - (rect.size.x + 1),
-      fillBarPosition.y,
-    );
+    for (var i = 0; i < loadingBars.length - removed; i++) {
+      final rect = loadingBars.last;
+      loadingBars.remove(rect);
+      rect.removeFromParent();
+      fillBarPosition = Vector2(
+        fillBarPosition.x - (rect.size.x + 1),
+        fillBarPosition.y,
+      );
+    }
   }
 
   void createLoadingTick(int filled) {
@@ -107,6 +83,19 @@ class ProgressBar extends NineTileBoxComponent
         fillBarPosition.y,
       );
       add(rect);
+    }
+  }
+
+  void _setProgressBar(int data) {
+    final filled = (data / 100 * 32).round();
+
+    final currentProgress = loadingBars.length;
+    if (filled != currentProgress) {
+      if (filled > currentProgress) {
+        createLoadingTick(filled);
+      } else if (filled < currentProgress) {
+        removeLoadingTick(filled);
+      }
     }
   }
 }

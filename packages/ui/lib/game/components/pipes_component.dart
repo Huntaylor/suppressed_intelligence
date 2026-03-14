@@ -10,13 +10,15 @@ import 'package:ui/game/utils/extensions/pipe_extensions.dart';
 
 class PipesComponent extends PositionComponent
     with Snapshot, HasGameReference<SuppressedIntelGame> {
-  PipesComponent() : super(priority: 2);
+  PipesComponent();
 
   @override
   FutureOr<void> onLoad() {
+    priority = game.pipesPriority;
+
     gameConfigOg.addListener((_) {
       // Snapshot will be invalidated from update() when we detect the diff.
-      takeSnapshot();
+      _needsRedraw = true;
     });
     upgradesOg.addListener(_onUpgradesChanged);
     return super.onLoad();
@@ -48,7 +50,7 @@ class PipesComponent extends PositionComponent
     ..strokeJoin = StrokeJoin.round;
 
   Set<WorldSectors> _paintedSectors = {};
-  bool _needsRedraw = false; // Start true so we draw on first frame
+  bool _needsRedraw = true; // Start true so we draw on first frame
 
   @override
   void update(double dt) {

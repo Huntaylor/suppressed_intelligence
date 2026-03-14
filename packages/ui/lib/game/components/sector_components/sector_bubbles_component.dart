@@ -1,20 +1,27 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:application/application.dart';
 import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
 import 'package:ui/game/components/bubble_icon.dart';
-import 'package:ui/game/components/sector_component.dart';
+import 'package:ui/game/components/sector_components/sector_component.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 import 'package:ui/game/utils/sector_bounds.dart';
 
 /// Syncs [sectorBubbleOg] state to bubble icons on the world map.
 class SectorBubblesComponent extends Component
     with HasGameReference<SuppressedIntelGame> {
-  SectorBubblesComponent() : super(priority: 4);
+  SectorBubblesComponent() : super();
 
   final Random _random = Random();
   final Set<int> _renderedIds = {};
+
+  @override
+  FutureOr<void> onLoad() {
+    priority = game.sectorBubblesPriority;
+    return super.onLoad();
+  }
 
   @override
   void update(double dt) {

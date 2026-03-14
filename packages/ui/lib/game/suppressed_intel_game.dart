@@ -53,6 +53,15 @@ class SuppressedIntelGame extends FlameGame
   final double gameWidth = 1024;
   final double gameHeight = 515;
 
+  //Priorities
+  final sectorCanvasPriority = 1;
+  final sectorComponentPriority = 2;
+  final pipesPriority = 3;
+  final infoDotsPriority = 4;
+  final sectorBubblesPriority = 4;
+  final bubbleIconPriority = 5;
+  final infoWindowPriority = 6;
+
   @override
   FutureOr<void> onLoad() async {
     infoStartUp = true;

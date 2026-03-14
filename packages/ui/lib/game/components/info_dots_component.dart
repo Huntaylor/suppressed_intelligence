@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:application/application.dart';
 import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
@@ -8,9 +10,16 @@ import 'package:ui/game/suppressed_intel_game.dart';
 /// Syncs [infoDotsOg] state to info dot components on the world map.
 class InfoDotsComponent extends PositionComponent
     with HasGameReference<SuppressedIntelGame> {
-  InfoDotsComponent() : super(priority: 4, position: Vector2.zero());
+  InfoDotsComponent() : super(position: Vector2.zero());
 
   final Set<int> _spawnedIds = {};
+
+  @override
+  FutureOr<void> onLoad() {
+    priority = game.infoDotsPriority;
+
+    return super.onLoad();
+  }
 
   @override
   void update(double dt) {

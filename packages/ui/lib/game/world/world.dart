@@ -4,10 +4,11 @@ import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
 import 'package:ui/game/components/info_dots_component.dart';
 import 'package:ui/game/components/pipes_component.dart';
-import 'package:ui/game/components/sector_bubbles_component.dart';
-import 'package:ui/game/components/sector_component.dart';
-import 'package:ui/game/components/sector_names_debug_component.dart';
-import 'package:ui/game/components/sector_placement_component.dart';
+import 'package:ui/game/components/sector_components/sector_bubbles_component.dart';
+import 'package:ui/game/components/sector_components/sector_canvas_component.dart';
+import 'package:ui/game/components/sector_components/sector_component.dart';
+import 'package:ui/game/components/sector_components/sector_names_debug_component.dart';
+import 'package:ui/game/components/sector_components/sector_placement_component.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
 class WorldMap extends World with HasGameReference<SuppressedIntelGame> {
@@ -16,7 +17,6 @@ class WorldMap extends World with HasGameReference<SuppressedIntelGame> {
   @override
   FutureOr<void> onLoad() async {
     final darkWorldSprite = await game.images.load('world_map_dark.png');
-    // final darkWorldSprite = await game.images.load('world_map_dark_infra.png');
 
     addAll([
       SpriteComponent.fromImage(darkWorldSprite),
@@ -51,7 +51,10 @@ class WorldMap extends World with HasGameReference<SuppressedIntelGame> {
 
   Future<void> addSectors() async {
     for (var sector in WorldSectors.values) {
-      add(SectorComponent(sector: sector));
+      addAll([
+        SectorComponent(sector: sector),
+        SectorCanvasComponent(sector: sector),
+      ]);
     }
   }
 }
