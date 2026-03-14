@@ -5,6 +5,7 @@ import 'dart:math';
 
 import 'package:application/src/objects/game_config_og.dart';
 import 'package:application/src/objects/news_headline_og.dart';
+import 'package:application/src/objects/upgrades_og.dart';
 import 'package:application/src/og.dart';
 import 'package:application/src/setup/setup.dart';
 import 'package:data/data.dart';
@@ -108,6 +109,8 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
   static const _infectionPerReceivedPercent = 2;
   /// Each already-infected sector reduces infection chance (harder to spread).
   static const _infectionPenaltyPerInfectedPercent = 8;
+  /// Sentiment Analysis upgrade: sectors 8% more likely to become infected.
+  static const _infectionSentimentAnalysisBonusPercent = 8;
 
   void _receiveInfoDot(_ReceiveInfoDot event, Emitter<SectorStatsState> emit) {
     final current = state.asIfReady;
@@ -134,11 +137,15 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     required int receivedInfoCount,
     required int infectedSectorCount,
   }) {
-    final rawPercent = _infectionBasePercent +
+    var rawPercent = _infectionBasePercent +
         receivedInfoCount * _infectionPerReceivedPercent;
     final penalty =
         infectedSectorCount * _infectionPenaltyPerInfectedPercent;
-    final probabilityPercent = (rawPercent - penalty).clamp(0, 100);
+    rawPercent -= penalty;
+    if (upgradesOg.state.hasPurchased(ResearchDevelopmentUpgrade.sentimentAnalysis)) {
+      rawPercent += _infectionSentimentAnalysisBonusPercent;
+    }
+    final probabilityPercent = rawPercent.clamp(0, 100);
     return _random.nextInt(100) < probabilityPercent;
   }
 
