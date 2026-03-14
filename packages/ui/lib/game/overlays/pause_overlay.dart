@@ -2,7 +2,7 @@ import 'package:application/application.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ui/game/overlays/upgrade_overlay.dart';
+import 'package:ui/game/overlays/upgrade/upgrade_overlay.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
 class PauseOverlay extends StatelessWidget {

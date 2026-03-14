@@ -1,10 +1,18 @@
+library upgrade_overlay;
+
 import 'package:application/application.dart';
+import 'package:domain/domain.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ui/game/overlays/pause_overlay.dart';
-import 'package:ui/game/overlays/widgets/upgrade_category_widget.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
+
+part 'components/__button.dart';
+part 'components/__category_widget.dart';
+part 'components/__upgrade_button.dart';
+part 'components/__upgrade_section.dart';
+part 'components/__upgrade_slot.dart';
 
 class UpgradeOverlay extends StatefulWidget {
   const UpgradeOverlay({super.key, required this.game});
@@ -42,8 +50,6 @@ class _UpgradeOverlayState extends State<UpgradeOverlay> {
   late Image searchImagePressed;
   late Image powerImage;
   late Image powerImagePressed;
-  late Image blankImage;
-  late Image blankImagePressed;
 
   bool isRamPressed = false;
   bool isSearchedPressed = false;
@@ -55,8 +61,6 @@ class _UpgradeOverlayState extends State<UpgradeOverlay> {
   void initState() {
     ramImage = Image.asset('assets/images/ram_button.png');
     ramImagePressed = Image.asset('assets/images/ram_button_pressed.png');
-    blankImage = Image.asset('assets/images/blank_button.png');
-    blankImagePressed = Image.asset('assets/images/blank_button_pressed.png');
 
     searchImage = Image.asset('assets/images/search_button.png');
     searchImagePressed = Image.asset('assets/images/search_button_pressed.png');
@@ -87,7 +91,7 @@ class _UpgradeOverlayState extends State<UpgradeOverlay> {
         width: 920,
         child: Stack(
           children: [
-            Align(alignment: Alignment.center, child: UpgradeCategoryWidget()),
+            Align(alignment: Alignment.center, child: _UpgradeCategoryWidget()),
             Align(
               alignment: AlignmentGeometry.topRight,
               child: GestureDetector(

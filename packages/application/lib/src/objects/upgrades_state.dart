@@ -16,6 +16,15 @@ final class UpgradesState extends Equatable {
   final Set<MediaInfrastructureUpgrade> mediaInfrastructure;
   final Set<GovernanceControlUpgrade> governanceControl;
 
+  bool hasPurchased<T>(T upgrade) {
+    return switch (upgrade) {
+      ResearchDevelopmentUpgrade() => researchDevelopment.contains(upgrade),
+      MediaInfrastructureUpgrade() => mediaInfrastructure.contains(upgrade),
+      GovernanceControlUpgrade() => governanceControl.contains(upgrade),
+      _ => false,
+    };
+  }
+
   UpgradesState purchaseResearchDevelopment(
     ResearchDevelopmentUpgrade upgrade,
   ) {

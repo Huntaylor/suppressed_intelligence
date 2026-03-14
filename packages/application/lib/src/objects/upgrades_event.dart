@@ -38,4 +38,17 @@ class _Events {
   void purchaseGovernanceControl(GovernanceControlUpgrade upgrade) {
     _object.add(_PurchaseGovernanceControl(upgrade: upgrade));
   }
+
+  void purchase<T>(T upgrade) {
+    switch (upgrade) {
+      case ResearchDevelopmentUpgrade():
+        _object.add(_PurchaseResearchDevelopment(upgrade: upgrade));
+      case MediaInfrastructureUpgrade():
+        _object.add(_PurchaseMediaInfrastructure(upgrade: upgrade));
+      case GovernanceControlUpgrade():
+        _object.add(_PurchaseGovernanceControl(upgrade: upgrade));
+      case final other:
+        throw UnimplementedError('No purchase handler for $other');
+    }
+  }
 }

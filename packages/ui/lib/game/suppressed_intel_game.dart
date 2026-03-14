@@ -17,7 +17,7 @@ import 'package:ui/game/hud/hud_news_component.dart';
 import 'package:ui/game/hud/hud_pause_button.dart';
 import 'package:ui/game/hud/hud_upgrade_button.dart';
 import 'package:ui/game/overlays/pause_overlay.dart';
-import 'package:ui/game/overlays/upgrade_overlay.dart';
+import 'package:ui/game/overlays/upgrade/upgrade_overlay.dart';
 import 'package:ui/game/world/world.dart';
 
 class SuppressedIntelGame extends FlameGame
