@@ -23,6 +23,8 @@ class InfoDotsOg extends Og<InfoDotsEvent, InfoDotsState> {
   }
 
   static const _autoEmitInterval = Duration(milliseconds: 500);
+  /// Shorter interval when [ResearchDevelopmentUpgrade.hardwareUpgrade2] is purchased.
+  static const _autoEmitIntervalHardware2 = Duration(milliseconds: 250);
   PausableTimer? _autoEmitTimer;
   final Random _random = Random();
 
@@ -37,6 +39,13 @@ class InfoDotsOg extends Og<InfoDotsEvent, InfoDotsState> {
   static void onUpgradesStateChanged(UpgradesState state) {
     if (!state.hasPurchased(ResearchDevelopmentUpgrade.hardwareUpgrade1)) {
       return;
+    }
+
+    // When hardwareUpgrade2 is purchased, restart timer with higher frequency.
+    if (state.hasPurchased(ResearchDevelopmentUpgrade.hardwareUpgrade2) &&
+        infoDotsOg._autoEmitTimer != null) {
+      infoDotsOg._autoEmitTimer?.cancel();
+      infoDotsOg._autoEmitTimer = null;
     }
 
     if (infoDotsOg._autoEmitTimer != null) {
@@ -97,10 +106,15 @@ class InfoDotsOg extends Og<InfoDotsEvent, InfoDotsState> {
     emit(_VisibleDots(dots: dots..remove(event.dot)));
   }
 
+  Duration get _currentAutoEmitInterval =>
+      upgradesOg.state.hasPurchased(ResearchDevelopmentUpgrade.hardwareUpgrade2)
+          ? _autoEmitIntervalHardware2
+          : _autoEmitInterval;
+
   void _startAuto(_StartAuto event, Emitter<InfoDotsState> emit) {
     if (_autoEmitTimer?.isRunning case true) return;
 
-    _autoEmitTimer = PausableTimer(_autoEmitInterval, () {
+    _autoEmitTimer = PausableTimer(_currentAutoEmitInterval, () {
       final config = gameConfigOg.state;
       if (config.infectedSectors.isEmpty) return;
 
