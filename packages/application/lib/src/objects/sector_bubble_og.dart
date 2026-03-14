@@ -91,12 +91,14 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
   }
 
   void _spawnBubble(_SpawnBubble event, Emitter<SectorBubbleState> emit) {
-    final infectedSectors = gameConfigOg.state.infectedSectors;
-    if (infectedSectors.isEmpty) return;
+    final config = gameConfigOg.state;
+    if (config.infectedSectors.isEmpty) return;
 
-    final sectors = infectedSectors.toList();
+    final sectors = config.infectedSectors.toList();
     final sector = sectors[_random.nextInt(sectors.length)];
-    final type = SectorBubbleType.values[_random.nextInt(2)];
+    final type = config.isOIPresent
+        ? SectorBubbleType.values[_random.nextInt(2)]
+        : SectorBubbleType.ai;
     final bubble = SectorBubble(sector: sector, type: type);
 
     _bubbleSpawnTimes[bubble.id] = _activeSeconds;

@@ -28,6 +28,10 @@ class _ClearInfectedSectors extends GameConfigEvent {
   const _ClearInfectedSectors();
 }
 
+class _SetOIPresent extends GameConfigEvent {
+  const _SetOIPresent();
+}
+
 class _Events {
   _Events(this._object);
 
@@ -49,5 +53,9 @@ class _Events {
 
   void clearInfectedSectors() {
     _object.add(const _ClearInfectedSectors());
+  }
+
+  void setOIPresent() {
+    _object.add(const _SetOIPresent());
   }
 }

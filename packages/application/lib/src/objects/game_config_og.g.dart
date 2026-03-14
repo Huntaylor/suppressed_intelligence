@@ -7,5 +7,5 @@ part of 'game_config_og.dart';
 // **************************************************************************
 
 extension _$GameConfigStateEquatableAnnotations on GameConfigState {
-  List<Object?> get _$props => [name, infectedSectors];
+  List<Object?> get _$props => [name, infectedSectors, isOIPresent];
 }

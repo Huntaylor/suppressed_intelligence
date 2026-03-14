@@ -21,6 +21,7 @@ class GameConfigOg extends Og<GameConfigEvent, GameConfigState> {
     on<_InfectSector>(_infectSector);
     on<_InfectFirstSector>(_infectFirstSector);
     on<_ClearInfectedSectors>(_clearInfectedSectors);
+    on<_SetOIPresent>(_setOIPresent);
   }
 
   static const _defaultName = 'ChatGibitty';
@@ -60,5 +61,12 @@ class GameConfigOg extends Og<GameConfigEvent, GameConfigState> {
     Emitter<GameConfigState> emit,
   ) {
     emit(state.copywith(infectedSectors: {}));
+  }
+
+  void _setOIPresent(
+    _SetOIPresent event,
+    Emitter<GameConfigState> emit,
+  ) {
+    emit(state.copywith(isOIPresent: true));
   }
 }
