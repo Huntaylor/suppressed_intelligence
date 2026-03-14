@@ -94,19 +94,19 @@ class SectorComponent extends SpriteComponent
     return containsLocalPoint(localPoint);
   }
 
-  String get _influenceText {
-    final oi = strengthInfluenceOg.state.oi;
-    final ai = strengthInfluenceOg.state.ai[sector] ?? 0;
-    return 'OI: $oi, AI: $ai';
-  }
+  // String get _influenceText {
+  //   final oi = strengthInfluenceOg.state.oi;
+  //   final ai = strengthInfluenceOg.state.ai[sector] ?? 0;
+  //   return 'OI: $oi, AI: $ai';
+  // }
 
   @override
   void onHoverEnter() {
     if (game.infoStartUp) return;
     _isHovered = true;
-    if (debugStrength) {
-      influenceComponent.text = _influenceText;
-    }
+    // if (debugStrength) {
+    // influenceComponent.text = _influenceText;
+    // }
   }
 
   @override
@@ -120,8 +120,7 @@ class SectorComponent extends SpriteComponent
   void update(double dt) {
     super.update(dt);
 
-    final isSelected =
-        sectorStatsOg.state.asIfReady?.selectedSector == sector;
+    final isSelected = sectorStatsOg.state.asIfReady?.selectedSector == sector;
     _targetOpacity = (_isHovered || isSelected) ? 1.0 : 0.0;
 
     if ((opacity - _targetOpacity).abs() > 0.01) {

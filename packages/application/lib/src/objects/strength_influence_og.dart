@@ -1,6 +1,7 @@
 library strength_influence_og;
 
 import 'dart:async';
+import 'dart:core';
 
 import 'package:application/application.dart';
 import 'package:domain/domain.dart';
@@ -17,7 +18,7 @@ StrengthInfluenceOg get strengthInfluenceOg =>
 
 class StrengthInfluenceOg
     extends Og<StrengthInfluenceEvent, StrengthInfluenceState> {
-  StrengthInfluenceOg() : super(StrengthInfluenceState(oi: 0, ai: {})) {
+  StrengthInfluenceOg() : super(StrengthInfluenceState(oi: 0, overallAi: 0)) {
     on<_UpdateOi>(_updateOi);
     on<_UpdateAi>(_updateAi);
   }
@@ -27,34 +28,29 @@ class StrengthInfluenceOg
   static ScopedRef<StrengthInfluenceOg> get provider =>
       _provider ??= create<StrengthInfluenceOg>((getIt.call));
 
+  static void collectStats(SectorStatsState state) {
+    final stats = state.asIfReady?.stats;
+    if (stats case null) return;
+
+    List<double> statList = [];
+
+    for (var stat in stats.values) {
+      statList.add(stat.progress);
+    }
+
+    final reduction =
+        statList.reduce((value, element) => value + element) /
+        WorldSectors.values.length;
+
+    strengthInfluenceOg.events.updateAi(delta: reduction);
+  }
+
   static void newsHeadlineStateListener(NewsHeadlineState state) {
     final event = state.asIfReady?.data;
     if (event case null) return;
 
-    for (final sector in event.affectedSectors) {
-      if (event.impact.impactsAi) {
-        strengthInfluenceOg.events.updateAi(
-          sector: sector,
-          delta: event.impact.deltaForAi,
-        );
-      }
-
-      if (event.impact.impactsOi) {
-        strengthInfluenceOg.events.updateOi(delta: event.impact.deltaForOi);
-      }
-    }
-  }
-
-  static void sectorBubbleStateListener(SectorBubbleState state) {
-    final clicked = state.asIfClickedBubble?.bubble;
-    if (clicked == null) return;
-
-    switch (clicked.type) {
-      case SectorBubbleType.oi:
-        strengthInfluenceOg.events.updateOi(delta: -1);
-
-      case SectorBubbleType.ai:
-        strengthInfluenceOg.events.updateAi(sector: clicked.sector, delta: 1);
+    if (event.impact.impactsOi) {
+      strengthInfluenceOg.events.updateOi(delta: event.impact.deltaForOi);
     }
   }
 
@@ -72,8 +68,6 @@ class StrengthInfluenceOg
     _UpdateAi event,
     Emitter<StrengthInfluenceState> emit,
   ) {
-    final next = ((state.ai[event.sector] ?? 0) + event.delta).clamp(0, 100);
-
-    emit(state.copywith(ai: {...state.ai, event.sector: next}));
+    emit(state.copywith(overallAi: event.delta));
   }
 }

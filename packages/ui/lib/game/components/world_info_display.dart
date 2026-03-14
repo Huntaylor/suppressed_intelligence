@@ -1,12 +1,11 @@
 import 'dart:async';
 
 import 'package:application/application.dart';
-import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ui/game/components/loading_bar.dart';
+import 'package:ui/game/components/progress_bar.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
 class WorldInfoDisplay extends NineTileBoxComponent
@@ -15,15 +14,21 @@ class WorldInfoDisplay extends NineTileBoxComponent
     : super(anchor: Anchor.topCenter, size: Vector2(360, 48));
 
   late TextComponent worldData;
+  late TextComponent secondaryData;
   late TextComponent sectorName;
+
+  int sectorTrustStat = 0;
+  int sectorThinkingStat = 100;
+
+  double overallAi = 0;
 
   final bool isWeb = kIsWasm || kIsWeb;
 
   late Vector2 newPosition;
 
-  late WorldSectors? currentSector;
-
   double speed = 45.0;
+
+  late ProgressBar progressBar;
 
   @override
   FutureOr<void> onLoad() async {
@@ -44,6 +49,15 @@ class WorldInfoDisplay extends NineTileBoxComponent
       ),
     );
 
+    secondaryData = TextComponent(
+      position: Vector2(4, isWeb ? 15 : 14.5),
+      size: Vector2(size.x - 10, size.y),
+      text: '',
+      textRenderer: TextPaint(
+        style: const TextStyle(fontSize: 12, color: Colors.white),
+      ),
+    );
+
     newPosition = position;
     final nineTileImage = await game.images.load(
       'windows_95_no_close_chatgpt.png',
@@ -57,22 +71,39 @@ class WorldInfoDisplay extends NineTileBoxComponent
       rightWidth: 9,
     );
 
-    addAll([worldData, sectorName]);
+    progressBar = ProgressBar(position: Vector2(158, 29));
+
+    sectorStatsOg.addListener((state) {
+      final currentSector = sectorStatsOg.state.asIfReady?.selectedSector;
+      final data = state.asIfReady?.stats[currentSector];
+      if (data == null) return;
+      sectorThinkingStat = data.criticalThinking;
+      sectorTrustStat = data.trustAi;
+    });
+
+    strengthInfluenceOg.addListener((state) {
+      overallAi = state.overallAi;
+    });
+
+    addAll([worldData, sectorName, secondaryData]);
     return super.onLoad();
   }
 
   @override
   void update(double dt) {
-    currentSector = sectorStatsOg.state.asIfReady?.selectedSector;
+    final currentSector = sectorStatsOg.state.asIfReady?.selectedSector;
 
     if (currentSector == null) {
       sectorName.text = 'Global Impact';
       worldData.text =
-          'Total AI Dependency: ${formatAsPercentage((strengthInfluenceOg.state.overallAi / 6) / 100)}';
+          'Total AI Dependency: ${formatAsPercentage((overallAi) / 100)}';
+      secondaryData.text = '';
     } else {
-      sectorName.text = currentSector!.displayName;
+      sectorName.text = currentSector.displayName;
       worldData.text =
-          'Sector AI Dependency: ${formatAsPercentage((strengthInfluenceOg.state.ai[currentSector] ?? 0) / 100)}';
+          'AI Trust at ${formatAsPercentage((sectorTrustStat) / 100)}';
+      secondaryData.text =
+          'Critical Thinking at ${formatAsPercentage((sectorThinkingStat) / 100)}';
     }
     super.update(dt);
   }
@@ -94,7 +125,7 @@ class WorldInfoDisplay extends NineTileBoxComponent
         Vector2(game.gameWidth / 2, game.gameHeight - size.y),
         EffectController(duration: .5),
       ),
-      LoadingBar(position: Vector2(158, 29)),
+      progressBar,
     ]);
   }
 }

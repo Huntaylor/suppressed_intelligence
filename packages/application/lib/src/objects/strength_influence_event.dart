@@ -12,11 +12,10 @@ class _UpdateOi extends StrengthInfluenceEvent {
 }
 
 class _UpdateAi extends StrengthInfluenceEvent {
-  _UpdateAi({required this.sector, required this.delta});
+  _UpdateAi({required this.delta});
 
-  final WorldSectors sector;
   /// Delta to apply (will be clamped so result stays 0–100).
-  final int delta;
+  final double delta;
 }
 
 class _Events {
@@ -28,7 +27,7 @@ class _Events {
     _object.add(_UpdateOi(delta: delta));
   }
 
-  void updateAi({required WorldSectors sector, required int delta}) {
-    _object.add(_UpdateAi(sector: sector, delta: delta));
+  void updateAi({required double delta}) {
+    _object.add(_UpdateAi(delta: delta));
   }
 }

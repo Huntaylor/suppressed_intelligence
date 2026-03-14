@@ -11,5 +11,5 @@ extension _$SectorBubbleStateEquatableAnnotations on SectorBubbleState {
 }
 
 extension _$ClickedBubbleEquatableAnnotations on _ClickedBubble {
-  List<Object?> get _$props => [bubble];
+  List<Object?> get _$props => [bubble, bubbles];
 }

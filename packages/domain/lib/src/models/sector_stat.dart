@@ -21,6 +21,9 @@ class SectorStat extends Equatable {
   final int trustAi;
   final int receievedInfoDots;
 
+  double get progress => (trustAi + (100 - criticalThinking)) / 2;
+  bool get isComplete => trustAi >= 100 && criticalThinking <= 0;
+
   SectorStat copyWith({int? criticalThinking, int? trustAi}) => SectorStat._(
     sector: sector,
     criticalThinking: criticalThinking ?? this.criticalThinking,

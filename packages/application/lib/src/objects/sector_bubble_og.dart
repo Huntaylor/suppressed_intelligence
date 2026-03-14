@@ -7,7 +7,7 @@ import 'package:application/src/objects/game_config_og.dart';
 import 'package:application/src/objects/game_og.dart';
 import 'package:application/src/objects/info_dots_og.dart';
 import 'package:application/src/objects/money_og.dart';
-import 'package:application/src/objects/strength_influence_og.dart';
+import 'package:application/src/objects/sector_stats_og.dart';
 import 'package:application/src/objects/upgrades_og.dart';
 import 'package:application/src/og.dart';
 import 'package:application/src/setup/setup.dart';
@@ -34,8 +34,8 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
     on<_Resume>(_resume);
 
     addListener(InfoDotsOg.sectorBubbleStateListener);
-    addListener(StrengthInfluenceOg.sectorBubbleStateListener);
     addListener(MoneyOg.sectorBubbleStateListener);
+    addListener(SectorStatsOg.sectorBubbleStateListener);
   }
 
   static ScopedRef<SectorBubbleOg>? _provider;

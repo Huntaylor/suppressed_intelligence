@@ -8,5 +8,5 @@ part of 'strength_influence_og.dart';
 
 extension _$StrengthInfluenceStateEquatableAnnotations
     on StrengthInfluenceState {
-  List<Object?> get _$props => [oi, ai];
+  List<Object?> get _$props => [oi, overallAi];
 }

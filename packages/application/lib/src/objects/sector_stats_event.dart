@@ -17,6 +17,11 @@ class _ApplyNewsImpact extends SectorStatsEvent {
   final NewsEvent event;
 }
 
+class _ApplyBubbleImpact extends SectorStatsEvent {
+  const _ApplyBubbleImpact(this.sector);
+  final WorldSectors sector;
+}
+
 class _SelectSector extends SectorStatsEvent {
   const _SelectSector({required this.sector});
   final WorldSectors sector;

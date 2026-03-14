@@ -5,6 +5,8 @@ import 'dart:math';
 
 import 'package:application/src/objects/game_config_og.dart';
 import 'package:application/src/objects/news_headline_og.dart';
+import 'package:application/src/objects/sector_bubble_og.dart';
+import 'package:application/src/objects/strength_influence_og.dart';
 import 'package:application/src/objects/upgrades_og.dart';
 import 'package:application/src/og.dart';
 import 'package:application/src/setup/setup.dart';
@@ -27,10 +29,13 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     on<_Init>(_init);
     on<_Refresh>(_refresh);
     on<_ApplyNewsImpact>(_applyNewsImpact);
+    on<_ApplyBubbleImpact>(_applyBubbleImpact);
     on<_SelectSector>(_selectSector);
     on<_RemoveSelection>(_removeSelection);
     on<_ReceiveInfoDot>(_receiveInfoDot);
     on<_ApplyTrustAiBonus>(_applyTrustAiBonus);
+
+    addListener(StrengthInfluenceOg.collectStats);
   }
 
   static ScopedRef<SectorStatsOg>? _provider;
@@ -42,6 +47,19 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     final event = state.asIfReady?.data;
     if (event == null) return;
     sectorStatsOg.add(_ApplyNewsImpact(event));
+  }
+
+  static void sectorBubbleStateListener(SectorBubbleState state) {
+    final clicked = state.asIfClickedBubble?.bubble;
+    if (clicked == null) return;
+
+    switch (clicked.type) {
+      case SectorBubbleType.oi:
+        strengthInfluenceOg.events.updateOi(delta: -1);
+
+      case SectorBubbleType.ai:
+        sectorStatsOg.add(_ApplyBubbleImpact(clicked.sector));
+    }
   }
 
   late final events = _Events(this);
@@ -89,6 +107,28 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     emit(_Ready(stats: updated, selectedSector: current.selectedSector));
   }
 
+  void _applyBubbleImpact(
+    _ApplyBubbleImpact event,
+    Emitter<SectorStatsState> emit,
+  ) {
+    final current = state.asIfReady;
+    if (current == null) return;
+
+    // Apply impact only to infected sectors (news pool).
+
+    final sectorMap = Map<WorldSectors, SectorStat>.from(current.stats);
+    final stat = sectorMap[event.sector];
+
+    if (stat == null) return;
+
+    final updated = stat.copyWith(
+      criticalThinking: _clampStat(stat.criticalThinking - 5),
+      trustAi: _clampStat(stat.trustAi + 5),
+    );
+
+    emit(current.updateStat(event.sector, updated));
+  }
+
   void _selectSector(_SelectSector event, Emitter<SectorStatsState> emit) {
     final current = state.asIfReady;
     if (current == null) return;
@@ -108,8 +148,10 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
 
   static const _infectionBasePercent = 1;
   static const _infectionPerReceivedPercent = 2;
+
   /// Each already-infected sector reduces infection chance (harder to spread).
   static const _infectionPenaltyPerInfectedPercent = 8;
+
   /// Sentiment Analysis upgrade: sectors 8% more likely to become infected.
   static const _infectionSentimentAnalysisBonusPercent = 8;
 
@@ -154,12 +196,14 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     required int receivedInfoCount,
     required int infectedSectorCount,
   }) {
-    var rawPercent = _infectionBasePercent +
+    var rawPercent =
+        _infectionBasePercent +
         receivedInfoCount * _infectionPerReceivedPercent;
-    final penalty =
-        infectedSectorCount * _infectionPenaltyPerInfectedPercent;
+    final penalty = infectedSectorCount * _infectionPenaltyPerInfectedPercent;
     rawPercent -= penalty;
-    if (upgradesOg.state.hasPurchased(ResearchDevelopmentUpgrade.sentimentAnalysis)) {
+    if (upgradesOg.state.hasPurchased(
+      ResearchDevelopmentUpgrade.sentimentAnalysis,
+    )) {
       rawPercent += _infectionSentimentAnalysisBonusPercent;
     }
     final probabilityPercent = rawPercent.clamp(0, 100);
