@@ -30,6 +30,7 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     on<_SelectSector>(_selectSector);
     on<_RemoveSelection>(_removeSelection);
     on<_ReceiveInfoDot>(_receiveInfoDot);
+    on<_ApplyTrustAiBonus>(_applyTrustAiBonus);
   }
 
   static ScopedRef<SectorStatsOg>? _provider;
@@ -131,6 +132,22 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
         )) {
       gameConfigOg.events.infectSector(sector);
     }
+  }
+
+  void _applyTrustAiBonus(
+    _ApplyTrustAiBonus event,
+    Emitter<SectorStatsState> emit,
+  ) {
+    final current = state.asIfReady;
+    if (current == null) return;
+    final updated = Map<WorldSectors, SectorStat>.from(current.stats);
+    for (final entry in updated.entries) {
+      final stat = entry.value;
+      updated[entry.key] = stat.copyWith(
+        trustAi: _clampStat(stat.trustAi + event.amount),
+      );
+    }
+    emit(_Ready(stats: updated, selectedSector: current.selectedSector));
   }
 
   bool _hasBecomeInfected({

@@ -34,6 +34,10 @@ class UpgradesOg extends Og<UpgradesEvent, UpgradesState> {
 
     moneyOg.events.removeMoney(event.upgrade.cost);
     emit(state.purchaseResearchDevelopment(event.upgrade));
+
+    if (event.upgrade == ResearchDevelopmentUpgrade.narrativeOptimization) {
+      sectorStatsOg.events.applyTrustAiBonus(6);
+    }
   }
 
   void _purchaseMediaInfrastructure(

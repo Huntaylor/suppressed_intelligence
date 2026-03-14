@@ -28,7 +28,8 @@ class MoneyOg extends Og<MoneyEvent, MoneyState> {
       _provider ??= create<MoneyOg>((getIt.call));
 
   static const _incomePerMonth = 100;
-  static const _incomePerMonthBonusPercent = 5;
+  static const _incomePerMonthBehavioralModelingBonusPercent = 5;
+  static const _incomePerMonthNarrativeOptimizationBonusPercent = 10;
   static const _incomePerAiBubble = 25;
 
   static void sectorBubbleStateListener(SectorBubbleState state) {
@@ -41,13 +42,22 @@ class MoneyOg extends Og<MoneyEvent, MoneyState> {
     final hasBehavioralModeling = upgradesOg.state.hasPurchased(
       ResearchDevelopmentUpgrade.behavioralModeling,
     );
+    final hasNarrativeOptimization = upgradesOg.state.hasPurchased(
+      ResearchDevelopmentUpgrade.narrativeOptimization,
+    );
 
-    final income = switch (hasBehavioralModeling) {
-      true =>
-        _incomePerMonth +
-            (_incomePerMonth * _incomePerMonthBonusPercent / 100).round(),
-      false => _incomePerMonth,
+    // dart format off
+    final income = switch ((hasBehavioralModeling, hasNarrativeOptimization)) {
+      (true, true) => _incomePerMonth +
+          (_incomePerMonth * _incomePerMonthBehavioralModelingBonusPercent / 100).round() +
+          (_incomePerMonth * _incomePerMonthNarrativeOptimizationBonusPercent / 100).round(),
+      (true, false) => _incomePerMonth +
+          (_incomePerMonth * _incomePerMonthBehavioralModelingBonusPercent / 100).round(),
+      (false, true) => _incomePerMonth +
+          (_incomePerMonth * _incomePerMonthNarrativeOptimizationBonusPercent / 100).round(),
+      (false, false) => _incomePerMonth,
     };
+    // dart format on
 
     moneyOg.events.addMoney(income);
   }

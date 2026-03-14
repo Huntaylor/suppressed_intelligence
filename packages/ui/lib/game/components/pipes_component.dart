@@ -18,7 +18,13 @@ class PipesComponent extends PositionComponent
       // Snapshot will be invalidated from update() when we detect the diff.
       takeSnapshot();
     });
+    upgradesOg.addListener(_onUpgradesChanged);
     return super.onLoad();
+  }
+
+  void _onUpgradesChanged(_) {
+    _needsRedraw = true;
+    takeSnapshot();
   }
 
   /// Soft glow underneath the main line for depth
@@ -29,9 +35,13 @@ class PipesComponent extends PositionComponent
     ..strokeCap = StrokeCap.round
     ..strokeJoin = StrokeJoin.round;
 
-  /// Main line - slightly softer white, round caps for polished look
+  /// Main line - slightly softer white, round caps for polished look.
+  /// When [narrativeOptimization] is purchased, pipes use a distinct color.
+  static const _pipeColorDefault = Color(0xE6FFFFFF);
+  static const _pipeColorNarrativeOptimization = Color(
+    0xE6B388FF,
+  ); // soft purple
   final Paint paint = Paint()
-    ..color = const Color(0xE6FFFFFF)
     ..style = PaintingStyle.stroke
     ..strokeWidth = 2
     ..strokeCap = StrokeCap.round
@@ -64,6 +74,13 @@ class PipesComponent extends PositionComponent
   void _drawPipesAndDots(Canvas canvas) {
     final pipes = _getPipesForSectors(_paintedSectors);
     final paths = [for (final pipe in pipes) pipe.toPath()];
+
+    final hasNarrativeOptimization = upgradesOg.state.hasPurchased(
+      ResearchDevelopmentUpgrade.narrativeOptimization,
+    );
+    paint.color = hasNarrativeOptimization
+        ? _pipeColorNarrativeOptimization
+        : _pipeColorDefault;
 
     for (final path in paths) {
       canvas.drawPath(path, _glowPaint);

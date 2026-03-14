@@ -12,7 +12,7 @@ enum ResearchDevelopmentUpgrade {
   ///
   /// Purchase Effect: Increases the trustAi stat \
   /// UI Change: Increase info dot size \
-  /// Incremental Effect: Increase potential to infect a sector by 15%
+  /// Incremental Effect: Increase potential to infect a sector by 8%
   sentimentAnalysis(2500),
 
   /// AI automatically tests thousands of narrative variants.
@@ -24,14 +24,14 @@ enum ResearchDevelopmentUpgrade {
 
   /// AI generates convincing articles, images, and videos.
   ///
-  /// Purchase Effect: Increases the potential to infect a sector, Lowers the trustAi stat
-  /// UI Change: Increase dot frequency \
+  /// Purchase Effect: Lowers the trustAi stat
+  /// UI Change: Automatic info dots \
   /// Incremental Effect: Increase sector stats by .025% when dot arrives to sector
   hardwareUpgrade1(10000),
 
   /// AI predicts public reactions before publishing information.
   ///
-  /// Purchase Effect: Increases the potential to infect a sector, Lowers the trustAi stat \
+  /// Purchase Effect: Lowers the trustAi stat \
   /// UI Change: Increase dot speed \
   /// Incremental Effect: Increase sector stats by .05% when dot arrives to sector
   hardwareUpgrade2(25000);

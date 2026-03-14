@@ -32,6 +32,11 @@ class _ReceiveInfoDot extends SectorStatsEvent {
   final InfoDot dot;
 }
 
+class _ApplyTrustAiBonus extends SectorStatsEvent {
+  const _ApplyTrustAiBonus({required this.amount});
+  final int amount;
+}
+
 class _Events {
   _Events(this._object);
 
@@ -55,5 +60,9 @@ class _Events {
 
   void receiveInfoDot(InfoDot dot) {
     _object.add(_ReceiveInfoDot(dot: dot));
+  }
+
+  void applyTrustAiBonus(int amount) {
+    _object.add(_ApplyTrustAiBonus(amount: amount));
   }
 }
