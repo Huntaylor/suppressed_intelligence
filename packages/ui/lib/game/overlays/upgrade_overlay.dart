@@ -2,6 +2,7 @@ import 'package:application/application.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ui/game/overlays/pause_overlay.dart';
 import 'package:ui/game/overlays/widgets/upgrade_category_widget.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
@@ -9,6 +10,26 @@ class UpgradeOverlay extends StatefulWidget {
   const UpgradeOverlay({super.key, required this.game});
 
   final SuppressedIntelGame game;
+
+  static const id = 'UpgradeOverlay';
+
+  static bool show(SuppressedIntelGame game) {
+    if (game.overlays.isActive(id)) return false;
+
+    PauseOverlay.hide(game);
+
+    game.overlays.add(id);
+    return true;
+  }
+
+  static bool isShowing(SuppressedIntelGame game) => game.overlays.isActive(id);
+
+  static bool hide(SuppressedIntelGame game) {
+    if (!game.overlays.isActive(id)) return false;
+
+    game.overlays.remove(id);
+    return true;
+  }
 
   @override
   State<UpgradeOverlay> createState() => _UpgradeOverlayState();

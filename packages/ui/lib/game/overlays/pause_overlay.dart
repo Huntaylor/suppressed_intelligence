@@ -2,12 +2,39 @@ import 'package:application/application.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ui/game/overlays/upgrade_overlay.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
 class PauseOverlay extends StatelessWidget {
   const PauseOverlay({super.key, required this.game});
 
   final SuppressedIntelGame game;
+
+  static const id = 'PauseOverlay';
+
+  static bool show(SuppressedIntelGame game) {
+    if (game.overlays.isActive(id)) return false;
+
+    UpgradeOverlay.hide(game);
+
+    game.pauseEngine();
+    gameOg.events.pause();
+    game.overlays.add(id);
+
+    return true;
+  }
+
+  static bool isShowing(SuppressedIntelGame game) => game.overlays.isActive(id);
+
+  static bool hide(SuppressedIntelGame game) {
+    if (!game.overlays.isActive(id)) return false;
+
+    gameOg.events.resume();
+    game.resumeEngine();
+    game.overlays.remove(id);
+
+    return true;
+  }
 
   @override
   Widget build(BuildContext _) {

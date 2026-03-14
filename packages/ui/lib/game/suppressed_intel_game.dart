@@ -16,6 +16,8 @@ import 'package:ui/game/components/world_info_display.dart';
 import 'package:ui/game/hud/hud_news_component.dart';
 import 'package:ui/game/hud/hud_pause_button.dart';
 import 'package:ui/game/hud/hud_upgrade_button.dart';
+import 'package:ui/game/overlays/pause_overlay.dart';
+import 'package:ui/game/overlays/upgrade_overlay.dart';
 import 'package:ui/game/world/world.dart';
 
 class SuppressedIntelGame extends FlameGame
@@ -70,36 +72,20 @@ class SuppressedIntelGame extends FlameGame
 
     hudUpgradeButton = HudUpgradeButton(
       onPressed: () {
-        if (overlays.isActive('PauseOverlay')) {
-          gameOg.events.pause();
-          overlays
-            ..remove('PauseOverlay')
-            ..add('UpgradeOverlay');
-          resumeEngine();
-        } else if (overlays.isActive('UpgradeOverlay')) {
-          overlays.remove('UpgradeOverlay');
+        if (UpgradeOverlay.isShowing(this)) {
+          UpgradeOverlay.hide(this);
         } else {
-          overlays.add('UpgradeOverlay');
+          UpgradeOverlay.show(this);
         }
       },
     );
 
     hudPauseButton = HudPauseButton(
       onPressed: () {
-        if (overlays.isActive('UpgradeOverlay')) {
-          gameOg.events.pause();
-          overlays
-            ..remove('UpgradeOverlay')
-            ..add('PauseOverlay');
-          pauseEngine();
-        } else if (overlays.isActive('PauseOverlay')) {
-          gameOg.events.resume();
-          overlays.remove('PauseOverlay');
-          resumeEngine();
+        if (PauseOverlay.isShowing(this)) {
+          PauseOverlay.hide(this);
         } else {
-          gameOg.events.pause();
-          overlays.add('PauseOverlay');
-          pauseEngine();
+          PauseOverlay.show(this);
         }
       },
     );
@@ -154,6 +140,14 @@ class SuppressedIntelGame extends FlameGame
   ) {
     if (event is KeyDownEvent) {
       if (event.logicalKey == LogicalKeyboardKey.escape) {
+        if (PauseOverlay.hide(this)) {
+          return KeyEventResult.handled;
+        }
+
+        if (overlays.isActive('UpgradeOverlay')) {
+          overlays.remove('UpgradeOverlay');
+          return KeyEventResult.handled;
+        }
         sectorStatsOg.events.removeSelection();
         return KeyEventResult.handled;
       }
