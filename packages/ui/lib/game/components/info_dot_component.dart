@@ -10,10 +10,12 @@ class InfoDotComponent extends CircleComponent {
     super.position,
     required this.dot,
     required this.reverse,
+    Color color = Colors.white,
+    double radius = 3,
   }) : super(
-         paint: Paint()..color = Colors.white,
+         paint: Paint()..color = color,
          priority: 3,
-         radius: 3,
+         radius: radius,
          anchor: Anchor.center,
        );
 

@@ -1,6 +1,7 @@
 import 'package:application/application.dart';
 import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
 import 'package:ui/game/components/info_dot_component.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
@@ -39,11 +40,19 @@ class InfoDotsComponent extends PositionComponent
 
       if (startingPoint == null) continue;
 
+      final hasBehavioralModeling = upgradesOg.state.hasPurchased(
+        ResearchDevelopmentUpgrade.behavioralModeling,
+      );
+      final hasSentimentAnalysis = upgradesOg.state.hasPurchased(
+        ResearchDevelopmentUpgrade.sentimentAnalysis,
+      );
       add(
         InfoDotComponent.normal(
           position: Vector2(startingPoint.x, startingPoint.y),
           reverse: reverse,
           dot: dot,
+          color: hasBehavioralModeling ? Colors.purple : Colors.white,
+          radius: hasSentimentAnalysis ? 5 : 3,
         ),
       );
       _spawnedIds.add(dot.id);
