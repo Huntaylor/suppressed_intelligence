@@ -38,6 +38,15 @@ class SectorStat extends Equatable {
     receievedInfoDots: receievedInfoDots + 1,
   );
 
+  /// Resets the received-info-dots count (e.g. when an upgrade changes how
+  /// dots are counted for bonuses).
+  SectorStat withReceievedInfoDots(int value) => SectorStat._(
+    sector: sector,
+    criticalThinking: criticalThinking,
+    trustAi: trustAi,
+    receievedInfoDots: value,
+  );
+
   @override
   List<Object?> get props => _$props;
 }

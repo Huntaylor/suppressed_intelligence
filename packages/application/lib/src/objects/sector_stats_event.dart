@@ -42,6 +42,10 @@ class _ApplyTrustAiBonus extends SectorStatsEvent {
   final int amount;
 }
 
+class _ResetReceivedInfoDots extends SectorStatsEvent {
+  const _ResetReceivedInfoDots();
+}
+
 class _Events {
   _Events(this._object);
 
@@ -69,5 +73,9 @@ class _Events {
 
   void applyTrustAiBonus(int amount) {
     _object.add(_ApplyTrustAiBonus(amount: amount));
+  }
+
+  void resetReceivedInfoDots() {
+    _object.add(const _ResetReceivedInfoDots());
   }
 }

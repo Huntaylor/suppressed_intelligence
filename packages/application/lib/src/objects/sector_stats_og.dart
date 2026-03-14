@@ -34,6 +34,7 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     on<_RemoveSelection>(_removeSelection);
     on<_ReceiveInfoDot>(_receiveInfoDot);
     on<_ApplyTrustAiBonus>(_applyTrustAiBonus);
+    on<_ResetReceivedInfoDots>(_resetReceivedInfoDots);
 
     addListener(StrengthInfluenceOg.collectStats);
   }
@@ -155,6 +156,10 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
   /// Sentiment Analysis upgrade: sectors 8% more likely to become infected.
   static const _infectionSentimentAnalysisBonusPercent = 8;
 
+  /// When [hardwareUpgrade1] is purchased, each info dot received in a sector
+  /// increases that sector's trustAI by 0.025 percentage points (+1 every 40 receives).
+  static const _trustAiBonusEveryNReceives = 40;
+
   void _receiveInfoDot(_ReceiveInfoDot event, Emitter<SectorStatsState> emit) {
     final current = state.asIfReady;
 
@@ -163,7 +168,16 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     final stat = stats?[sector];
     if (stat == null || current == null) return;
 
-    final updated = stat.incrementReceievedInfoDots();
+    var updated = stat.incrementReceievedInfoDots();
+    if (upgradesOg.state.hasPurchased(
+          ResearchDevelopmentUpgrade.hardwareUpgrade1,
+        ) &&
+        updated.receievedInfoDots % _trustAiBonusEveryNReceives == 0) {
+      updated = updated.copyWith(
+        trustAi: _clampStat(updated.trustAi + 1),
+        criticalThinking: _clampStat(updated.criticalThinking - 1),
+      );
+    }
     emit(current.updateStat(sector, updated));
 
     final infectedSectors = gameConfigOg.state.infectedSectors;
@@ -188,6 +202,19 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
       updated[entry.key] = stat.copyWith(
         trustAi: _clampStat(stat.trustAi + event.amount),
       );
+    }
+    emit(_Ready(stats: updated, selectedSector: current.selectedSector));
+  }
+
+  void _resetReceivedInfoDots(
+    _ResetReceivedInfoDots event,
+    Emitter<SectorStatsState> emit,
+  ) {
+    final current = state.asIfReady;
+    if (current == null) return;
+    final updated = Map<WorldSectors, SectorStat>.from(current.stats);
+    for (final entry in updated.entries) {
+      updated[entry.key] = entry.value.withReceievedInfoDots(0);
     }
     emit(_Ready(stats: updated, selectedSector: current.selectedSector));
   }

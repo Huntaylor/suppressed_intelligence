@@ -40,6 +40,9 @@ class UpgradesOg extends Og<UpgradesEvent, UpgradesState> {
     if (event.upgrade == ResearchDevelopmentUpgrade.narrativeOptimization) {
       sectorStatsOg.events.applyTrustAiBonus(6);
     }
+    if (event.upgrade == ResearchDevelopmentUpgrade.hardwareUpgrade1) {
+      sectorStatsOg.events.resetReceivedInfoDots();
+    }
   }
 
   void _purchaseMediaInfrastructure(
