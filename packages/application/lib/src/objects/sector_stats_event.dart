@@ -46,6 +46,10 @@ class _ResetReceivedInfoDots extends SectorStatsEvent {
   const _ResetReceivedInfoDots();
 }
 
+class _HalveTrustAi extends SectorStatsEvent {
+  const _HalveTrustAi();
+}
+
 class _Events {
   _Events(this._object);
 
@@ -77,5 +81,9 @@ class _Events {
 
   void resetReceivedInfoDots() {
     _object.add(const _ResetReceivedInfoDots());
+  }
+
+  void halveTrustAi() {
+    _object.add(const _HalveTrustAi());
   }
 }

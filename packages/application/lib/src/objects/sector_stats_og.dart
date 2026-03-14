@@ -35,6 +35,7 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     on<_ReceiveInfoDot>(_receiveInfoDot);
     on<_ApplyTrustAiBonus>(_applyTrustAiBonus);
     on<_ResetReceivedInfoDots>(_resetReceivedInfoDots);
+    on<_HalveTrustAi>(_halveTrustAi);
 
     addListener(StrengthInfluenceOg.collectStats);
   }
@@ -159,6 +160,7 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
   /// When [hardwareUpgrade1] is purchased, each info dot received in a sector
   /// increases that sector's trustAI by 0.025 percentage points (+1 every 40 receives).
   static const _trustAiBonusEveryNReceivesHardware1 = 40;
+
   /// When [hardwareUpgrade2] is purchased, each info dot received in a sector
   /// increases that sector's trustAI by 0.05 percentage points (+1 every 20 receives).
   static const _trustAiBonusEveryNReceivesHardware2 = 20;
@@ -228,6 +230,19 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     final updated = Map<WorldSectors, SectorStat>.from(current.stats);
     for (final entry in updated.entries) {
       updated[entry.key] = entry.value.withReceievedInfoDots(0);
+    }
+    emit(_Ready(stats: updated, selectedSector: current.selectedSector));
+  }
+
+  void _halveTrustAi(_HalveTrustAi event, Emitter<SectorStatsState> emit) {
+    final current = state.asIfReady;
+    if (current == null) return;
+    final updated = Map<WorldSectors, SectorStat>.from(current.stats);
+    for (final entry in updated.entries) {
+      final stat = entry.value;
+      updated[entry.key] = stat.copyWith(
+        trustAi: _clampStat(stat.trustAi ~/ 2),
+      );
     }
     emit(_Ready(stats: updated, selectedSector: current.selectedSector));
   }

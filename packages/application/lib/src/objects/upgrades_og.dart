@@ -42,6 +42,7 @@ class UpgradesOg extends Og<UpgradesEvent, UpgradesState> {
     }
     if (event.upgrade == ResearchDevelopmentUpgrade.hardwareUpgrade1 ||
         event.upgrade == ResearchDevelopmentUpgrade.hardwareUpgrade2) {
+      sectorStatsOg.events.halveTrustAi();
       sectorStatsOg.events.resetReceivedInfoDots();
     }
   }
