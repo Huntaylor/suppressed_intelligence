@@ -6,21 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:ui/game/utils/extensions/pipe_extensions.dart';
 
 class InfoDotComponent extends CircleComponent {
-  InfoDotComponent.normal({super.position, required this.dot})
-    : super(
-        paint: Paint()..color = Colors.white,
-        priority: 3,
-        radius: 3,
-        anchor: Anchor.center,
-      );
+  InfoDotComponent.normal({
+    super.position,
+    required this.dot,
+    required this.reverse,
+  }) : super(
+         paint: Paint()..color = Colors.white,
+         priority: 3,
+         radius: 3,
+         anchor: Anchor.center,
+       );
 
   final InfoDot dot;
+  final bool reverse;
 
   @override
   Future<void> onLoad() async {
     add(
       MoveAlongPathEffect(
-        dot.pipe.toPath(),
+        dot.pipe.toPath(reverse: reverse),
         EffectController(duration: dot.pipe.travelTime.inSeconds.toDouble()),
         absolute: true,
         onComplete: () {

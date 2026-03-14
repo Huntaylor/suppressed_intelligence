@@ -29,7 +29,7 @@ class InfoDotsOg extends Og<InfoDotsEvent, InfoDotsState> {
     final pipes = Pipe.allBySector(spawned.sector);
 
     for (final pipe in pipes) {
-      infoDotsOg.add(_SpawnInfoDot(dot: pipe.start, pipe: pipe));
+      infoDotsOg.add(_SpawnInfoDot(fromSector: spawned.sector, pipe: pipe));
     }
   }
 
@@ -50,7 +50,7 @@ class InfoDotsOg extends Og<InfoDotsEvent, InfoDotsState> {
       _VisibleDots(
         dots: [
           ...?existing,
-          InfoDot(dot: event.dot, pipe: event.pipe),
+          InfoDot(fromSector: event.fromSector, pipe: event.pipe),
         ],
       ),
     );

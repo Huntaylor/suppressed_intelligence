@@ -5,9 +5,9 @@ sealed class InfoDotsEvent {
 }
 
 class _SpawnInfoDot extends InfoDotsEvent {
-  const _SpawnInfoDot({required this.dot, required this.pipe});
+  const _SpawnInfoDot({required this.fromSector, required this.pipe});
 
-  final PipeDot dot;
+  final WorldSectors fromSector;
   final Pipe pipe;
 }
 

@@ -15,5 +15,5 @@ extension _$PipeEquatableAnnotations on Pipe {
 }
 
 extension _$PipeDotEquatableAnnotations on PipeDot {
-  List<Object?> get _$props => [point, sector];
+  List<Object?> get _$props => [point, debugName, sector];
 }

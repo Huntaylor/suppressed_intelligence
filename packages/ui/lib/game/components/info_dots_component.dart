@@ -1,4 +1,5 @@
 import 'package:application/application.dart';
+import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
 import 'package:ui/game/components/info_dot_component.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
@@ -26,9 +27,22 @@ class InfoDotsComponent extends PositionComponent
     for (final dot in dots) {
       if (_spawnedIds.contains(dot.id)) continue;
 
+      final (:startingPoint, :reverse) = switch (dot) {
+        InfoDot(:final fromSector, pipe: Pipe(:final start))
+            when start.sector == fromSector =>
+          (startingPoint: start.point, reverse: false),
+        InfoDot(:final fromSector, pipe: Pipe(:final end))
+            when end.sector == fromSector =>
+          (startingPoint: end.point, reverse: true),
+        _ => (startingPoint: null, reverse: false),
+      };
+
+      if (startingPoint == null) continue;
+
       add(
         InfoDotComponent.normal(
-          position: Vector2(dot.dot.point.x, dot.dot.point.y),
+          position: Vector2(startingPoint.x, startingPoint.y),
+          reverse: reverse,
           dot: dot,
         ),
       );

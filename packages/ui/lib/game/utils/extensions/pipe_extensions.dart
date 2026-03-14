@@ -2,7 +2,11 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
 extension PipeX on Pipe {
-  Path toPath() {
+  Path toPath({bool reverse = false}) {
+    final start = reverse ? this.end : this.start;
+    final end = reverse ? this.start : this.end;
+    final path = reverse ? this.path.reversed.toList() : this.path;
+
     final p = Path();
     p.moveTo(start.point.x, start.point.y);
 

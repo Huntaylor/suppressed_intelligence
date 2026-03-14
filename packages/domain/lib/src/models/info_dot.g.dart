@@ -7,5 +7,5 @@ part of 'info_dot.dart';
 // **************************************************************************
 
 extension _$InfoDotEquatableAnnotations on InfoDot {
-  List<Object?> get _$props => [dot, pipe, id];
+  List<Object?> get _$props => [fromSector, pipe, id];
 }
