@@ -30,6 +30,7 @@ class InfoDotComponent extends CircleComponent {
         onComplete: () {
           removeFromParent();
           infoDotsOg.events.dropInfoDot(dot);
+          sectorStatsOg.events.receiveInfoDot(dot);
         },
       ),
     );

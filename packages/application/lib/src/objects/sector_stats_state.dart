@@ -39,6 +39,13 @@ class _Ready extends SectorStatsState {
     return _Ready(stats: stats, selectedSector: null);
   }
 
+  _Ready updateStat(WorldSectors sector, SectorStat stat) {
+    return _Ready(
+      stats: {...stats, sector: stat},
+      selectedSector: selectedSector,
+    );
+  }
+
   @override
   List<Object?> get props => _$props;
 }

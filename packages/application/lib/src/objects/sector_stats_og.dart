@@ -27,6 +27,7 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     on<_ApplyNewsImpact>(_applyNewsImpact);
     on<_SelectSector>(_selectSector);
     on<_RemoveSelection>(_removeSelection);
+    on<_ReceiveInfoDot>(_receiveInfoDot);
   }
 
   static ScopedRef<SectorStatsOg>? _provider;
@@ -101,4 +102,17 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
   }
 
   static int _clampStat(int value) => value.clamp(0, 100);
+
+  void _receiveInfoDot(_ReceiveInfoDot event, Emitter<SectorStatsState> emit) {
+    final current = state.asIfReady;
+
+    final stats = state.asIfReady?.stats;
+    final sector = event.dot.toSector;
+    final stat = stats?[sector];
+    if (stat == null || current == null) return;
+
+    final updated = stat.incrementReceievedInfoDots();
+
+    emit(current.updateStat(sector, updated));
+  }
 }

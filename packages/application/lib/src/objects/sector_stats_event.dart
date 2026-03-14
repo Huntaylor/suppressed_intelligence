@@ -26,6 +26,12 @@ class _RemoveSelection extends SectorStatsEvent {
   const _RemoveSelection();
 }
 
+class _ReceiveInfoDot extends SectorStatsEvent {
+  const _ReceiveInfoDot({required this.dot});
+
+  final InfoDot dot;
+}
+
 class _Events {
   _Events(this._object);
 
@@ -45,5 +51,9 @@ class _Events {
 
   void removeSelection() {
     _object.add(const _RemoveSelection());
+  }
+
+  void receiveInfoDot(InfoDot dot) {
+    _object.add(_ReceiveInfoDot(dot: dot));
   }
 }

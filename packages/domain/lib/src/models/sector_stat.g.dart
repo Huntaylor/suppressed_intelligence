@@ -7,5 +7,10 @@ part of 'sector_stat.dart';
 // **************************************************************************
 
 extension _$SectorStatEquatableAnnotations on SectorStat {
-  List<Object?> get _$props => [sector, criticalThinking, trustAi];
+  List<Object?> get _$props => [
+    sector,
+    criticalThinking,
+    trustAi,
+    receievedInfoDots,
+  ];
 }

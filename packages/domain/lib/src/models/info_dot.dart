@@ -13,6 +13,14 @@ class InfoDot extends Equatable {
   final Pipe pipe;
   final int id;
 
+  WorldSectors get toSector => isReverse ? pipe.start.sector : pipe.end.sector;
+
+  bool get isReverse => switch (pipe) {
+    Pipe(:final start) when start.sector == fromSector => false,
+    Pipe(:final end) when end.sector == fromSector => true,
+    _ => throw UnimplementedError(),
+  };
+
   @override
   List<Object?> get props => _$props;
 }
