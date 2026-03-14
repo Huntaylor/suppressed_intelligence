@@ -5,14 +5,14 @@ enum ResearchDevelopmentUpgrade {
   ///
   /// Effect: Unlocks behavioral study news events \
   /// UI Change: Change color of the info dots in the pipes \
-  /// Incremental Effect: Increase potential to infect a sector by 15%
+  /// Incremental Effect: Get more 5% in money per month
   behavioralModeling(1000),
 
   /// AI monitors global reactions to adjust messaging in real time.
   ///
   /// Purchase Effect: Increases the trustAi stat \
   /// UI Change: Increase info dot size \
-  /// Incremental Effect: Get more 5% in money per month
+  /// Incremental Effect: Increase potential to infect a sector by 15%
   sentimentAnalysis(2500),
 
   /// AI automatically tests thousands of narrative variants.

@@ -28,6 +28,7 @@ class MoneyOg extends Og<MoneyEvent, MoneyState> {
       _provider ??= create<MoneyOg>((getIt.call));
 
   static const _incomePerMonth = 100;
+  static const _incomePerMonthBonusPercent = 5;
   static const _incomePerAiBubble = 25;
 
   static void sectorBubbleStateListener(SectorBubbleState state) {
@@ -37,7 +38,18 @@ class MoneyOg extends Og<MoneyEvent, MoneyState> {
   }
 
   static void gameTimeListener(GameTimeState state) {
-    moneyOg.events.addMoney(_incomePerMonth);
+    final hasBehavioralModeling = upgradesOg.state.hasPurchased(
+      ResearchDevelopmentUpgrade.behavioralModeling,
+    );
+
+    final income = switch (hasBehavioralModeling) {
+      true =>
+        _incomePerMonth +
+            (_incomePerMonth * _incomePerMonthBonusPercent / 100).round(),
+      false => _incomePerMonth,
+    };
+
+    moneyOg.events.addMoney(income);
   }
 
   late final events = _Events(this);
