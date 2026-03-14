@@ -6,35 +6,35 @@ enum ResearchDevelopmentUpgrade {
   /// Effect: Unlocks behavioral study news events \
   /// UI Change: Change color of the info dots in the pipes \
   /// Incremental Effect: Get more 5% in money per month
-  behavioralModeling(1),
+  behavioralModeling(1000),
 
   /// AI monitors global reactions to adjust messaging in real time.
   ///
   /// Purchase Effect: Increases the trustAi stat \
   /// UI Change: Increase info dot size \
   /// Incremental Effect: Increase potential to infect a sector by 8%
-  sentimentAnalysis(1),
+  sentimentAnalysis(2500),
 
   /// AI automatically tests thousands of narrative variants.
   ///
   /// Purchase Effect: Increases the trustAi stat \
   /// UI Change: Change color of pipes \
   /// Incremental Effect: Get more 10% in money per month
-  narrativeOptimization(1),
+  narrativeOptimization(5000),
 
   /// AI generates convincing articles, images, and videos.
   ///
   /// Purchase Effect: Lowers the trustAi stat
   /// UI Change: Automatic info dots \
   /// Incremental Effect: Increase sector stats by .025% when dot arrives to sector
-  hardwareUpgrade1(1),
+  hardwareUpgrade1(10000),
 
   /// AI predicts public reactions before publishing information.
   ///
   /// Purchase Effect: Lowers the trustAi stat \
-  /// UI Change: Increase dot frequency \
+  /// UI Change: Increase dot speed \
   /// Incremental Effect: Increase sector stats by .05% when dot arrives to sector
-  hardwareUpgrade2(1);
+  hardwareUpgrade2(25000);
 
   const ResearchDevelopmentUpgrade(this.cost);
 
