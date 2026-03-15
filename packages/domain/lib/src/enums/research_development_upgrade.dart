@@ -50,12 +50,14 @@ enum ResearchDevelopmentUpgrade {
 
   /// Short player-facing description of what this upgrade does.
   String get description => switch (this) {
-    behavioralModeling => '+5% monthly cash',
-    sentimentAnalysis => '+8% sector infection chance',
-    narrativeOptimization => '+10% monthly cash',
+    behavioralModeling => 'Unlocks News Events',
+    sentimentAnalysis =>
+      'Increases the AI Dependency stat; potential to infect a sector',
+    narrativeOptimization =>
+      'Increases the AI Dependency stat; receive more money per month',
     hardwareUpgrade1 =>
-      'Automatic info dots; Sectors stats grow when dots arrive.',
+      'Automatic send AI packets to sectors; increase AI dependency stat upon arrival',
     hardwareUpgrade2 =>
-      'Faster info dots; Stronger Sectors stat growth per dot.',
+      'Faster AI packets; Stronger AI Dependency stat growth.',
   };
 }
