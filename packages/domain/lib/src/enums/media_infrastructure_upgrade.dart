@@ -20,7 +20,7 @@ enum MediaInfrastructureUpgrade {
   automatedContentDistribution(10000),
 
   /// AI-controlled media becomes the primary global information source.
-  omnipresentFeed(25000);
+  omnipresentFeed(10000);
 
   const MediaInfrastructureUpgrade(this.cost);
 

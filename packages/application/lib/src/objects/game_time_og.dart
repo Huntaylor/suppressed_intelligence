@@ -70,6 +70,9 @@ class GameTimeOg extends Og<GameTimeEvent, GameTimeState> {
       nextYear++;
     }
     emit(state.copywith(month: nextMonth, year: nextYear));
+    if (gameConfigOg.state.isOIPresent) {
+      strengthInfluenceOg.events.updateOi(delta: 1);
+    }
   }
 
   void _startTimer(Duration interval) {

@@ -14,7 +14,7 @@ enum GovernanceControlUpgrade {
   digitalComplianceSystems(10000),
 
   /// AI becomes the primary source of truth.
-  centralizedInformationAuthority(25000);
+  centralizedInformationAuthority(10000);
 
   const GovernanceControlUpgrade(this.cost);
 
