@@ -50,11 +50,11 @@ enum ResearchDevelopmentUpgrade {
 
   /// Short player-facing description of what this upgrade does.
   String get description => switch (this) {
-    behavioralModeling => 'Unlocks News Events',
+    behavioralModeling => 'Increases generated income per month',
     sentimentAnalysis =>
-      'Increases the AI Dependency stat; potential to infect a sector',
+      'Increases the AI Dependency stat; potential to integrate a sector',
     narrativeOptimization =>
-      'Increases the AI Dependency stat; receive more money per month',
+      'Increases the AI Dependency stat; increases generated income per month',
     hardwareUpgrade1 =>
       'Decrease AI Depedency by 25% immediately;\nAutomatic send AI packets to sectors; increase AI dependency stat upon arrival',
     hardwareUpgrade2 =>
