@@ -44,7 +44,7 @@ class WorldInfoDisplay extends NineTileBoxComponent
       size: Vector2(size.x - 10, size.y),
       text: 'World Data',
       textRenderer: TextPaint(
-        style: const TextStyle(fontSize: 12, color: Colors.white),
+        style: const TextStyle(fontSize: 11, color: Colors.white),
       ),
     );
 
@@ -53,7 +53,7 @@ class WorldInfoDisplay extends NineTileBoxComponent
       size: Vector2(size.x - 10, size.y),
       text: '',
       textRenderer: TextPaint(
-        style: const TextStyle(fontSize: 12, color: Colors.white),
+        style: const TextStyle(fontSize: 11, color: Colors.white),
       ),
     );
 
@@ -96,7 +96,7 @@ class WorldInfoDisplay extends NineTileBoxComponent
       mainProgressBar.setProgress = overallAiStat.toInt();
       sectorName.text = 'Global Impact';
       worldData.text =
-          'Total AI Dependency at ${formatAsPercentage((overallAiStat))}';
+          'Global AI Dependency at ${formatAsPercentage((overallAiStat))}';
       secondaryData.text = 'OI Influence at ${formatAsPercentage((oiStat))}';
 
       if (gameConfigOg.state.isOIPresent) {

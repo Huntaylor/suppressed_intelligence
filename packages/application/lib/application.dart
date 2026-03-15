@@ -7,6 +7,7 @@ export 'src/objects/game_og.dart';
 export 'src/objects/game_time_og.dart';
 export 'src/objects/info_dots_og.dart';
 export 'src/objects/money_og.dart';
+export 'src/objects/tutorial_og.dart';
 export 'src/objects/news_headline_og.dart';
 export 'src/objects/sector_bubble_og.dart';
 export 'src/objects/sector_stats_og.dart';

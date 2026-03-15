@@ -18,6 +18,6 @@ class MainMenuRoute extends Route with RouteRedirect<Route> {
 
   @override
   Uri toUri() {
-    return Uri.parse('/menu');
+    return Uri.parse('menu');
   }
 }

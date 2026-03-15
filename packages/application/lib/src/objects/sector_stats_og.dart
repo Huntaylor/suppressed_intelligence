@@ -57,7 +57,7 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
 
     switch (clicked.type) {
       case SectorBubbleType.oi:
-        strengthInfluenceOg.events.updateOi(delta: -1);
+        strengthInfluenceOg.events.updateOi(delta: -2);
 
       case SectorBubbleType.ai:
         sectorStatsOg.add(_ApplyBubbleImpact(clicked.sector));
@@ -124,8 +124,8 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     if (stat == null) return;
 
     final updated = stat.copyWith(
-      criticalThinking: _clampStat(stat.criticalThinking - 2),
-      trustAi: _clampStat(stat.trustAi + 2),
+      criticalThinking: _clampStat(stat.criticalThinking - 4),
+      trustAi: _clampStat(stat.trustAi + 4),
     );
 
     emit(current.updateStat(event.sector, updated));
@@ -179,13 +179,13 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
           ResearchDevelopmentUpgrade.hardwareUpgrade1,
         ) &&
         updated.receievedInfoDots % _trustAiBonusEveryNReceivesHardware1 == 0) {
-      trustBonus += 1;
+      trustBonus += 2;
     }
     if (upgradesOg.state.hasPurchased(
           ResearchDevelopmentUpgrade.hardwareUpgrade2,
         ) &&
         updated.receievedInfoDots % _trustAiBonusEveryNReceivesHardware2 == 0) {
-      trustBonus += 1;
+      trustBonus += 4;
     }
     if (trustBonus != 0) {
       updated = updated.copyWith(

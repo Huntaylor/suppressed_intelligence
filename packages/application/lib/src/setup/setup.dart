@@ -7,6 +7,7 @@ import 'package:application/src/objects/news_headline_og.dart';
 import 'package:application/src/objects/sector_bubble_og.dart';
 import 'package:application/src/objects/sector_stats_og.dart';
 import 'package:application/src/objects/strength_influence_og.dart';
+import 'package:application/src/objects/tutorial_og.dart';
 import 'package:application/src/objects/upgrades_og.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_it_injector/get_it_injector.dart' as dep_inj;
@@ -28,6 +29,7 @@ final providers = {
   GameConfigOg.provider,
   StrengthInfluenceOg.provider,
   UpgradesOg.provider,
+  TutorialOg.provider,
 };
 
 @dep_inj.setup

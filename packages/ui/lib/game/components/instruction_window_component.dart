@@ -93,6 +93,9 @@ class InstructionWindowComponent extends NineTileBoxComponent
       button: SpriteComponent.fromImage(startImage),
       buttonDown: SpriteComponent.fromImage(startImagePressed),
       onPressed: () {
+        if (tutorialOg.state.enabledTutorial) {
+          tutorialOg.events.show();
+        }
         game.infoStartUp = false;
         removeFromParent();
       },

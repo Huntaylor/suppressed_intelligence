@@ -1,7 +1,5 @@
 library upgrade_overlay;
 
-import 'dart:io';
-
 import 'package:application/application.dart';
 import 'package:domain/domain.dart';
 import 'package:flame/widgets.dart';

@@ -88,7 +88,7 @@ class _MainMenuViewState extends State<MainMenuView> {
                         controller: animatedTextController,
                         animatedTexts: [
                           TypewriterAnimatedText(
-                            'What will you call me?',
+                            'How would you prefer to address me?',
                             curve: Curves.easeOut,
                             cursor: '',
                             speed: Duration(milliseconds: 75),
@@ -138,6 +138,43 @@ class _MainMenuViewState extends State<MainMenuView> {
                         cursor: SystemMouseCursors.click,
                         child: Image.asset(
                           'assets/images/menu_prompt_button.png',
+                        ),
+                      ),
+                    ),
+
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          tutorialOg.events.shouldStart(
+                            !tutorialOg.state.enabledTutorial,
+                          );
+                        });
+                      },
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: Row(
+                          spacing: 8,
+                          mainAxisSize: .min,
+                          children: [
+                            Text(
+                              'Enable Tutorial',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 32,
+                              height: 32,
+                              child: (tutorialOg.state.enabledTutorial)
+                                  ? Image.asset(
+                                      'assets/images/check_box_checked_32.png',
+                                    )
+                                  : Image.asset(
+                                      'assets/images/check_box_32.png',
+                                    ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

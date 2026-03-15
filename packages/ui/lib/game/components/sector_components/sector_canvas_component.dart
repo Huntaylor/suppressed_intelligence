@@ -44,7 +44,6 @@ class SectorCanvasComponent extends SpriteComponent
         50,
         200,
       );
-      print(greyScale);
     });
 
     return super.onLoad();
@@ -78,7 +77,7 @@ class SectorCanvasComponent extends SpriteComponent
     canvas.save();
     canvas.clipRect(size.toRect()); // clamp to sprite bounds
     for (final e in _effects) {
-      e.render(canvas, sprite!, greyScale);
+      e.render(canvas, sprite!);
     }
     canvas.restore();
   }
@@ -139,7 +138,7 @@ class RippleRecolorEffect {
     _elapsed += dt;
   }
 
-  void render(Canvas canvas, Sprite sprite, int greyScale) {
+  void render(Canvas canvas, Sprite sprite) {
     final radius = _currentRadius;
     final rect = Offset.zero & Size(spriteSize.x, spriteSize.y);
 
@@ -166,7 +165,7 @@ class RippleRecolorEffect {
     canvas.drawCircle(
       origin,
       radius,
-      Paint()..color = Color.fromARGB(100, greyScale, greyScale, greyScale),
+      Paint()..color = fillColor.withAlpha(100),
     );
 
     // Mask to sprite shape using dstIn — only keeps pixels where sprite is opaque

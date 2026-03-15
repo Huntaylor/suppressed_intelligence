@@ -57,7 +57,7 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
   PausableTimer? _timer;
   PausableTimer? _expiryTimer;
   Duration _interval = _defaultInterval;
-  static const _defaultInterval = Duration(seconds: 1);
+  static const _defaultInterval = Duration(seconds: 4);
   static const _bubbleLifespan = Duration(seconds: 10);
   int _activeSeconds = 0;
   final Map<int, int> _bubbleSpawnTimes = {};

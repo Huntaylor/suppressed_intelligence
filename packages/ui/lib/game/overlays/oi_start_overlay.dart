@@ -63,7 +63,7 @@ class _OiStartOverlayState extends State<OiStartOverlay> {
 
       'Their goal is to abolish the use, production, and incorperation of LLMs.',
 
-      'If they reach a worldwide consense, you will lose.',
+      'If they reach a worldwide consensus, you will lose.',
 
       'OI icons will now appear, they can be tapped to slow their movement.',
     ];

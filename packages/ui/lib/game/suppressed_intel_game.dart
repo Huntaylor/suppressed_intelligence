@@ -12,9 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ui/game/components/instruction_window_component.dart';
 import 'package:ui/game/components/pipes_component.dart';
+import 'package:ui/game/components/tutorial_info_window_component.dart';
 import 'package:ui/game/components/world_info_display.dart';
 import 'package:ui/game/hud/hud_news_component.dart';
 import 'package:ui/game/hud/hud_pause_button.dart';
+import 'package:ui/game/hud/hud_tools_resources_component.dart';
 import 'package:ui/game/hud/hud_upgrade_button.dart';
 import 'package:ui/game/overlays/game_over_overlay.dart';
 import 'package:ui/game/overlays/oi_start_overlay.dart';
@@ -45,6 +47,9 @@ class SuppressedIntelGame extends FlameGame
 
   late HudNewsComponent hudNewsComponent;
   late HudPauseButton hudPauseButton;
+  late HudToolsResourcesComponent hudSideWindowComponent;
+
+  late TutorialInfoWindowComponent tutorialInfoWindow;
 
   late HudUpgradeButton hudUpgradeButton;
   late WorldInfoDisplay worldInfoDisplay;
@@ -67,6 +72,23 @@ class SuppressedIntelGame extends FlameGame
 
   @override
   FutureOr<void> onLoad() async {
+    final isTutorialEnabled = tutorialOg.state.enabledTutorial;
+
+    if (isTutorialEnabled) {
+      tutorialOg.addListener((state) {
+        if (state.shouldShowWindow) {
+          tutorialInfoWindow = TutorialInfoWindowComponent(
+            position: Vector2(100, gameHeight / 1.2),
+          );
+          world.add(tutorialInfoWindow);
+        } else if (!state.shouldShowWindow &&
+            tutorialInfoWindow.parent != null) {
+          print('should remove');
+          tutorialInfoWindow.removeFromParent();
+        }
+      });
+    }
+
     infoStartUp = true;
     oiStart = false;
     hudNewsComponent = HudNewsComponent();
@@ -103,13 +125,23 @@ class SuppressedIntelGame extends FlameGame
       },
     );
 
-    hudPauseButton.position = Vector2(gameWidth + hudPauseButton.x, 0);
-
-    hudUpgradeButton.position = Vector2(gameWidth + hudUpgradeButton.x, 32);
-
     mousePosition = Vector2.zero();
     mouseText = 'Initial Text';
     mouseDebug = TextComponent(text: mouseText, priority: 2);
+
+    hudSideWindowComponent = HudToolsResourcesComponent(
+      hudPauseButton: hudPauseButton,
+      hudUpgradeButton: hudUpgradeButton,
+    );
+
+    hudSideWindowComponent.position = Vector2(
+      gameWidth + hudSideWindowComponent.size.x,
+      0,
+    );
+    // hudSideWindowComponent.position = Vector2(
+    //   gameWidth - (hudSideWindowComponent.size.x + 16),
+    //   0,
+    // );
 
     await images.loadAllImages();
 
@@ -124,7 +156,6 @@ class SuppressedIntelGame extends FlameGame
         OiStartOverlay.show(this);
         pauseEngine();
       }
-      print(state.gameOverCondition);
       if (state.gameOverCondition != .none) {
         GameOverOverlay.show(this);
         pauseEngine();
@@ -218,9 +249,8 @@ class SuppressedIntelGame extends FlameGame
       viewfinder: viewfinder,
       hudComponents: [
         FpsTextComponent(),
+        hudSideWindowComponent,
         hudNewsComponent,
-        hudPauseButton,
-        hudUpgradeButton,
         worldInfoDisplay,
       ],
     );
@@ -282,8 +312,9 @@ class SuppressedIntelGame extends FlameGame
     gameConfigOg.events.infectFirstSector(firstSector);
     hudNewsComponent.startNews(firstSector: firstSector);
     worldInfoDisplay.displayInfo();
-    hudUpgradeButton.moveHud();
-    hudPauseButton.moveHud();
+    hudSideWindowComponent.moveHud();
+    // hudUpgradeButton.moveHud();
+    // hudPauseButton.moveHud();
     gameTimeOg.events.init();
     sectorBubbleOg.events.init();
     sectorStatsOg.events.init();

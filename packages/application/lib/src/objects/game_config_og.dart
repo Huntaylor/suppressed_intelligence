@@ -38,8 +38,6 @@ class GameConfigOg extends Og<GameConfigEvent, GameConfigState> {
     final aiStat = state.overallAi;
 
     if (aiStat.floor() == 100) {
-      print('victory');
-
       gameConfigOg.add(_GameOver(gameOverCondition: .win));
     }
 
@@ -70,6 +68,10 @@ class GameConfigOg extends Og<GameConfigEvent, GameConfigState> {
     emit(
       state.copywith(infectedSectors: {...state.infectedSectors, event.sector}),
     );
+
+    if (tutorialOg.state.enabledTutorial) {
+      tutorialOg.events.show();
+    }
   }
 
   void _clearInfectedSectors(
@@ -92,8 +94,6 @@ class GameConfigOg extends Og<GameConfigEvent, GameConfigState> {
   }
 
   FutureOr<void> _gameOver(_GameOver event, Emitter<GameConfigState> emit) {
-    print(event.gameOverCondition);
     emit(state.copywith(gameOverCondition: event.gameOverCondition));
-    print('Game Over: ${state.gameOverCondition}');
   }
 }
