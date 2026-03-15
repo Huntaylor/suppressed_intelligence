@@ -27,11 +27,22 @@ enum MediaInfrastructureUpgrade {
   final int cost;
 
   String get displayName => switch (this) {
-    MediaInfrastructureUpgrade.algorithmicFeeds => 'Algorithmic Feeds',
-    MediaInfrastructureUpgrade.platformIntegration => 'Platform Integration',
-    MediaInfrastructureUpgrade.globalNewsNetwork => 'Global News Network',
-    MediaInfrastructureUpgrade.automatedContentDistribution =>
-      'Automated Content Distribution',
-    MediaInfrastructureUpgrade.omnipresentFeed => 'Omnipresent Feed',
+    algorithmicFeeds => 'Algorithmic Feeds',
+    platformIntegration => 'Platform Integration',
+    globalNewsNetwork => 'Global News Network',
+    automatedContentDistribution => 'Automated Content Distribution',
+    omnipresentFeed => 'Omnipresent Feed',
+  };
+
+  /// Short player-facing description of what this upgrade does.
+  String get description => switch (this) {
+    algorithmicFeeds => 'Personalized feeds spread influence faster.',
+    platformIntegration =>
+      'Major platforms integrate AI content; lowers critical thinking.',
+    globalNewsNetwork =>
+      'AI coordinates messaging across outlets; lowers critical thinking.',
+    automatedContentDistribution => 'AI auto-publishes and amplifies stories.',
+    omnipresentFeed =>
+      'AI-controlled media becomes the primary global information source.',
   };
 }

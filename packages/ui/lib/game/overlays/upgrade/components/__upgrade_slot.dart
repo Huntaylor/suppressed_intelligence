@@ -1,18 +1,20 @@
 part of upgrade_overlay;
 
-/// Single upgrade slot: label, button, and formatted price.
+/// Single upgrade slot: label, description, button, and formatted price.
 class _UpgradeSlot<T> extends StatefulWidget {
   const _UpgradeSlot({
     required this.upgrade,
     required this.canUpgrade,
     required this.name,
     required this.cost,
+    required this.description,
   });
 
   final T upgrade;
   final bool canUpgrade;
   final String Function(T) name;
   final int Function(T) cost;
+  final String Function(T) description;
 
   static String _formatCost(int cost) =>
       '\$${cost.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}';
@@ -63,6 +65,13 @@ class _UpgradeSlotState<T> extends State<_UpgradeSlot<T>> {
           widget.name(widget.upgrade),
           style: TextStyle(color: labelColor, fontSize: 14),
           textAlign: TextAlign.center,
+        ),
+        Text(
+          widget.description(widget.upgrade),
+          style: TextStyle(color: labelColor.withValues(alpha: 0.85), fontSize: 10),
+          textAlign: TextAlign.center,
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
         ),
         Stack(
           children: [

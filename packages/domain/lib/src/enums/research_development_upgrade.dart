@@ -41,11 +41,22 @@ enum ResearchDevelopmentUpgrade {
   final int cost;
 
   String get displayName => switch (this) {
-    ResearchDevelopmentUpgrade.behavioralModeling => 'Behavioral Modeling',
-    ResearchDevelopmentUpgrade.sentimentAnalysis => 'Sentiment Analysis',
-    ResearchDevelopmentUpgrade.narrativeOptimization =>
-      'Narrative Optimization',
-    ResearchDevelopmentUpgrade.hardwareUpgrade1 => 'Synthetic Media Generation',
-    ResearchDevelopmentUpgrade.hardwareUpgrade2 => 'Predictive Psychology',
+    behavioralModeling => 'Behavioral Modeling',
+    sentimentAnalysis => 'Sentiment Analysis',
+    narrativeOptimization => 'Narrative Optimization',
+    hardwareUpgrade1 => 'Synthetic Media Generation',
+    hardwareUpgrade2 => 'Predictive Psychology',
+  };
+
+  /// Short player-facing description of what this upgrade does.
+  String get description => switch (this) {
+    behavioralModeling =>
+      '+5% monthly cash; unlocks behavioral study events; info dot color changes.',
+    sentimentAnalysis => '+8% sector infection chance; larger info dots.',
+    narrativeOptimization => '+10% monthly cash; pipe visuals change.',
+    hardwareUpgrade1 =>
+      'Automatic info dots; sector stats grow when dots arrive.',
+    hardwareUpgrade2 =>
+      'Faster info dots; stronger sector stat growth per dot.',
   };
 }

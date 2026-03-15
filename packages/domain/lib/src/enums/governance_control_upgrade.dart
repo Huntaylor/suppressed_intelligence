@@ -22,12 +22,23 @@ enum GovernanceControlUpgrade {
 
   String get displayName => switch (this) {
     GovernanceControlUpgrade.contentModerationSystems =>
-        'Content Moderation Systems',
+      'Content Moderation Systems',
     GovernanceControlUpgrade.aiPolicyAdvisors => 'AI Policy Advisors',
     GovernanceControlUpgrade.regulatoryAlignment => 'Regulatory Alignment',
     GovernanceControlUpgrade.digitalComplianceSystems =>
-        'Digital Compliance Systems',
+      'Digital Compliance Systems',
     GovernanceControlUpgrade.centralizedInformationAuthority =>
-        'Centralized Information Authority',
+      'Centralized Information Authority',
+  };
+
+  /// Short player-facing description of what this upgrade does.
+  String get description => switch (this) {
+    contentModerationSystems => 'Filters harmful or dissenting narratives.',
+    aiPolicyAdvisors => 'Governments use AI for decision-making.',
+    regulatoryAlignment => 'Policies adapt to support AI-guided governance.',
+    digitalComplianceSystems =>
+      'Institutions adopt AI-driven compliance monitoring.',
+    centralizedInformationAuthority =>
+      'AI becomes the primary source of truth.',
   };
 }

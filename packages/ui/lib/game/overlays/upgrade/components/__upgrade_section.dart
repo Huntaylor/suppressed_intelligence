@@ -10,11 +10,13 @@ class _UpgradeSection<T> extends StatefulWidget {
     required this.fifthUpgrade,
     required this.name,
     required this.cost,
+    required this.description,
   });
 
   final String title;
   final String Function(T) name;
   final int Function(T) cost;
+  final String Function(T) description;
   final T firstUpgrade;
   final T secondUpgrade;
   final T thirdUpgrade;
@@ -58,6 +60,7 @@ class _UpgradeSectionState<T> extends State<_UpgradeSection<T>> {
           canUpgrade: true,
           name: widget.name,
           cost: widget.cost,
+          description: widget.description,
         ),
         Row(
           spacing: 32,
@@ -72,6 +75,7 @@ class _UpgradeSectionState<T> extends State<_UpgradeSection<T>> {
                   ),
                   name: widget.name,
                   cost: widget.cost,
+                  description: widget.description,
                 ),
                 _UpgradeSlot(
                   upgrade: widget.fourthUpgrade,
@@ -80,6 +84,7 @@ class _UpgradeSectionState<T> extends State<_UpgradeSection<T>> {
                   ),
                   name: widget.name,
                   cost: widget.cost,
+                  description: widget.description,
                 ),
               ],
             ),
@@ -93,6 +98,7 @@ class _UpgradeSectionState<T> extends State<_UpgradeSection<T>> {
                   ),
                   name: widget.name,
                   cost: widget.cost,
+                  description: widget.description,
                 ),
                 _UpgradeSlot(
                   upgrade: widget.fifthUpgrade,
@@ -101,6 +107,7 @@ class _UpgradeSectionState<T> extends State<_UpgradeSection<T>> {
                   ),
                   name: widget.name,
                   cost: widget.cost,
+                  description: widget.description,
                 ),
               ],
             ),
