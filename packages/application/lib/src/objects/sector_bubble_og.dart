@@ -98,7 +98,13 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
   List<WorldSectors> bubbleEligibleSectors(Iterable<WorldSectors> infected) {
     final ready = sectorStatsOg.state.asIfReady;
     if (ready == null) return infected.toList();
-    return infected.where((s) => ready.stats[s]?.isComplete ?? true).toList();
+    return infected.where((s) {
+      if (ready.stats[s]?.isComplete case true) {
+        return false;
+      }
+
+      return true;
+    }).toList();
   }
 
   void _spawnBubble(_SpawnBubble event, Emitter<SectorBubbleState> emit) {
