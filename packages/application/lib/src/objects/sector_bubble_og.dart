@@ -8,7 +8,6 @@ import 'package:application/src/objects/game_og.dart';
 import 'package:application/src/objects/info_dots_og.dart';
 import 'package:application/src/objects/money_og.dart';
 import 'package:application/src/objects/sector_stats_og.dart';
-import 'package:application/src/objects/upgrades_og.dart';
 import 'package:application/src/og.dart';
 import 'package:application/src/setup/setup.dart';
 import 'package:application/src/utils/pausible_timer.dart';
@@ -58,6 +57,9 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
   PausableTimer? _expiryTimer;
   Duration _interval = _defaultInterval;
   static const _defaultInterval = Duration(seconds: 4);
+
+  /// Shorter interval when OI is enabled so bubbles (including OI icons) appear more often.
+  static const _oiInterval = Duration(seconds: 2);
   static const _bubbleLifespan = Duration(seconds: 10);
   int _activeSeconds = 0;
   final Map<int, int> _bubbleSpawnTimes = {};
@@ -92,12 +94,6 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
   }
 
   void _spawnBubble(_SpawnBubble event, Emitter<SectorBubbleState> emit) {
-    if (upgradesOg.state.hasPurchased(
-      ResearchDevelopmentUpgrade.hardwareUpgrade1,
-    )) {
-      return;
-    }
-
     final config = gameConfigOg.state;
     if (config.infectedSectors.isEmpty) return;
 
@@ -152,6 +148,15 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
 
     _timer = PausableTimer(_interval, () {
       add(const _SpawnBubble());
+      final newInterval = gameConfigOg.state.isOIPresent
+          ? _oiInterval
+          : _defaultInterval;
+
+      if (newInterval != _interval) {
+        _timer?.cancel();
+        _interval = newInterval;
+        _startTimer();
+      }
     });
   }
 
