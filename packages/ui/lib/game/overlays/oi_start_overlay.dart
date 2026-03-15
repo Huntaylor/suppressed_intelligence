@@ -1,4 +1,5 @@
 import 'package:application/application.dart';
+import 'package:domain/domain.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -117,6 +118,7 @@ class _OiStartOverlayState extends State<OiStartOverlay> {
               alignment: .bottomCenter,
               child: GestureDetector(
                 onTap: () {
+                  musicOg.events.playSfx(SfxType.click);
                   setState(() {
                     isPressed = !isPressed;
                   });

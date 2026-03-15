@@ -3,6 +3,7 @@ import 'package:application/src/objects/game_og.dart';
 import 'package:application/src/objects/info_dots_og.dart';
 import 'package:application/src/objects/money_og.dart';
 import 'package:application/src/objects/game_time_og.dart';
+import 'package:application/src/objects/music_og.dart';
 import 'package:application/src/objects/news_headline_og.dart';
 import 'package:application/src/objects/sector_bubble_og.dart';
 import 'package:application/src/objects/sector_stats_og.dart';
@@ -30,6 +31,7 @@ final providers = {
   StrengthInfluenceOg.provider,
   UpgradesOg.provider,
   TutorialOg.provider,
+  MusicOg.provider,
 };
 
 @dep_inj.setup

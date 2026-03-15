@@ -70,7 +70,7 @@ class GameTimeOg extends Og<GameTimeEvent, GameTimeState> {
       nextYear++;
     }
     emit(state.copywith(month: nextMonth, year: nextYear));
-    if (gameConfigOg.state.isOIPresent) {
+    if (gameConfigOg.state.isOIPresent /* && nextMonth.isEven */ ) {
       strengthInfluenceOg.events.updateOi(delta: 1);
     }
   }

@@ -75,6 +75,14 @@ class SuppressedIntelGame extends FlameGame
 
   @override
   FutureOr<void> onLoad() async {
+    // await FlameAudio.audioCache.loadAll([
+    //   'click.wav',
+    //   'monsters_in_my_closet_loop.wav',
+    //   'monsters_in_my_closet.wav',
+    // ]);
+
+    // add(AudioComponent());
+
     final isTutorialEnabled = tutorialOg.state.enabledTutorial;
     tutorialInfoWindow = TutorialInfoWindowComponent();
 
@@ -126,12 +134,11 @@ class SuppressedIntelGame extends FlameGame
     hudUpgradeButton = HudUpgradeButton(
       onPressed: () {
         print(tutorialOg.state.shouldShowWindow);
-        if (tutorialOg
-            .state
-            .shouldShowWindow /* ||
-            gameConfigOg.state.gameOverCondition != .none */ ) {
+        if (tutorialOg.state.shouldShowWindow ||
+            gameConfigOg.state.gameOverCondition != .none) {
           return;
         }
+        musicOg.events.playSfx(SfxType.click);
         if (UpgradeOverlay.isShowing(this)) {
           UpgradeOverlay.hide(this);
         } else {
@@ -142,12 +149,11 @@ class SuppressedIntelGame extends FlameGame
 
     hudPauseButton = HudPauseButton(
       onPressed: () {
-        if (tutorialOg
-            .state
-            .shouldShowWindow /*  ||
-            gameConfigOg.state.gameOverCondition != .none */ ) {
+        if (tutorialOg.state.shouldShowWindow ||
+            gameConfigOg.state.gameOverCondition != .none) {
           return;
         }
+        musicOg.events.playSfx(SfxType.click);
         if (PauseOverlay.isShowing(this)) {
           PauseOverlay.hide(this);
         } else {
@@ -188,7 +194,9 @@ class SuppressedIntelGame extends FlameGame
         pauseEngine();
       }
       if (state.gameOverCondition != .none) {
+        worldInfoDisplay.finalizeScore();
         GameOverOverlay.show(this);
+        gameOg.events.pause;
         pauseEngine();
       }
     });
@@ -279,7 +287,7 @@ class SuppressedIntelGame extends FlameGame
       world: world,
       viewfinder: viewfinder,
       hudComponents: [
-        FpsTextComponent(),
+        // FpsTextComponent(),
         hudSideWindowComponent,
         hudNewsComponent,
         hudMoneyComponent,
@@ -351,4 +359,10 @@ class SuppressedIntelGame extends FlameGame
     sectorBubbleOg.events.init();
     sectorStatsOg.events.init();
   }
+
+  // @override
+  // void dispose() {
+  //   FlameAudio.bgm.dispose();
+  //   super.dispose();
+  // }
 }

@@ -14,6 +14,7 @@ import 'package:application/src/objects/game_og.dart' as i_game_og;
 import 'package:application/src/objects/game_time_og.dart' as i_game_time_og;
 import 'package:application/src/objects/info_dots_og.dart' as i_info_dots_og;
 import 'package:application/src/objects/money_og.dart' as i_money_og;
+import 'package:application/src/objects/music_og.dart' as i_music_og;
 import 'package:application/src/objects/news_headline_og.dart'
     as i_news_headline_og;
 import 'package:application/src/objects/sector_bubble_og.dart'
@@ -34,6 +35,7 @@ extension GetItX on GetIt {
     registerFactory(() => i_game_time_og.GameTimeOg());
     registerFactory(() => i_info_dots_og.InfoDotsOg());
     registerFactory(() => i_money_og.MoneyOg());
+    registerFactory(() => i_music_og.MusicOg());
     registerFactory(
       () => i_news_headline_og.NewsHeadlineOg(
         repo: get<i_news_headline_repo.NewsHeadlineRepo>(),

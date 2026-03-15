@@ -5,8 +5,9 @@ import 'package:get_it/get_it.dart';
 import 'package:scoped_deps/scoped_deps.dart';
 import 'package:ui/routes/route.dart';
 
-void main() {
+void main() async {
   final getIt = GetIt.asNewInstance();
+
   data.setup(getIt);
   application.setup(getIt);
 

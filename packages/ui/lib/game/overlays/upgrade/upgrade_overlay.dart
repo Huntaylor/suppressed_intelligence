@@ -95,7 +95,10 @@ class _UpgradeOverlayState extends State<UpgradeOverlay> {
             Align(
               alignment: AlignmentGeometry.topRight,
               child: GestureDetector(
-                onTap: () => UpgradeOverlay.hide(widget.game),
+                onTap: () {
+                  musicOg.events.playSfx(SfxType.click);
+                  UpgradeOverlay.hide(widget.game);
+                },
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: Container(

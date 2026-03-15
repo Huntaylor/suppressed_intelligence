@@ -38,6 +38,8 @@ class BubbleIcon extends SpriteComponent
 
   @override
   void onTapDown(TapDownEvent event) {
+    _playSfx();
+
     add(
       SequenceEffect([
         ScaleEffect.to(Vector2.all(1.6), EffectController(duration: 0.1)),
@@ -52,5 +54,14 @@ class BubbleIcon extends SpriteComponent
     );
     sectorBubbleOg.events.clickBubble(bubble.id);
     super.onTapDown(event);
+  }
+
+  void _playSfx() {
+    switch (bubble.type) {
+      case SectorBubbleType.oi:
+        musicOg.events.playSfx(SfxType.oiBubble);
+      case SectorBubbleType.ai:
+        musicOg.events.playSfx(SfxType.aiBubble);
+    }
   }
 }

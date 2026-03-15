@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:application/application.dart';
+import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/foundation.dart';
@@ -90,6 +91,8 @@ class TutorialInfoWindowComponent extends NineTileBoxComponent
           gameOg.events.pause();
           game.pauseEngine();
           tutorialButton.onReleased = () {
+            musicOg.events.playSfx(SfxType.click);
+
             gameOg.events.resume();
             game.resumeEngine();
             tutorialOg.events.next();

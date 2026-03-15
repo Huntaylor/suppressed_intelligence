@@ -1,6 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
-part of game_og;
+part of turtorial_og;
 
 final class TutorialState extends Equatable {
   const TutorialState({
@@ -22,7 +22,7 @@ final class TutorialState extends Equatable {
     'You generate cash every month automatically.\nUpgrades are available through the button in the top right. \nThey improve your integration chances and sector stats —\nbut you can only purchase one when you have enough cash.',
     'The scrolling news banner at the top affects\nall your active sectors each cycle. FOR-AI headlines\nboost your stats, AGAINST-AI headlines reduce them.\nNeutral news does nothing.',
     'Once global AI dependency reaches 20%,\nan opposing force enters the game.\nYou are now in a race to 100%.',
-    'Integrate every sector. Spend your monthly cash\non upgrades, react to the news, and outpace the enemy\nonce they emerge at 20%.\n\nGood luck.',
+    'Integrate every sector. Spend your monthly cash\non upgrades and outpace the enemy\nonce they emerge at 20%.\n\nGood luck.',
   ];
 
   TutorialState copywith({

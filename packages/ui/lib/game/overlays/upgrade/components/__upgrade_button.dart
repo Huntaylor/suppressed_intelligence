@@ -28,7 +28,10 @@ class _UpgradeButtonState extends State<_UpgradeButton> {
       onTapDown: switch (state) {
         _State(isDisabled: true) => null,
         _ => (details) {
-          setState(() => isPressed = true);
+          setState(() {
+            musicOg.events.playSfx(SfxType.upgrade);
+            isPressed = true;
+          });
         },
       },
       onTapUp: switch (state) {

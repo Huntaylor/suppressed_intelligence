@@ -89,6 +89,18 @@ class WorldInfoDisplay extends NineTileBoxComponent
   void update(double dt) {
     final currentSector = sectorStatsOg.state.asIfReady?.selectedSector;
 
+    if (gameConfigOg.state.gameOverCondition != .none) {
+      final overallAiStat = strengthInfluenceOg.state.overallAi;
+      final oiStat = strengthInfluenceOg.state.oi;
+      secondaryProgressBar.setProgress = oiStat;
+      mainProgressBar.setProgress = overallAiStat.toInt();
+      sectorName.text = 'Global Impact';
+      worldData.text =
+          'Global AI Dependency at ${formatAsPercentage((overallAiStat))}';
+      secondaryData.text = 'OI Influence at ${formatAsPercentage((oiStat))}';
+      return;
+    }
+
     if (currentSector == null) {
       final overallAiStat = strengthInfluenceOg.state.overallAi;
       final oiStat = strengthInfluenceOg.state.oi;
@@ -132,6 +144,17 @@ class WorldInfoDisplay extends NineTileBoxComponent
 
   String formatAsPercentage(num value) {
     return '${value.floor()}%';
+  }
+
+  void finalizeScore() {
+    final overallAiStat = strengthInfluenceOg.state.overallAi;
+    final oiStat = strengthInfluenceOg.state.oi;
+    secondaryProgressBar.setProgress = oiStat;
+    mainProgressBar.setProgress = overallAiStat.toInt();
+    sectorName.text = 'Global Impact';
+    worldData.text =
+        'Global AI Dependency at ${formatAsPercentage((overallAiStat))}';
+    secondaryData.text = 'OI Influence at ${formatAsPercentage((oiStat))}';
   }
 
   void displayInfo() {

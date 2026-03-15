@@ -1,4 +1,4 @@
-part of game_og;
+part of turtorial_og;
 
 sealed class TutorialEvent {
   const TutorialEvent();

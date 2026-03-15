@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:application/application.dart';
+import 'package:domain/domain.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class _MainMenuViewState extends State<MainMenuView> {
 
   @override
   void initState() {
+    musicOg.events.startSounds();
     animatedTextController = AnimatedTextController();
     super.initState();
   }
@@ -38,6 +40,7 @@ class _MainMenuViewState extends State<MainMenuView> {
   void _submit() {
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) return;
+    musicOg.events.playSfx(SfxType.click);
     gameConfigOg.events.addName(_controller.text);
     GameCoordinator.instance.navigate(GameRoute());
   }
@@ -142,39 +145,120 @@ class _MainMenuViewState extends State<MainMenuView> {
                       ),
                     ),
 
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          tutorialOg.events.shouldStart(
-                            !tutorialOg.state.enabledTutorial,
-                          );
-                        });
-                      },
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: Row(
-                          spacing: 8,
-                          mainAxisSize: .min,
-                          children: [
-                            Text(
-                              'Enable Tutorial',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          musicOg.events.playSfx(SfxType.click);
+                          setState(() {
+                            tutorialOg.events.shouldStart(
+                              !tutorialOg.state.enabledTutorial,
+                            );
+                          });
+                        },
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Row(
+                            spacing: 8,
+                            mainAxisSize: .min,
+                            children: [
+                              Text(
+                                'Enable Tutorial',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 32,
-                              height: 32,
-                              child: (tutorialOg.state.enabledTutorial)
-                                  ? Image.asset(
-                                      'assets/images/check_box_checked_32.png',
-                                    )
-                                  : Image.asset(
-                                      'assets/images/check_box_32.png',
-                                    ),
-                            ),
-                          ],
+                              SizedBox(
+                                width: 32,
+                                height: 32,
+                                child: (tutorialOg.state.enabledTutorial)
+                                    ? Image.asset(
+                                        'assets/images/check_box_checked_32.png',
+                                      )
+                                    : Image.asset(
+                                        'assets/images/check_box_32.png',
+                                      ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          musicOg.events.playSfx(SfxType.click);
+                          setState(() {
+                            musicOg.events.toggleMusic();
+                          });
+                        },
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Row(
+                            spacing: 20,
+                            mainAxisSize: .min,
+                            children: [
+                              Text(
+                                'Enable Music',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 32,
+                                height: 32,
+                                child: (!musicOg.state.isMusicPaused)
+                                    ? Image.asset(
+                                        'assets/images/check_box_checked_32.png',
+                                      )
+                                    : Image.asset(
+                                        'assets/images/check_box_32.png',
+                                      ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            musicOg.events.toggleSfx();
+                            musicOg.events.playSfx(SfxType.click);
+                          });
+                        },
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Row(
+                            spacing: 36,
+                            mainAxisSize: .min,
+                            children: [
+                              Text(
+                                'Enable SFX',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 32,
+                                height: 32,
+                                child: (!musicOg.state.isSFXmuted)
+                                    ? Image.asset(
+                                        'assets/images/check_box_checked_32.png',
+                                      )
+                                    : Image.asset(
+                                        'assets/images/check_box_32.png',
+                                      ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

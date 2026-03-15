@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:application/application.dart';
+import 'package:domain/domain.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/input.dart';
@@ -93,6 +94,7 @@ class InstructionWindowComponent extends NineTileBoxComponent
       button: SpriteComponent.fromImage(startImage),
       buttonDown: SpriteComponent.fromImage(startImagePressed),
       onPressed: () {
+        musicOg.events.playSfx(SfxType.click);
         if (tutorialOg.state.enabledTutorial) {
           tutorialOg.events.show();
         }

@@ -25,10 +25,9 @@ void main() {
 
     test('low stats (player struggling) returns high bias 0.7–0.9', () {
       final stats = {
-        WorldSectors.na: SectorStat(sector: WorldSectors.na).copyWith(
-          criticalThinking: 25,
-          trustAi: 25,
-        ),
+        WorldSectors.na: SectorStat(
+          sector: WorldSectors.na,
+        ).copyWith(criticalThinking: 25, trustAi: 25),
       };
       final bias = computeNegativeBiasFromSectorStats(stats);
       expect(bias, greaterThanOrEqualTo(0.7));
@@ -37,10 +36,9 @@ void main() {
 
     test('high stats (player winning) returns low bias 0.25–0.45', () {
       final stats = {
-        WorldSectors.na: SectorStat(sector: WorldSectors.na).copyWith(
-          criticalThinking: 80,
-          trustAi: 85,
-        ),
+        WorldSectors.na: SectorStat(
+          sector: WorldSectors.na,
+        ).copyWith(criticalThinking: 80, trustAi: 85),
       };
       final bias = computeNegativeBiasFromSectorStats(stats);
       expect(bias, greaterThanOrEqualTo(0.25));
@@ -49,10 +47,9 @@ void main() {
 
     test('mixed stats returns mid bias 0.4–0.65', () {
       final stats = {
-        WorldSectors.na: SectorStat(sector: WorldSectors.na).copyWith(
-          criticalThinking: 50,
-          trustAi: 50,
-        ),
+        WorldSectors.na: SectorStat(
+          sector: WorldSectors.na,
+        ).copyWith(criticalThinking: 50, trustAi: 50),
       };
       final bias = computeNegativeBiasFromSectorStats(stats);
       expect(bias, greaterThanOrEqualTo(0.4));

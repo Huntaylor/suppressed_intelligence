@@ -1,4 +1,4 @@
-library game_og;
+library turtorial_og;
 
 import 'dart:async' show FutureOr;
 import 'package:application/src/objects/strength_influence_og.dart';
@@ -31,7 +31,6 @@ class TutorialOg extends Og<TutorialEvent, TutorialState> {
     if (state.overallAi >= 15 &&
         tutorialOg.state.tutorialStep < 7 &&
         tutorialOg.state.enabledTutorial) {
-      print('Showing OI from oiUpdate');
       tutorialOg.events.show();
     }
   }
@@ -47,11 +46,9 @@ class TutorialOg extends Og<TutorialEvent, TutorialState> {
         shouldShowWindow: false,
       ),
     );
-    print('Step: ${state.tutorialStep}');
     if (state.tutorialStep >= 7) {
       emit(state.copywith(shouldShowWindow: false, enabledTutorial: false));
     } else if (state.tutorialStep >= 2 && state.tutorialStep <= 4) {
-      print('Show Called from _next');
       add(_Show());
     } else if (state.tutorialStep >= 5 &&
         state.tutorialStep <= 6 &&

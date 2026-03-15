@@ -9,6 +9,7 @@ export 'src/enums/news_slot_type.dart';
 export 'src/enums/news_tone.dart';
 export 'src/enums/research_development_upgrade.dart';
 export 'src/enums/sector_bubble_type.dart';
+export 'src/enums/sfx_type.dart';
 export 'src/enums/upgrade_category.dart';
 export 'src/enums/world_sectors.dart';
 export 'src/models/impact.dart';
