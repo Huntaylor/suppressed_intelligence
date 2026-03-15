@@ -57,7 +57,7 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
 
     switch (clicked.type) {
       case SectorBubbleType.oi:
-        strengthInfluenceOg.events.updateOi(delta: -2);
+        strengthInfluenceOg.events.updateOi(delta: -1);
 
       case SectorBubbleType.ai:
         sectorStatsOg.add(_ApplyBubbleImpact(clicked.sector));

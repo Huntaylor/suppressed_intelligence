@@ -16,13 +16,13 @@ final class TutorialState extends Equatable {
   final int tutorialStep;
 
   List<String> get tutorialStrings => [
-    'Before the game begins, you pick a sector — this is your foothold.\n\nTap any sector on the map to get started',
-    'AI bubbles appear in your active sectors. Tap them to trigger an integration attempt on connected sectors. Success is chance-based — your upgrades improve those odds.\n\nEach successful integration adds a new sector to your network.',
-    'Tapping a sector opens its detail panel at the bottom of the screen. Each sector has its own AI dependency stat — the average across all sectors makes up the global AI dependency % you need to reach 100%.',
-    "You generate cash every month automatically. Upgrades improve your integration chances and sector stats — but you can only purchase one when you have enough cash.",
-    "The scrolling news banner at the top affects all your active sectors each cycle. For-AI headlines boost your stats, against-AI headlines reduce them. Neutral news does nothing. Adapt your strategy to the current headline.",
-    "Once global AI dependency reaches 20%, an opposing force enters the game. You are now in a race to 100%.",
-    "Integrate every sector. Spend your monthly cash on upgrades, react to the news, and outpace the enemy once they emerge at 20%. Good luck.",
+    'Before the game begins, you pick a sector —\nthis is your foothold.\n\nTap any sector on the map to get started.',
+    'AI bubbles appear in your active sectors.\nTap them to trigger an integration attempt\non connected sectors. Success is chance-based —\nyour upgrades improve those odds.\n\nEach successful integration adds a new sector\nto your network.',
+    'Tapping a sector opens its detail panel\nat the bottom of the screen. Each sector has its own\nAI dependency stat — the average across all sectors\nmakes up the global AI dependency % you need to reach 100%.',
+    'You generate cash every month automatically.\nUpgrades improve your integration chances and sector stats —\nbut you can only purchase one when you have enough cash.',
+    'The scrolling news banner at the top affects\nall your active sectors each cycle. For-AI headlines\nboost your stats, against-AI headlines reduce them.\nNeutral news does nothing. Adapt your strategy\nto the current headline.',
+    'Once global AI dependency reaches 20%,\nan opposing force enters the game.\nYou are now in a race to 100%.',
+    'Integrate every sector. Spend your monthly cash\non upgrades, react to the news, and outpace the enemy\nonce they emerge at 20%. Good luck.',
   ];
 
   TutorialState copywith({
