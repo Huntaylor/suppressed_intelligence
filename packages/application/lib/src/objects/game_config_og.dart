@@ -37,11 +37,11 @@ class GameConfigOg extends Og<GameConfigEvent, GameConfigState> {
     final oiStat = state.oi;
     final aiStat = state.overallAi;
 
-    if (aiStat.floor() == 100) {
+    if (aiStat.floor() >= 100) {
       gameConfigOg.add(_GameOver(gameOverCondition: .win));
     }
 
-    if (oiStat == 100) {
+    if (oiStat >= 100) {
       gameConfigOg.add(_GameOver(gameOverCondition: .lose));
     }
   }

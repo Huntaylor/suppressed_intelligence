@@ -12,10 +12,10 @@ class _UpdateOi extends StrengthInfluenceEvent {
 }
 
 class _UpdateAi extends StrengthInfluenceEvent {
-  _UpdateAi({required this.delta});
+  _UpdateAi({required this.value});
 
   /// Delta to apply (will be clamped so result stays 0–100).
-  final double delta;
+  final double value;
 }
 
 class _Events {
@@ -25,9 +25,5 @@ class _Events {
 
   void updateOi({required int delta}) {
     _object.add(_UpdateOi(delta: delta));
-  }
-
-  void updateAi({required double delta}) {
-    _object.add(_UpdateAi(delta: delta));
   }
 }

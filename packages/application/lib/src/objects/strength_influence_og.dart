@@ -41,11 +41,11 @@ class StrengthInfluenceOg
       statList.add(stat.progress);
     }
 
-    final reduction =
+    final value =
         statList.reduce((value, element) => value + element) /
         WorldSectors.values.length;
 
-    strengthInfluenceOg.events.updateAi(delta: reduction);
+    strengthInfluenceOg.add(_UpdateAi(value: value));
   }
 
   static void newsHeadlineStateListener(NewsHeadlineState state) {
@@ -71,6 +71,6 @@ class StrengthInfluenceOg
     _UpdateAi event,
     Emitter<StrengthInfluenceState> emit,
   ) {
-    emit(state.copywith(overallAi: event.delta));
+    emit(state.copywith(overallAi: event.value));
   }
 }
