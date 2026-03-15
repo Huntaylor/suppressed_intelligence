@@ -80,8 +80,14 @@ class _UpgradeSlotState<T> extends State<_UpgradeSlot<T>> {
               child: IgnorePointer(
                 child: Center(
                   child: Text(
-                    _UpgradeSlot._formatCost(cost),
-                    style: TextStyle(color: priceColor, fontSize: 12),
+                    purchased
+                        ? 'SOLD OUT'
+                        : _UpgradeSlot._formatCost(cost),
+                    style: TextStyle(
+                      color: purchased ? Colors.white70 : priceColor,
+                      fontSize: purchased ? 10 : 12,
+                      fontWeight: purchased ? FontWeight.w600 : null,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
