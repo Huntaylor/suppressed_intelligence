@@ -21,7 +21,7 @@ class ProgressBar extends NineTileBoxComponent
   @override
   FutureOr<void> onLoad() async {
     // paint = Paint()..color = Color.fromARGB(255, 1, 0, 128);
-    paint = Paint()..color = Color.fromARGB(255, 1, 1, 175);
+    paint = Paint()..color = Color.fromARGB(255, 255, 255, 255);
     final nineTileImage = await game.images.load(
       'windows_95_loading_bar_chatgpt.png',
     );
