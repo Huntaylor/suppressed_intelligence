@@ -56,8 +56,8 @@ enum ResearchDevelopmentUpgrade {
     narrativeOptimization =>
       'Increases the AI Dependency stat; receive more money per month',
     hardwareUpgrade1 =>
-      'Automatic send AI packets to sectors; increase AI dependency stat upon arrival',
+      'Decrease AI Depedency by 25% immediately;\nAutomatic send AI packets to sectors; increase AI dependency stat upon arrival',
     hardwareUpgrade2 =>
-      'Faster AI packets; Stronger AI Dependency stat growth.',
+      'Decrease AI Depedency by 25% immediately;\nFaster AI packets; Stronger AI Dependency stat growth.',
   };
 }
