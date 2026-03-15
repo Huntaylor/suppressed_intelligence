@@ -125,7 +125,13 @@ class SuppressedIntelGame extends FlameGame
 
     hudUpgradeButton = HudUpgradeButton(
       onPressed: () {
-        if (tutorialOg.state.shouldShowWindow) return;
+        print(tutorialOg.state.shouldShowWindow);
+        if (tutorialOg
+            .state
+            .shouldShowWindow /* ||
+            gameConfigOg.state.gameOverCondition != .none */ ) {
+          return;
+        }
         if (UpgradeOverlay.isShowing(this)) {
           UpgradeOverlay.hide(this);
         } else {
@@ -136,7 +142,12 @@ class SuppressedIntelGame extends FlameGame
 
     hudPauseButton = HudPauseButton(
       onPressed: () {
-        if (tutorialOg.state.shouldShowWindow) return;
+        if (tutorialOg
+            .state
+            .shouldShowWindow /*  ||
+            gameConfigOg.state.gameOverCondition != .none */ ) {
+          return;
+        }
         if (PauseOverlay.isShowing(this)) {
           PauseOverlay.hide(this);
         } else {

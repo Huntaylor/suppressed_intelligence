@@ -28,7 +28,10 @@ class TutorialOg extends Og<TutorialEvent, TutorialState> {
   late final events = _Events(this);
 
   static void oiUpdate(StrengthInfluenceState state) {
-    if (state.overallAi >= 15 && tutorialOg.state.tutorialStep <= 7) {
+    if (state.overallAi >= 15 &&
+        tutorialOg.state.tutorialStep < 7 &&
+        tutorialOg.state.enabledTutorial) {
+      print('Showing OI from oiUpdate');
       tutorialOg.events.show();
     }
   }
@@ -44,15 +47,17 @@ class TutorialOg extends Og<TutorialEvent, TutorialState> {
         shouldShowWindow: false,
       ),
     );
-
-    if (state.tutorialStep >= 2 && state.tutorialStep <= 4) {
+    print('Step: ${state.tutorialStep}');
+    if (state.tutorialStep >= 7) {
+      emit(state.copywith(shouldShowWindow: false, enabledTutorial: false));
+    } else if (state.tutorialStep >= 2 && state.tutorialStep <= 4) {
+      print('Show Called from _next');
       add(_Show());
     } else if (state.tutorialStep >= 5 &&
         state.tutorialStep <= 6 &&
         strengthInfluenceOg.state.overallAi >= 15) {
       add(_Show());
     }
-    if (state.tutorialStep <= 7) {}
   }
 
   FutureOr<void> _show(_Show event, Emitter<TutorialState> emit) {

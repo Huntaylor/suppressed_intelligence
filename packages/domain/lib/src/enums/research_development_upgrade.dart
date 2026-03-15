@@ -34,7 +34,7 @@ enum ResearchDevelopmentUpgrade {
   /// Purchase Effect: Lowers the trustAi stat by half \
   /// UI Change: Increase dot frequency \
   /// Incremental Effect: Increase sector stats by .05% when dot arrives to sector
-  hardwareUpgrade2(10000);
+  hardwareUpgrade2(8500);
 
   const ResearchDevelopmentUpgrade(this.cost);
 

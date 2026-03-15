@@ -64,7 +64,7 @@ class StrengthInfluenceOg
     _UpdateOi event,
     Emitter<StrengthInfluenceState> emit,
   ) {
-    final next = (state.oi + event.delta).clamp(0, 15);
+    final next = (state.oi + event.delta).clamp(0, 100);
     emit(state.copywith(oi: next));
   }
 
