@@ -4,7 +4,7 @@ part of game_og;
 
 final class TutorialState extends Equatable {
   const TutorialState({
-    this.enabledTutorial = false,
+    this.enabledTutorial = true,
     this.tutorialStep = 0,
     this.shouldShowWindow = false,
   });
