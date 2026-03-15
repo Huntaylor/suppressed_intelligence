@@ -36,6 +36,7 @@ class InfoDotComponent extends CircleComponent
           removeFromParent();
           infoDotsOg.events.dropInfoDot(dot);
           sectorStatsOg.events.receiveInfoDot(dot);
+          moneyOg.events.addMoney(5);
         },
       ),
     );
