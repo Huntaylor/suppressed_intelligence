@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:application/application.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/foundation.dart';
@@ -15,12 +14,11 @@ class HudToolsResourcesComponent extends NineTileBoxComponent
     super.position,
     required this.hudPauseButton,
     required this.hudUpgradeButton,
-  }) : super(anchor: .topLeft, size: Vector2(134, 70));
+  }) : super(anchor: .topLeft, size: Vector2(134, 45));
 
   final HudUpgradeButton hudUpgradeButton;
   final HudPauseButton hudPauseButton;
 
-  late TextComponent moneyDisplay;
   late TextComponent title;
 
   final bool isWeb = kIsWasm || kIsWeb;
@@ -39,40 +37,19 @@ class HudToolsResourcesComponent extends NineTileBoxComponent
       ),
     );
 
-    hudUpgradeButton.position = Vector2(5, 14.5);
-    hudPauseButton.position = Vector2(99, 14.5);
+    hudUpgradeButton.position = Vector2(5, 14);
+    hudPauseButton.position = Vector2(99, 14);
 
     nineTileBox = NineTileBox.withGrid(
       Sprite(nineTileImage),
-      topHeight: 1,
+      topHeight: 8,
       bottomHeight: 2,
       leftWidth: 9,
       rightWidth: 9,
     );
 
-    moneyDisplay = TextComponent(
-      position: Vector2(5, 43),
-      size: Vector2(size.x - 10, size.y),
-      text: '\$\$\$\$',
-      textRenderer: TextPaint(
-        style: const TextStyle(
-          fontSize: 18,
-          color: Colors.white,
-          decoration: TextDecoration.underline,
-        ),
-      ),
-    );
-
-    addAll([hudPauseButton, hudUpgradeButton, moneyDisplay, title]);
+    addAll([hudPauseButton, hudUpgradeButton, title]);
     return super.onLoad();
-  }
-
-  @override
-  void update(double dt) {
-    final moneyAmount = moneyOg.state.amount;
-
-    moneyDisplay.text = '\$$moneyAmount';
-    super.update(dt);
   }
 
   void moveHud() {

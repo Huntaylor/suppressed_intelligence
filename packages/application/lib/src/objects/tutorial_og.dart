@@ -1,6 +1,7 @@
 library game_og;
 
 import 'dart:async' show FutureOr;
+import 'package:application/src/objects/strength_influence_og.dart';
 import 'package:application/src/og.dart';
 import 'package:application/src/setup/setup.dart';
 import 'package:equatable/equatable.dart';
@@ -26,6 +27,12 @@ class TutorialOg extends Og<TutorialEvent, TutorialState> {
 
   late final events = _Events(this);
 
+  static void oiUpdate(StrengthInfluenceState state) {
+    if (state.overallAi >= 15 && tutorialOg.state.tutorialStep <= 7) {
+      tutorialOg.events.show();
+    }
+  }
+
   FutureOr<void> _start(_Start event, Emitter<TutorialState> emit) {
     emit(state.copywith(enabledTutorial: event.enabled));
   }
@@ -37,6 +44,15 @@ class TutorialOg extends Og<TutorialEvent, TutorialState> {
         shouldShowWindow: false,
       ),
     );
+
+    if (state.tutorialStep >= 2 && state.tutorialStep <= 4) {
+      add(_Show());
+    } else if (state.tutorialStep >= 5 &&
+        state.tutorialStep <= 6 &&
+        strengthInfluenceOg.state.overallAi >= 15) {
+      add(_Show());
+    }
+    if (state.tutorialStep <= 7) {}
   }
 
   FutureOr<void> _show(_Show event, Emitter<TutorialState> emit) {

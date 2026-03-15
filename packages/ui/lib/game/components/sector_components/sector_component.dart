@@ -58,6 +58,7 @@ class SectorComponent extends SpriteComponent
 
   @override
   void onTapDown(TapDownEvent event) {
+    if (tutorialOg.state.shouldShowWindow) return;
     if (game.infoStartUp) return;
     if (gameConfigOg.state.infectedSectors.isEmpty) {
       final localPosition = event.localPosition;

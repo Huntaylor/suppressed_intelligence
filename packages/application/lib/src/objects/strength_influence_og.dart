@@ -24,6 +24,7 @@ class StrengthInfluenceOg
 
     addListener(GameConfigOg.oiActivation);
     addListener(GameConfigOg.gameOverCondition);
+    addListener(TutorialOg.oiUpdate);
   }
 
   static ScopedRef<StrengthInfluenceOg>? _provider;
@@ -63,7 +64,7 @@ class StrengthInfluenceOg
     _UpdateOi event,
     Emitter<StrengthInfluenceState> emit,
   ) {
-    final next = (state.oi + event.delta).clamp(0, 100);
+    final next = (state.oi + event.delta).clamp(0, 15);
     emit(state.copywith(oi: next));
   }
 

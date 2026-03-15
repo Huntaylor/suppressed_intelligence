@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:ui/game/overlays/upgrade/upgrade_overlay.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
 
+import 'package:universal_html/html.dart' as html;
+
 class PauseOverlay extends StatelessWidget {
   const PauseOverlay({super.key, required this.game});
 
@@ -64,6 +66,20 @@ class PauseOverlay extends StatelessWidget {
                     width: 15,
                     height: 14,
                     color: Colors.transparent,
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: .center,
+              child: ElevatedButton(
+                onPressed: () => html.window.location.reload(),
+                child: Text(
+                  'Main Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    height: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),

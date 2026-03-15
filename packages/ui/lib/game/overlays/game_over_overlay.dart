@@ -1,5 +1,7 @@
 library upgrade_overlay;
 
+import 'package:universal_html/html.dart' as html;
+
 import 'package:application/application.dart';
 import 'package:domain/domain.dart';
 import 'package:flame/widgets.dart';
@@ -7,7 +9,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ui/game/overlays/pause_overlay.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
-import 'package:ui/routes/route.dart';
 
 class GameOverOverlay extends StatefulWidget {
   const GameOverOverlay({super.key, required this.game});
@@ -90,7 +91,7 @@ class _GameOverOverlayState extends State<GameOverOverlay> {
               alignment: AlignmentGeometry.topRight,
               child: GestureDetector(
                 onTap: () {
-                  GameCoordinator.instance.navigate(MainMenuRoute());
+                  html.window.location.reload();
                 },
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
