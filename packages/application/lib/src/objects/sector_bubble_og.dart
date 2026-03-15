@@ -120,8 +120,9 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
     if (eligible.isEmpty) return;
 
     final sector = eligible[_random.nextInt(eligible.length)];
-    final type = config.isOIPresent
-        ? SectorBubbleType.values[_random.nextInt(2)]
+    // OI bubbles spawn less often than AI (1 in 5 when OI is present).
+    final type = config.isOIPresent && _random.nextInt(5) == 0
+        ? SectorBubbleType.oi
         : SectorBubbleType.ai;
     final bubble = SectorBubble(sector: sector, type: type);
 

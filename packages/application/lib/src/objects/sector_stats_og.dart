@@ -241,7 +241,7 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     for (final entry in updated.entries) {
       final stat = entry.value;
       updated[entry.key] = stat.copyWith(
-        trustAi: _clampStat(stat.trustAi ~/ 2),
+        trustAi: _clampStat((stat.trustAi * .75).toInt()),
       );
     }
     emit(_Ready(stats: updated, selectedSector: current.selectedSector));
