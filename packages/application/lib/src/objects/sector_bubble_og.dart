@@ -93,12 +93,33 @@ class SectorBubbleOg extends Og<SectorBubbleEvent, SectorBubbleState> {
     emit(SectorBubbleState(bubbles: [...state.bubbles, bubble]));
   }
 
+  /// Sectors where bubbles may appear. Excludes sectors at critical thinking 0
+  /// and AI dependency (trustAi) 100, so bubbles show in sectors that still need engagement.
+  List<WorldSectors> bubbleEligibleSectors(Iterable<WorldSectors> infected) {
+    final ready = sectorStatsOg.state.asIfReady;
+    if (ready == null) return infected.toList();
+    return infected.where((s) {
+      if (ready.stats[s]?.isComplete case false) {
+        return true;
+      }
+
+      final neighbourSectors = Pipe.neighborsOf(s);
+      if (neighbourSectors.any((s) => ready.stats[s]?.isComplete == false)) {
+        return true;
+      }
+
+      return false;
+    }).toList();
+  }
+
   void _spawnBubble(_SpawnBubble event, Emitter<SectorBubbleState> emit) {
     final config = gameConfigOg.state;
     if (config.infectedSectors.isEmpty) return;
 
-    final sectors = config.infectedSectors.toList();
-    final sector = sectors[_random.nextInt(sectors.length)];
+    final eligible = bubbleEligibleSectors(config.infectedSectors);
+    if (eligible.isEmpty) return;
+
+    final sector = eligible[_random.nextInt(eligible.length)];
     final type = config.isOIPresent
         ? SectorBubbleType.values[_random.nextInt(2)]
         : SectorBubbleType.ai;
