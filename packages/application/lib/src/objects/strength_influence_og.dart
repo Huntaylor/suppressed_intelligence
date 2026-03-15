@@ -21,6 +21,9 @@ class StrengthInfluenceOg
   StrengthInfluenceOg() : super(StrengthInfluenceState(oi: 0, overallAi: 0)) {
     on<_UpdateOi>(_updateOi);
     on<_UpdateAi>(_updateAi);
+
+    addListener(GameConfigOg.oiActivation);
+    addListener(GameConfigOg.gameOverCondition);
   }
 
   static ScopedRef<StrengthInfluenceOg>? _provider;

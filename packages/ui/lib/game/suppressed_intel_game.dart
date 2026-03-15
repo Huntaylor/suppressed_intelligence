@@ -16,6 +16,8 @@ import 'package:ui/game/components/world_info_display.dart';
 import 'package:ui/game/hud/hud_news_component.dart';
 import 'package:ui/game/hud/hud_pause_button.dart';
 import 'package:ui/game/hud/hud_upgrade_button.dart';
+import 'package:ui/game/overlays/game_over_overlay.dart';
+import 'package:ui/game/overlays/oi_start_overlay.dart';
 import 'package:ui/game/overlays/pause_overlay.dart';
 import 'package:ui/game/overlays/upgrade/upgrade_overlay.dart';
 import 'package:ui/game/world/world.dart';
@@ -35,6 +37,7 @@ class SuppressedIntelGame extends FlameGame
   bool debugGame = false;
 
   late bool infoStartUp;
+  late bool oiStart;
 
   late WorldMap worldMap;
 
@@ -65,6 +68,7 @@ class SuppressedIntelGame extends FlameGame
   @override
   FutureOr<void> onLoad() async {
     infoStartUp = true;
+    oiStart = false;
     hudNewsComponent = HudNewsComponent();
 
     hudNewsComponent.position = Vector2(
@@ -113,6 +117,19 @@ class SuppressedIntelGame extends FlameGame
     if (debugGame) {
       world.add(mouseDebug);
     }
+
+    gameConfigOg.addListener((state) {
+      if (state.isOIPresent && !oiStart) {
+        oiStart = true;
+        OiStartOverlay.show(this);
+        pauseEngine();
+      }
+      print(state.gameOverCondition);
+      if (state.gameOverCondition != .none) {
+        GameOverOverlay.show(this);
+        pauseEngine();
+      }
+    });
 
     _intializeGame();
     return super.onLoad();

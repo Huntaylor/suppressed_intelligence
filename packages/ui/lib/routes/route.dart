@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:application/application.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:ui/game/overlays/game_over_overlay.dart';
+import 'package:ui/game/overlays/oi_start_overlay.dart';
 import 'package:ui/game/overlays/pause_overlay.dart';
 import 'package:ui/game/overlays/upgrade/upgrade_overlay.dart';
 import 'package:ui/game/suppressed_intel_game.dart';

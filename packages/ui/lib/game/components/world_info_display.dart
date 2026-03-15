@@ -96,16 +96,14 @@ class WorldInfoDisplay extends NineTileBoxComponent
       mainProgressBar.setProgress = overallAiStat.toInt();
       sectorName.text = 'Global Impact';
       worldData.text =
-          'Total AI Dependency at ${formatAsPercentage((overallAiStat) / 100)}';
-      secondaryData.text =
-          'OI Influence at ${formatAsPercentage((oiStat) / 100)}';
+          'Total AI Dependency at ${formatAsPercentage((overallAiStat))}';
+      secondaryData.text = 'OI Influence at ${formatAsPercentage((oiStat))}';
 
       if (gameConfigOg.state.isOIPresent) {
         if (secondaryProgressBar.opacity != 1) {
           secondaryProgressBar.opacity = 1;
         }
-        secondaryData.text =
-            'OI Influence at ${formatAsPercentage((oiStat) / 100)}';
+        secondaryData.text = 'OI Influence at ${formatAsPercentage((oiStat))}';
       } else {
         secondaryData.text = '';
         if (secondaryProgressBar.opacity != 0) {
@@ -124,24 +122,16 @@ class WorldInfoDisplay extends NineTileBoxComponent
       }
 
       sectorName.text = currentSector.displayName;
-      worldData.text =
-          'AI Trust at ${formatAsPercentage((sectorTrustStat) / 100)}';
+      worldData.text = 'AI Trust at ${formatAsPercentage((sectorTrustStat))}';
       secondaryData.text =
-          'Critical Thinking at ${formatAsPercentage((sectorThinkingStat) / 100)}';
+          'Critical Thinking at ${formatAsPercentage((sectorThinkingStat))}';
     }
 
     super.update(dt);
   }
 
-  String formatAsPercentage(num value, {int decimalPlaces = 0}) {
-    final percentage = value * 100;
-    String formatted = percentage.toStringAsFixed(decimalPlaces);
-
-    if (decimalPlaces > 0) {
-      formatted = formatted.replaceAll(RegExp(r'\.?0+$'), '');
-    }
-
-    return '$formatted%';
+  String formatAsPercentage(num value) {
+    return '${value.floor()}%';
   }
 
   void displayInfo() {

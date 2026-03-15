@@ -32,6 +32,11 @@ class _SetOIPresent extends GameConfigEvent {
   const _SetOIPresent();
 }
 
+class _GameOver extends GameConfigEvent {
+  final GameOverCondition gameOverCondition;
+  const _GameOver({required this.gameOverCondition});
+}
+
 class _Events {
   _Events(this._object);
 
@@ -57,5 +62,13 @@ class _Events {
 
   void setOIPresent() {
     _object.add(const _SetOIPresent());
+  }
+
+  void win() {
+    _object.add(const _GameOver(gameOverCondition: .win));
+  }
+
+  void lose() {
+    _object.add(const _GameOver(gameOverCondition: .lose));
   }
 }

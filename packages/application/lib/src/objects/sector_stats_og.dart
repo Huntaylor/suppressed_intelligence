@@ -124,8 +124,8 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
     if (stat == null) return;
 
     final updated = stat.copyWith(
-      criticalThinking: _clampStat(stat.criticalThinking - 5),
-      trustAi: _clampStat(stat.trustAi + 5),
+      criticalThinking: _clampStat(stat.criticalThinking - 2),
+      trustAi: _clampStat(stat.trustAi + 2),
     );
 
     emit(current.updateStat(event.sector, updated));

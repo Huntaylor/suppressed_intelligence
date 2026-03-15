@@ -16,8 +16,10 @@ class GameRoute extends Route with RouteRedirect<Route> {
     return Scaffold(
       body: GameWidget<SuppressedIntelGame>.controlled(
         overlayBuilderMap: {
+          OiStartOverlay.id: (context, game) => OiStartOverlay(game: game),
           PauseOverlay.id: (context, game) => PauseOverlay(game: game),
           UpgradeOverlay.id: (context, game) => UpgradeOverlay(game: game),
+          GameOverOverlay.id: (context, game) => GameOverOverlay(game: game),
         },
         gameFactory: () => SuppressedIntelGame(),
       ),

@@ -5,11 +5,13 @@ final class GameConfigState extends Equatable {
     required this.name,
     required this.infectedSectors,
     this.isOIPresent = false,
+    this.gameOverCondition = .none,
   });
 
   final String name;
   final Set<WorldSectors> infectedSectors;
   final bool isOIPresent;
+  final GameOverCondition gameOverCondition;
 
   bool get hasUserSetName => name != GameConfigOg._defaultName;
 
@@ -20,11 +22,13 @@ final class GameConfigState extends Equatable {
     String? name,
     Set<WorldSectors>? infectedSectors,
     bool? isOIPresent,
+    GameOverCondition? gameOverCondition,
   }) {
     return GameConfigState(
       name: name ?? this.name,
       infectedSectors: infectedSectors ?? this.infectedSectors,
       isOIPresent: isOIPresent ?? this.isOIPresent,
+      gameOverCondition: gameOverCondition ?? this.gameOverCondition,
     );
   }
 }

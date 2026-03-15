@@ -22,6 +22,7 @@ class GameConfigOg extends Og<GameConfigEvent, GameConfigState> {
     on<_InfectFirstSector>(_infectFirstSector);
     on<_ClearInfectedSectors>(_clearInfectedSectors);
     on<_SetOIPresent>(_setOIPresent);
+    on<_GameOver>(_gameOver);
   }
 
   static const _defaultName = 'ChatGibitty';
@@ -31,6 +32,21 @@ class GameConfigOg extends Og<GameConfigEvent, GameConfigState> {
       _provider ??= create<GameConfigOg>((getIt.call));
 
   late final events = _Events(this);
+
+  static void gameOverCondition(StrengthInfluenceState state) {
+    final oiStat = state.oi;
+    final aiStat = state.overallAi;
+
+    if (aiStat.floor() == 100) {
+      print('victory');
+
+      gameConfigOg.add(_GameOver(gameOverCondition: .win));
+    }
+
+    if (oiStat == 100) {
+      gameConfigOg.add(_GameOver(gameOverCondition: .lose));
+    }
+  }
 
   FutureOr<void> _addName(_AddName event, Emitter<GameConfigState> emit) {
     emit(state.copywith(name: event.name));
@@ -63,10 +79,21 @@ class GameConfigOg extends Og<GameConfigEvent, GameConfigState> {
     emit(state.copywith(infectedSectors: {}));
   }
 
-  void _setOIPresent(
-    _SetOIPresent event,
-    Emitter<GameConfigState> emit,
-  ) {
+  void _setOIPresent(_SetOIPresent event, Emitter<GameConfigState> emit) {
     emit(state.copywith(isOIPresent: true));
+  }
+
+  static void oiActivation(StrengthInfluenceState state) {
+    final overallAi = state.overallAi;
+
+    if (overallAi >= 20) {
+      gameConfigOg.events.setOIPresent();
+    }
+  }
+
+  FutureOr<void> _gameOver(_GameOver event, Emitter<GameConfigState> emit) {
+    print(event.gameOverCondition);
+    emit(state.copywith(gameOverCondition: event.gameOverCondition));
+    print('Game Over: ${state.gameOverCondition}');
   }
 }

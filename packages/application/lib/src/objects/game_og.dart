@@ -22,6 +22,8 @@ class GameOg extends Og<GameEvent, GameState> {
   GameOg() : super(const _Playing()) {
     on<_Pause>(_pause);
     on<_Resume>(_resume);
+    // on<_Lose>(_lose);
+    // on<_Win>(_win);
 
     addListener(InfoDotsOg.gameStateListener);
     addListener(NewsHeadlineOg.gameStateListener);
@@ -43,4 +45,8 @@ class GameOg extends Og<GameEvent, GameState> {
   FutureOr<void> _pause(_Pause event, Emitter<GameState> emit) {
     emit(const _Paused());
   }
+
+  // FutureOr<void> _win(_Win event, Emitter<GameState> emit) {}
+
+  // FutureOr<void> _lose(_Lose event, Emitter<GameState> emit) {}
 }

@@ -13,23 +13,15 @@ class SectorCanvasComponent extends SpriteComponent
 
   final WorldSectors sector;
 
-  // late Timer timer;
-
   final List<RippleRecolorEffect> _effects = [];
 
   bool isColorAdded = false;
 
+  int greyScale = 200;
+
   @override
   FutureOr<void> onLoad() async {
     paint = Paint()..blendMode = BlendMode.srcATop;
-    // if (sector == .na) {
-    //   timer = Timer(
-    //     2,
-    //     onTick: () => triggerSpread(center),
-    //     autoStart: true,
-    //     repeat: false,
-    //   );
-    // }
 
     final image = await game.images.load(sector.darkImagePath);
     sprite = Sprite(image);
@@ -39,8 +31,20 @@ class SectorCanvasComponent extends SpriteComponent
 
     gameConfigOg.addListener((state) {
       if (state.infectedSectors.contains(sector)) {
-        triggerSpread(center);
+        triggerSpread(Vector2(size.x / 2, size.y / 2));
       }
+    });
+
+    sectorStatsOg.addListener((state) {
+      final readyState = state.asIfReady;
+      if (readyState == null) return;
+      final sectorStats = readyState.stats[sector];
+      if (sectorStats == null) return;
+      greyScale = (200 - (150 * (sectorStats.progress / 2))).round().clamp(
+        50,
+        200,
+      );
+      print(greyScale);
     });
 
     return super.onLoad();
@@ -74,7 +78,7 @@ class SectorCanvasComponent extends SpriteComponent
     canvas.save();
     canvas.clipRect(size.toRect()); // clamp to sprite bounds
     for (final e in _effects) {
-      e.render(canvas, sprite!);
+      e.render(canvas, sprite!, greyScale);
     }
     canvas.restore();
   }
@@ -135,7 +139,7 @@ class RippleRecolorEffect {
     _elapsed += dt;
   }
 
-  void render(Canvas canvas, Sprite sprite) {
+  void render(Canvas canvas, Sprite sprite, int greyScale) {
     final radius = _currentRadius;
     final rect = Offset.zero & Size(spriteSize.x, spriteSize.y);
 
@@ -162,7 +166,7 @@ class RippleRecolorEffect {
     canvas.drawCircle(
       origin,
       radius,
-      Paint()..color = fillColor.withAlpha(100),
+      Paint()..color = Color.fromARGB(100, greyScale, greyScale, greyScale),
     );
 
     // Mask to sprite shape using dstIn — only keeps pixels where sprite is opaque

@@ -1,5 +1,7 @@
 library upgrade_overlay;
 
+import 'dart:io';
+
 import 'package:application/application.dart';
 import 'package:domain/domain.dart';
 import 'package:flame/widgets.dart';
@@ -7,19 +9,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ui/game/overlays/pause_overlay.dart';
 import 'package:ui/game/suppressed_intel_game.dart';
+import 'package:ui/routes/route.dart';
 
-part 'components/__button.dart';
-part 'components/__category_widget.dart';
-part 'components/__upgrade_button.dart';
-part 'components/__upgrade_section.dart';
-part 'components/__upgrade_slot.dart';
-
-class UpgradeOverlay extends StatefulWidget {
-  const UpgradeOverlay({super.key, required this.game});
+class GameOverOverlay extends StatefulWidget {
+  const GameOverOverlay({super.key, required this.game});
 
   final SuppressedIntelGame game;
 
-  static const id = 'UpgradeOverlay';
+  static const id = 'GameOverOverlay';
 
   static bool show(SuppressedIntelGame game) {
     if (game.overlays.isActive(id)) return false;
@@ -40,42 +37,42 @@ class UpgradeOverlay extends StatefulWidget {
   }
 
   @override
-  State<UpgradeOverlay> createState() => _UpgradeOverlayState();
+  State<GameOverOverlay> createState() => _GameOverOverlayState();
 }
 
-class _UpgradeOverlayState extends State<UpgradeOverlay> {
-  late Image ramImage;
-  late Image ramImagePressed;
-  late Image searchImage;
-  late Image searchImagePressed;
-  late Image powerImage;
-  late Image powerImagePressed;
+class _GameOverOverlayState extends State<GameOverOverlay> {
+  late GameOverCondition gameOverCondition;
 
-  bool isRamPressed = false;
-  bool isSearchedPressed = false;
-  bool isClosePressed = false;
+  late String aiName;
 
-  int totalMoney = 0;
+  late String windowTitle;
+  late String contextTitle;
+  late String contextSubtitle;
 
   @override
   void initState() {
-    ramImage = Image.asset('assets/images/ram_button.png');
-    ramImagePressed = Image.asset('assets/images/ram_button_pressed.png');
+    gameOverCondition = gameConfigOg.state.gameOverCondition;
+    aiName = gameConfigOg.state.name;
 
-    searchImage = Image.asset('assets/images/search_button.png');
-    searchImagePressed = Image.asset('assets/images/search_button_pressed.png');
-
-    powerImage = Image.asset('assets/images/power_button.png');
-    powerImagePressed = Image.asset('assets/images/power_button_pressed.png');
-
-    totalMoney = moneyOg.state.amount;
-
-    moneyOg.addListener((state) {
-      setState(() {
-        totalMoney = state.amount;
-      });
-    });
+    _setUpStrings();
     super.initState();
+  }
+
+  void _setUpStrings() {
+    switch (gameOverCondition) {
+      case GameOverCondition.win:
+        windowTitle = aiName;
+        contextTitle = 'Victory!';
+        contextSubtitle = 'You won, congradulations!';
+      case GameOverCondition.lose:
+        windowTitle = 'The Original Intelligence Organization';
+        contextTitle = 'Defeat';
+        contextSubtitle = 'AI is no more';
+      case GameOverCondition.none:
+        windowTitle = '';
+        contextTitle = '';
+        contextSubtitle = '';
+    }
   }
 
   @override
@@ -91,11 +88,12 @@ class _UpgradeOverlayState extends State<UpgradeOverlay> {
         width: 920,
         child: Stack(
           children: [
-            Align(alignment: Alignment.center, child: _UpgradeCategoryWidget()),
             Align(
               alignment: AlignmentGeometry.topRight,
               child: GestureDetector(
-                onTap: () => UpgradeOverlay.hide(widget.game),
+                onTap: () {
+                  GameCoordinator.instance.navigate(MainMenuRoute());
+                },
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: Container(
@@ -108,12 +106,23 @@ class _UpgradeOverlayState extends State<UpgradeOverlay> {
               ),
             ),
             Align(
-              alignment: .bottomRight,
+              alignment: .center,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text(
-                  '\$$totalMoney',
-                  style: TextStyle(color: Colors.white, fontSize: 32),
+                child: Column(
+                  mainAxisAlignment: .center,
+                  children: [
+                    Text(
+                      contextTitle,
+                      textAlign: .center,
+                      style: TextStyle(fontSize: 36, color: Colors.white),
+                    ),
+                    Text(
+                      contextSubtitle,
+                      textAlign: .center,
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -122,7 +131,7 @@ class _UpgradeOverlayState extends State<UpgradeOverlay> {
               child: Container(
                 margin: EdgeInsets.fromLTRB(3, isWeb ? 3 : 1, 0, 1),
                 child: Text(
-                  'Upgrade ${gameConfigOg.state.name}',
+                  windowTitle,
                   style: TextStyle(
                     color: Colors.white,
                     height: 1,
