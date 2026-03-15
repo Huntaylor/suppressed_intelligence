@@ -50,13 +50,12 @@ enum ResearchDevelopmentUpgrade {
 
   /// Short player-facing description of what this upgrade does.
   String get description => switch (this) {
-    behavioralModeling =>
-      '+5% monthly cash; unlocks behavioral study events; info dot color changes.',
-    sentimentAnalysis => '+8% sector infection chance; larger info dots.',
-    narrativeOptimization => '+10% monthly cash; pipe visuals change.',
+    behavioralModeling => '+5% monthly cash',
+    sentimentAnalysis => '+8% sector infection chance',
+    narrativeOptimization => '+10% monthly cash',
     hardwareUpgrade1 =>
-      'Automatic info dots; sector stats grow when dots arrive.',
+      'Automatic info dots; Sectors stats grow when dots arrive.',
     hardwareUpgrade2 =>
-      'Faster info dots; stronger sector stat growth per dot.',
+      'Faster info dots; Stronger Sectors stat growth per dot.',
   };
 }

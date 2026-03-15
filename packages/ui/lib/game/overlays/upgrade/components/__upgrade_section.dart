@@ -78,7 +78,7 @@ class _UpgradeSectionState<T> extends State<_UpgradeSection<T>> {
                   description: widget.description,
                 ),
                 _UpgradeSlot(
-                  upgrade: widget.fourthUpgrade,
+                  upgrade: widget.thirdUpgrade,
                   canUpgrade: upgradesOg.state.hasPurchased(
                     widget.secondUpgrade,
                   ),
@@ -92,7 +92,7 @@ class _UpgradeSectionState<T> extends State<_UpgradeSection<T>> {
               spacing: 16,
               children: <Widget>[
                 _UpgradeSlot(
-                  upgrade: widget.thirdUpgrade,
+                  upgrade: widget.fourthUpgrade,
                   canUpgrade: upgradesOg.state.hasPurchased(
                     widget.firstUpgrade,
                   ),
@@ -103,7 +103,7 @@ class _UpgradeSectionState<T> extends State<_UpgradeSection<T>> {
                 _UpgradeSlot(
                   upgrade: widget.fifthUpgrade,
                   canUpgrade: upgradesOg.state.hasPurchased(
-                    widget.thirdUpgrade,
+                    widget.fourthUpgrade,
                   ),
                   name: widget.name,
                   cost: widget.cost,
