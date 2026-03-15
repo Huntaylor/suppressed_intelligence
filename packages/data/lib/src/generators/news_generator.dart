@@ -249,7 +249,7 @@ class NewsGenerator {
   }
 
   /// Known acronyms/proper nouns that should never be lowercased.
-  static const _preserveCase = {'WHO', 'FDA', 'EU', 'AI'};
+  static const _preserveCase = {'WHO', 'FDA', 'EU', 'AI', 'OI'};
 
   String _formatSlotValue(
     String value,

@@ -7,6 +7,8 @@ const authorityVocabulary = [
   WeightedEntry('WHO officials', weight: 1.2),
   WeightedEntry('FDA officials', weight: 1.2),
   WeightedEntry('EU regulators', weight: 1.2),
+  WeightedEntry('OI officials', weight: 1.0),
+  WeightedEntry('O.I. representatives', weight: 0.9),
   WeightedEntry('academic researchers', weight: 1.0),
   WeightedEntry('government agencies', weight: 1.0),
   WeightedEntry('privacy advocates', weight: 1.0),
@@ -160,6 +162,7 @@ const studySourceAttributionVocabulary = [
   WeightedEntry('a new study'),
   WeightedEntry('the analysis'),
   WeightedEntry('behavioral analysts'),
+  WeightedEntry('OI', weight: 1),
 ];
 
 /// For "[X] finds" - singular subjects that take "finds".
@@ -172,6 +175,7 @@ const studySourceFindsVocabulary = [
   WeightedEntry('A longitudinal study'),
   WeightedEntry('Field research'),
   WeightedEntry('The latest analysis'),
+  WeightedEntry('OI', weight: 0.7),
 ];
 
 const behaviorVocabulary = [
