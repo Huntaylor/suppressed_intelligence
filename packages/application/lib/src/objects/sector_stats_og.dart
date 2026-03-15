@@ -158,12 +158,12 @@ class SectorStatsOg extends Og<SectorStatsEvent, SectorStatsState> {
   static const _infectionSentimentAnalysisBonusPercent = 8;
 
   /// When [hardwareUpgrade1] is purchased, each info dot received in a sector
-  /// increases that sector's trustAI by 0.025 percentage points (+1 every 40 receives).
-  static const _trustAiBonusEveryNReceivesHardware1 = 40;
+  /// increases that sector's trustAI every 10 receives.
+  static const _trustAiBonusEveryNReceivesHardware1 = 10;
 
   /// When [hardwareUpgrade2] is purchased, each info dot received in a sector
-  /// increases that sector's trustAI by 0.05 percentage points (+1 every 20 receives).
-  static const _trustAiBonusEveryNReceivesHardware2 = 20;
+  /// increases that sector's trustAI every 5 receives.
+  static const _trustAiBonusEveryNReceivesHardware2 = 5;
 
   void _receiveInfoDot(_ReceiveInfoDot event, Emitter<SectorStatsState> emit) {
     final current = state.asIfReady;
